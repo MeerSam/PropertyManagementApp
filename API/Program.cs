@@ -21,8 +21,8 @@ builder.Services.AddScoped<ITokenService, TokenService>(); // Scoped to the life
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        var tokenKey = builder.Configuration["TokenKey"]
-        ?? throw new Exception("Token key not found - program.cs");
+        var tokenKey = builder.Configuration["TokenKey"] // same key used to encrypt will be used to decrypt
+            ?? throw new Exception("Token key not found - program.cs");
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -30,20 +30,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                var accessToken = context.Request.Query["access_token"];
-                var path = context.HttpContext.Request.Path;
-                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
-                {
-                    context.Token = accessToken;
-                }
-                return Task.CompletedTask;
-            }
-        };
+        
     });
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ITenantService, TenantService>();
 
 var app = builder.Build();
 

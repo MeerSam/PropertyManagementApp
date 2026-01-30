@@ -1,4 +1,6 @@
 
+using System.Text.Json.Serialization;
+
 namespace API.Entities;
 
 public class AppUser
@@ -8,10 +10,20 @@ public class AppUser
     public required string DisplayName { get; set; }
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
-    public string? ImageUrl { get; set; }
-    public bool IsBoardMember { get; set; } = false;
-    public bool IsAdminMember { get; set;} = false;
+
+    public DateTime Created { get; set; } = DateTime.UtcNow;
+
+    public DateOnly DateOfBirth { get; set; }
+    public string? ImageUrl { get; set; } 
+    public required string Gender { get; set; }
 
     public required byte[] PasswordHash { get; set; }
     public required byte[] PasswordSalt { get; set; }
+
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpiry { get; set; } 
+
+    
+    public ICollection<Member> Members { get; set; } = [];
+
 }

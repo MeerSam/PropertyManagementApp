@@ -28,7 +28,7 @@ public class TokenService(IConfiguration config) : ITokenService
         {
             new(ClaimTypes.Email, user.Email!),
             new(ClaimTypes.NameIdentifier, user.Id),
-            new ("clientId", user.DisplayName)
+            new ("ClientId", user.DisplayName)
 
         }; 
 

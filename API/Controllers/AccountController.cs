@@ -19,16 +19,19 @@ public class AccountController(AppDbContext context, ITokenService tokenService)
         if (string.IsNullOrEmpty(registerDto.Email) || string.IsNullOrEmpty(registerDto.Password) || string.IsNullOrEmpty(registerDto.DisplayName)) return BadRequest("Email is required");
 
         if (await EmailExists(registerDto.Email)) return BadRequest("Email Taken"); //removed: aspnet-identity
-        using var hmac = new HMACSHA512();//removed: aspnet-identity
+        using var hmac = new HMACSHA512();//removed: aspnet-identity  
 
         var user = new AppUser
-        {
+        {            
             Email = registerDto.Email,
             FirstName = registerDto.FirstName,
             LastName = registerDto.LastName,
             DisplayName = registerDto.DisplayName,
             PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
             PasswordSalt = hmac.Key,
+            Gender = registerDto.Gender,
+            DateOfBirth = registerDto.DateOfBirth
+
         };
         context.Users.Add(user); // ef track changes 
         await context.SaveChangesAsync();
@@ -54,9 +57,6 @@ public class AccountController(AppDbContext context, ITokenService tokenService)
             throw;
         }
         return user.ToDto(tokenService);
-
-
-
     }
 
     private async Task<bool> EmailExists(string email)
