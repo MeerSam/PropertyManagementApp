@@ -1,0 +1,30 @@
+[
+  {
+    "ClientId": "bpi-id",
+    "Name": "Boca Palms Inc",
+    "Address": "290 W Palmetto Park Road, Boca Raton, FL 33432",
+    "IsActive": true,
+    "CreatedAt": "2023-06-24"
+  },
+  {
+    "ClientId": "slh-id",
+    "Name": "Sunset Lakes HOA",
+    "Address": "123 Lakeview Drive, Boca Raton, FL 33433",
+    "IsActive": true,
+    "CreatedAt": "2023-06-24"
+  },
+  {
+    "ClientId": "pbc-id",
+    "Name": "Palm Breeze Condominiums",
+    "Address": "456 Palm Breeze Blvd, Boca Raton, FL 33431",
+    "IsActive": true,
+    "CreatedAt": "2023-06-24"
+  },
+  {
+    "ClientId": "ovt-id",
+    "Name": "Oceanview Townhomes",
+    "Address": "789 Oceanview Way, Boca Raton, FL 33498",
+    "IsActive": true,
+    "CreatedAt": "2023-06-24"
+  }
+]

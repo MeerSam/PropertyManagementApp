@@ -5,7 +5,10 @@ namespace API.Interfaces;
 
 public interface ITokenService
 {
-    // Service for Issuing tokens
-    string CreateToken(AppUser user); 
+    void CleanupExpiredSelectionTokensAsync(string id);
 
+    // Service for Issuing tokens
+    Task<string> GenerateAccessToken(AppUser user, string clientId);  
+    string GenerateRefreshToken();
+    string GenerateSelectClientToken(AppUser user); 
 }

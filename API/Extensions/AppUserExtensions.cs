@@ -13,15 +13,16 @@ public static class AppUserExtensions
 order to use its functionality. So I will not need to say where I'm going to use this in the account controller var app user extensions
 
 equals new user equals new app user extensions. */
- public static UserDto ToDto(this AppUser user,  ITokenService tokenService)
+ public static async Task<UserDto> ToDto(this AppUser user,  ITokenService tokenService)
     {
         return new UserDto
         {
-            Email = user.Email,
             Id = user.Id,
-            DisplayName = user.DisplayName,
-            ClientId = "",
-            Token =  tokenService.CreateToken(user)
+            Email = user.Email,
+            DisplayName = user.DisplayName ,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            ImageUrl = user.ImageUrl, 
         };
     }
 }

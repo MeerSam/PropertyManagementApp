@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260204212745_UserClientEntitiesAdded")]
+    partial class UserClientEntitiesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.12");
@@ -102,9 +105,6 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CreatedFromIpAddress")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("TEXT");
 
@@ -113,9 +113,6 @@ namespace API.Data.Migrations
 
                     b.Property<string>("TokenHash")
                         .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("TokenIdentifier")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("UsedAt")
@@ -308,7 +305,7 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.UserClientAccess", b =>
                 {
                     b.HasOne("API.Entities.Client", "Client")
-                        .WithMany("UsersAccess")
+                        .WithMany("UserAccess")
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -337,7 +334,7 @@ namespace API.Data.Migrations
 
                     b.Navigation("Properties");
 
-                    b.Navigation("UsersAccess");
+                    b.Navigation("UserAccess");
                 });
 #pragma warning restore 612, 618
         }

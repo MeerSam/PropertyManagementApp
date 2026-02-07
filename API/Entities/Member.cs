@@ -16,7 +16,7 @@ public class Member
 
     public string? ImageUrl { get; set; }
     public DateTime Created { get; set; } = DateTime.UtcNow;
-    public DateTime LastActive { get; set; } = DateTime.UtcNow; 
+    public DateTime LastActive { get; set; } = DateTime.UtcNow;
     public string? Description { get; set; }
 
     // Multi-tenant
@@ -25,6 +25,7 @@ public class Member
     [Required]
     public Client Client { get; set; } = null!;
 
+    // Relationship to AppUser (N:1)
     public required string UserId { get; set; }
     [JsonIgnore]
     [Required]

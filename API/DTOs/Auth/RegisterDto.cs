@@ -5,6 +5,8 @@ namespace API.DTOs;
 
 public class RegisterDto
 {
+
+    public required string  ClientId { get; set; }
     [Required]
     [EmailAddress]
     public string Email { get; set; } = string.Empty;

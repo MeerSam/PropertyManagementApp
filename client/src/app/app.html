@@ -1,5 +1,6 @@
-<div class="card bg-base-100 w-1/2 mx-auto p-10 mt-10 shadow-xl">
-    <h3 class="text-3xl text-red-500">{{title()}}</h3>
+<app-nav [TitleFromApp] ="title()"/>
+<div class="card bg-base-100 w-1/2 mx-auto p-10 mt-50 shadow-xl">
+    <h3 class="text-3xl text-red-500">Next???</h3>
     <ul class="list ">
          @for (member of members(); track member.id) {
         <li class="list-row items-center">

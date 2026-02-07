@@ -15,5 +15,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
     public DbSet<Property> Properties { get; set; }
 
+    public DbSet<ClientSelectionToken> ClientSelectionTokens { get; set; }
+
+    public DbSet<UserClientAccess> UserClientAccess { get; set; }
+
 
 }

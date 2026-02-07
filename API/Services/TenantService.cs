@@ -28,8 +28,36 @@ public class TenantService(IHttpContextAccessor httpContextAccessor) : ITenantSe
 
     }
 
+    public string GetCurrentMemberId()
+    {
+       // throw new NotImplementedException();
+        if (_httpContextAccessor.HttpContext == null)
+        {
+            throw new UnauthorizedAccessException("No active HTTP context");
+        }
+
+        var memberIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst("MemberId");
+
+        if (memberIdClaim == null || string.IsNullOrWhiteSpace(memberIdClaim.Value))
+        {
+            throw new UnauthorizedAccessException("Client ID not found in token");
+        }
+
+        return memberIdClaim.Value;
+
+    }
+
+    public string GetCurrentUserId()
+    {
+        var userIdClaim = (_httpContextAccessor.HttpContext?.User
+            .FindFirst(ClaimTypes.NameIdentifier)) ?? throw new UnauthorizedAccessException("User ID not found in token");
+        return userIdClaim.Value;
+    }
+
     public bool HasAccessToClient(string clientId)
     {
         return GetCurrentClientId() == clientId;
     }
+
+    
 }
