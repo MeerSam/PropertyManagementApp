@@ -1,0 +1,22 @@
+<div class="card bg-base-200 mx-auto flex flex-col p-6 rounded-lg shadow-lg">
+  <div class="card-title justify-center text-3xl text-primary">Login</div>
+  <div class="card-body w-full">
+    @if (accountService.currentUser() && !tenantService.selectionToken() &&  tenantService.selectionToken() ) {
+    <form [formGroup]="selectClientForm" (ngSubmit)="selectClient()" class="flex items-center gap-3">
+      <select >
+        <option disabled selected>Pick a client</option> 
+         @for (client of accountService.getAvailableClients(); track $index) {}
+      </select>
+      <input formControlName="email" type="text" class="input" placeholder="Email">
+      <input formControlName="password" type="password" class="input" placeholder="Password">
+      <button type="submit" class="btn">Login</button>
+    </form>
+    }
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="flex items-center gap-3">
+      <input formControlName="email" type="text" class="input" placeholder="Email">
+      <input formControlName="password" type="password" class="input" placeholder="Password">
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </div>
+
+</div>

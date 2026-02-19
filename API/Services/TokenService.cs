@@ -15,27 +15,28 @@ namespace API.Services;
 
 public class TokenService(IConfiguration config, AppDbContext context) : ITokenService
 {
-    public async void CleanupExpiredSelectionTokensAsync(string userId)
+    public async Task CleanupExpiredSelectionTokensAsync(string userId)
     {
         try
         {
             var cutoffDate = DateTime.UtcNow.AddHours(-1); // Keep tokens for 1 hour for audit
-            
-            var expiredTokens = await context.ClientSelectionTokens
-                .Where(t => t.UserId == userId && t.ExpiresAt < cutoffDate)
-                .ToListAsync();
 
-            if (expiredTokens.Count != 0)
-            {
-                context.ClientSelectionTokens.RemoveRange(expiredTokens);
-                await context.SaveChangesAsync();
-                
-                 ;
-            }
-        }
-        catch (Exception  )
+            // var expiredTokens = await context.ClientSelectionTokens
+            // .Where(t => t.UserId == userId && t.ExpiresAt < cutoffDate)
+            // .ToListAsync();
+            // if (expiredTokens.Count != 0)
+            // {
+            //     context.ClientSelectionTokens.RemoveRange(expiredTokens);
+            //     await context.SaveChangesAsync();
+            // }
+            // fire and forget method
+            await context.ClientSelectionTokens
+                .Where(t => t.UserId == userId && t.ExpiresAt < cutoffDate)
+                .ExecuteDeleteAsync();
+                }
+        catch (Exception)
         {
-             
+
         }
     }
 
@@ -131,47 +132,4 @@ public class TokenService(IConfiguration config, AppDbContext context) : ITokenS
 
         return tokenHandler.WriteToken(token);
     }
-
-
-    /*
-    public async Task<string>  ValidateSelectionToken(string selectionToken)
-    ///Option 2: Signed State Token (Simpler Alternative)
-    /// If you don't want to store tokens in the database, you can use a self-contained signed token.
-    {
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes(config["TokenKey"]!);
-
-        try
-        {
-            var principal = tokenHandler.ValidateToken(selectionToken, new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ClockSkew = TimeSpan.Zero
-            }, out SecurityToken validatedToken);
-
-            // Verify it's a selection token
-            var tokenTypeClaim = principal.FindFirst("token_type");
-            if (tokenTypeClaim?.Value != "selection")
-            {
-                throw new SecurityTokenException("Invalid token type");
-            }
-
-            // Get userId from token
-            var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier) ?? throw new SecurityTokenException("User ID not found in token");
-
-            return userIdClaim.Value;
-        }
-        catch (Exception ex)
-        {
-            throw new UnauthorizedAccessException("Invalid or expired selection token", ex);
-        }
-    }
-
-    */
-
-
 }

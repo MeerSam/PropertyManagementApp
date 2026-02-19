@@ -22,13 +22,12 @@ public class Member
     // Multi-tenant
     public required string ClientId { get; set; }
     [JsonIgnore]
-    [Required]
     public Client Client { get; set; } = null!;
 
-    // Relationship to AppUser (N:1)
+    // Relationship to AppUser (1:N)
+    // Nav prop we dont make it required and we assign intial value = null!
     public required string UserId { get; set; }
-    [JsonIgnore]
-    [Required]
+    [JsonIgnore] 
     public AppUser User { get; set; } = null!;
 
 

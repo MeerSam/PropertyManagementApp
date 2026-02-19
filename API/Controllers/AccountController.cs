@@ -8,6 +8,7 @@ using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,29 +16,34 @@ namespace API.Controllers;
 
 public class AccountController(AppDbContext context, ITokenService tokenService, IAuthService authService) : BaseApiController
 {
-    [HttpPost("register")] // /api/acount/register
+    [Authorize]
+    [HttpPost("register")] // /api/acount/register    
+    [ProducesResponseType(typeof(UserDto), 200)]
+    [ProducesResponseType(typeof(Exception), 400)]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
-        if (string.IsNullOrEmpty(registerDto.Email) || string.IsNullOrEmpty(registerDto.Password) || string.IsNullOrEmpty(registerDto.DisplayName)) return BadRequest("Email is required");
-
-        if (await EmailExists(registerDto.Email)) return BadRequest("Email Taken"); //removed: aspnet-identity
-        using var hmac = new HMACSHA512();//removed: aspnet-identity  
-        var user = new AppUser
+        /// This Method is only allowed after a user logged in and has rights to register new users
+        /// The Signup and Register is not available for new users 
+        ///  must be created by Admin/Property Managers/Hoa Board after verifying the residency
+        try
         {
-            Email = registerDto.Email,
-            FirstName = registerDto.FirstName,
-            LastName = registerDto.LastName,
-            DisplayName = registerDto.DisplayName,
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-            PasswordSalt = hmac.Key,
-            Gender = registerDto.Gender,
-            DateOfBirth = registerDto.DateOfBirth
-        };
-        context.Users.Add(user); // ef track changes 
+            if (string.IsNullOrEmpty(registerDto.Email) || string.IsNullOrEmpty(registerDto.Password) || string.IsNullOrEmpty(registerDto.DisplayName)) return BadRequest("Email is required");
+
+            if (await EmailExists(registerDto.Email)) return BadRequest("Email Taken"); //removed: aspnet-identity
+            using var hmac = new HMACSHA512();//removed: aspnet-identity  
+
+            var requestUserId = User.GetUserId();
+            var clientId = User.GetClientId();
+            var result = await authService.RegisterAsync(registerDto, clientId); 
+
+            return Ok(result);
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest($"Something went wrong during registration  { ex.Message}");
+        }
 
 
-        await context.SaveChangesAsync();
-        return await user.ToDto(tokenService);
 
     }
     [HttpPost("login")]

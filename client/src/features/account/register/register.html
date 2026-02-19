@@ -1,0 +1,33 @@
+<div class="card bg-base-100  mx-auto flex flex-col p-6 rounded-lg shadow-lg">
+    <div class="card-title justify-center text-3xl text-primary">New User</div>
+    @if (tenantService.activeClient()){
+    <div class="card-body w-full">
+        <form #registerForm="ngForm" class="flex flex-col gap-4 w-full" (ngSubmit)="register()">
+            <input [(ngModel)]="creds.email" class="input w-full" type="text" name="email" placeholder="Email">
+            <input [(ngModel)]="creds.displayName" class="input w-full" type="text" name="displayName"
+                placeholder="Display Name">
+            <input [(ngModel)]="creds.password" class="input w-full" type="password" name="password"
+                placeholder="Password">
+            <input class="input w-full" type="password" name="confirmPassword" placeholder="Confirm Password">
+            <select class="select w-full" [(ngModel)]="creds.clientId" name="clientId">
+                <option [ngValue]="null" disabled selected>Pick a client</option>
+                @for (client of getListOfClients(); track client?.clientId) {
+                <option [value]="client?.clientId">
+                    {{client?.clientName}}
+                </option>
+                }
+            </select>
+            <div>
+                <button class="btn" type="button" (click)="cancel()">Cancel</button>
+                <button class="btn btn-primary" type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+    }@else {
+    <div>
+        No clients avaibale
+    </div>
+    }
+
+
+</div>
