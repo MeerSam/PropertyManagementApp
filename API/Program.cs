@@ -19,7 +19,9 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddCors();
 builder.Services.AddScoped<IAuthService, AuthService>(); // Scoped to the lifetime of request
 
+builder.Services.AddScoped<IMemberRepository, OwnerRepository>(); // Scoped to the lifetime of request
 builder.Services.AddScoped<ITokenService, TokenService>(); // Scoped to the lifetime of request
+
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

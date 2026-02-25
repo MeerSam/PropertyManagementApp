@@ -1,6 +1,9 @@
 <header class="p-3 w-full fixed top-0 z-50 bg-linear-to-r from-primary to-black">
     <div class="flex flex-row align-middle items-center px-10 mx-auto gap-6">
-        <a class="flex items-center gap-3 max-h-16 text-white border-r-white border-r-2 pr-6">
+        <a routerLink="/" 
+            routerLinkActive="text-accent" 
+            [routerLinkActiveOptions]="{exact:true}"
+            class="flex items-center gap-3 max-h-16  border-r-white border-r-2 pr-6">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="size-9">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -8,9 +11,9 @@
             </svg>
             <h3 class="text-2xl font-semibold uppercase w-3/4">
                 @if(!tenantService.activeClient()) {
-                    {{tenantService.activeClient()?.clientName + '|' || '' }}
+                {{tenantService.activeClient()?.clientName + '|' || '' }}
                 } @else{
-                    {{ titleFromApp() }}
+                {{ titleFromApp() }}
                 }
 
             </h3>
@@ -18,12 +21,19 @@
         </a>
         @if(accountService.currentUser()){
         <nav class="flex gap-6 my-2 uppercase text-lg text-white ml-auto">
-            @if (accountService.currentUser()){
-            <a>Property Info</a>
-            <a>Documents</a>
-            <a>Requests</a>
-            <a>Messages</a>
-            <a>Violations/Notices</a>
+            @if ( accountService.currentUser()?.appRole =="owner" ){
+            <a  routerLinkActive="text-accent">Property Info</a>
+            <a  routerLinkActive="text-accent">Documents</a>
+            <a  routerLinkActive="text-accent">Requests</a>
+            <a routerLink="/messages" routerLinkActive="text-accent">Messages</a>
+        
+            <a routerLinkActive="text-accent">Violations/Notices</a>
+            } @else {
+            @if (accountService.currentUser()?.appRole =="admin") {
+            <a routerLink="/properties" routerLinkActive="text-accent">Properties</a>
+            }
+            <a routerLink="/members" routerLinkActive="text-accent">Owners</a>
+            <a routerLink="/messages" routerLinkActive="text-accent">Messages</a>
             }
         </nav>
         }

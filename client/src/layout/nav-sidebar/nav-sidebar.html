@@ -1,0 +1,120 @@
+<header class="p-3 w-full fixed top-0 left-auto z-40 bg-linear-to-r from-primary to-black">
+    <div class="flex flex-row align-middle items-center px-10 mx-auto gap-6">
+        <a routerLink="/" routerLinkActive="text-accent" [routerLinkActiveOptions]="{exact:true}"
+            class="flex items-center gap-3 max-h-16  border-r-white border-r-2 pr-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-9">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+            </svg>
+            <h3 class="text-2xl font-semibold uppercase w-3/4">
+                @if(!tenantService.activeClient()) {
+                {{tenantService.activeClient()?.clientName + '|' || '' }}
+                } @else{
+                {{ titleFromApp() }}
+                }
+            </h3>
+        </a>
+    </div>
+</header>
+<div class="p-3 w-full fixed top-0 z-45 bg-base-100">
+    <div class="flex flex-row align-middle items-center   ">
+        <div class="drawer lg:drawer-open">
+            <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+            <div class="drawer-content">
+                <!-- Navbar -->
+                <nav class="navbar w-full bg-base-300">
+                    <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost">
+                        <!-- Sidebar toggle icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round"
+                            stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"
+                            class="my-1.5 inline-block size-4">
+                            <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
+                            </path>
+                            <path d="M9 4v16"></path>
+                            <path d="M14 10l2 2l-2 2"></path>
+                        </svg>
+                    </label>
+                    <div class="px-4">
+                        <h3 class="text-2xl font-semibold uppercase">
+                            @if(tenantService.activeClient()) {
+                            {{tenantService.activeClient()?.clientName}}
+                            }
+                        </h3>
+                    </div>
+                    <div class="flex align-middle ml-auto gap-5">
+                    @if(accountService.currentUser(); as user){
+                        <div class="dropdown dropdown-end">
+                            <div tabindex="0" role="button" class="flex items-center text-white text-xl gap-3 cursor-pointer">
+                                <img src="/user.png" alt="user avatar" class="w-8 h-8 rounded-full" />
+                                <span>{{user?.displayName}}</span>
+                            </div>
+                            <ul tabindex="-1" class="dropdown-content  menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                                <li><a>Edit Profile</a></li>
+                                <li><a (click)="logout()">Logout</a></li>
+                            </ul>
+                        </div>
+                    }
+                </div>
+                </nav>
+                
+                <!-- Page content here -->
+                <div [class.mt-24]="router.url !== '/'" [class.mx-auto]="router.url !== '/'"
+                    [class.container]="router.url !== '/'">
+                    <router-outlet />
+                </div>
+            </div>
+
+            <div class="drawer-side is-drawer-close:overflow-visible">
+                <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
+                <div class="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+                    <!-- Sidebar content here -->
+                    <ul class="menu w-full grow">
+                        <!-- List item -->
+                        <li>
+                            <button routerLink="/" class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                                data-tip="Home">
+                                <!-- Home icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round"
+                                    stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"
+                                    class="my-1.5 inline-block size-4">
+                                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                                    <path
+                                        d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z">
+                                    </path>
+                                </svg>
+                                <span class="is-drawer-close:hidden">Home</span>
+                            </button>
+                        </li>
+
+                        <!-- List item -->
+                        <li>
+                            <button routerLink="/dashboard"
+                                class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Dashboard">
+                                <!-- Settings icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+                                </svg>
+                                <span class="is-drawer-close:hidden">Dashboard</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Owners"
+                                routerLink="/members">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                                </svg>
+                                <span class="is-drawer-close:hidden">Owners</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

@@ -12,3 +12,11 @@ export type Member = {
     userId: string;
     role?: string;
 }
+
+
+export class MemberParams {
+  gender?: string; 
+  pageNumber =1;
+  pageSize =10;
+  orderBy = 'lastActive';
+}

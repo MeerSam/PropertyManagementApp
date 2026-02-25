@@ -1,6 +1,9 @@
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Helpers;
+using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +11,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    
-    public class MembersController(AppDbContext context) : BaseApiController
+
+    public class MembersController(AppDbContext context, IMemberRepository owner) : BaseApiController
     {
         [HttpGet]//https://localhost:5001/api/members
-        public async Task<ActionResult<IReadOnlyList<AppUser>>> GetMembers()
+        public async Task<ActionResult<IReadOnlyList<Member>>> GetMembers([FromQuery] MemberParams memberParams)
         {
-            var users = await context.Users.ToListAsync();
-         
-            return users;
+            // var users = await context.Users.ToListAsync();
+            memberParams.CurrentClientId = User.GetClientId();
+            return Ok(await owner.GetMembersAsync(memberParams.CurrentClientId));
         }
 
         [Authorize]
@@ -40,7 +43,7 @@ namespace API.Controllers
 
 
         //     return clients;
-            
+
         // }
     }
 }

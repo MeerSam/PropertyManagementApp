@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Entities\" />
     <Folder Include="Errors\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Helpers\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
   </ItemGroup>

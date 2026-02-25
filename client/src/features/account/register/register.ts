@@ -12,17 +12,13 @@ import { TenantService } from '../../../core/services/tenant-service';
   styleUrl: './register.css',
 })
 export class Register {
-  protected tenantService = inject(TenantService)
-  private fb = inject(FormBuilder);
+  protected tenantService = inject(TenantService) 
 
   clientFromHome = input.required<Client | null>();
   protected creds = {} as RegisterDto;
   protected currentStep = signal(1);
   protected validationErrors = signal<string[]>([]);
-  cancelRegister = output<boolean>();
-
-  constructor() {
-  }
+  cancelRegister = output<boolean>(); 
 
   getListOfClients(): Client[] {
     const activeClient = this.tenantService.activeClient();
@@ -44,8 +40,8 @@ export class Register {
   }
 
   cancel() {
-    console.log('cancelled');
-    this.cancelRegister.emit(true);
+    console.log('cancelled register');
+    this.cancelRegister.emit(false);
   }
 
 }

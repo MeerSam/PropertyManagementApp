@@ -4,6 +4,7 @@ import { AccountService } from '../../core/services/account-service';
 import { SessionService } from '../../core/services/session-service';
 import { TenantService } from '../../core/services/tenant-service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../core/services/toast-service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class Login {
   protected accountService = inject(AccountService);
   protected tenantService = inject(TenantService);
   protected sessionService = inject(SessionService);
-
+  private toastService =inject(ToastService)
 
   protected loginForm: FormGroup;
   protected selectClientForm: FormGroup;
@@ -43,16 +44,18 @@ export class Login {
         // navigate to Dashboard 
         if(this.accountService.isAuthSuccess(result)){
           // this.router.navigateByUrl('/dashboard');
+          this.toastService.info("successfully logged in")
 
         }else if(this.accountService.isClientSelect(result)) { 
           // show step2
+          this.toastService.info("successfully logged in. Choose client")
         }
         else{
-          alert(result.message)
+          this.toastService.error(result.message)  
         }
          
       },
-      error: error => alert(error.message),
+      error: error => this.toastService.error(error.error),
       complete: () => console.log("Login completed")
     });
   }

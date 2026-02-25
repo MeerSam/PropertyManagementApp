@@ -10,6 +10,10 @@ import { Client } from '../../types/client';
   providedIn: 'root',
 })
 export class AccountService {
+  //services are singletons they are instantiated when the angular app starts :only one instance exists for the entire lifetime of the application.
+  //- It lives forever: stateless services
+
+
   //@Injectable decorator allow this class to be used as dependency injection
   // in our components
   private http = inject(HttpClient);
@@ -17,7 +21,7 @@ export class AccountService {
   currentUser = signal<User | null>(null);
 
 
-  register(creds: RegisterDto){
+  register(creds: RegisterDto) {
     return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
   }
 
@@ -29,19 +33,24 @@ export class AccountService {
 
   setClientUserAfterLogin(response: AuthSuccessResponse) {
     localStorage.setItem('user', JSON.stringify(response.user));
-    this.setCurrentUser(response.user);
-    // client info from the reponse if only one client comes back as clientSelected. if two or more 
-    var client = response.user.activeClient;
-    client.isActiveClient = true; 
-    localStorage.setItem('activeClient', JSON.stringify(client)); 
-    
-    localStorage.removeItem('selectionToken'); 
+    const _user = this.mapUserDtoToUser(response.user, response.accessToken);
+    if (_user) {
+      this.setCurrentUser(_user);
+      // client info from the reponse if only one client comes back as clientSelected. if two or more 
+      var client = response.user.activeClient;
+      client.isActiveClient = true;
+      localStorage.setItem('activeClient', JSON.stringify(client));
+      localStorage.removeItem('selectionToken');
+    }
+    else {
+      this.logout()
+    }
   }
 
-  setCurrentUser(user: UserDto) {
+  setCurrentUser(user: User) {
     this.currentUser.set(user);
-  } 
-  
+  }
+
   // A type guard in TypeScript is a small function that checks the shape of an object at runtime and tells TypeScript,
   //  “Inside this block, you can safely treat this as a specific type.”
 
@@ -60,7 +69,7 @@ export class AccountService {
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('activeClient');
-    this.currentUser.set(null); 
+    this.currentUser.set(null);
 
   }
 
@@ -74,5 +83,31 @@ export class AccountService {
       return [];
     }
   }
- 
+
+  private mapUserDtoToUser(dto: UserDto, accessToken: string): User {
+    return {
+      ...dto,
+      accessToken,
+      // Only include this if your User type still has appRole
+      appRole: (dto as any).appRole
+    };
+  }
+
+
+  private getRolesFromToken(user: User): string[] {
+    // passsing user as parameter and returning string array
+    const payload = user.accessToken.split(".")[1]; //get payload
+    // token has 3 parts : 1st part : token header (info about expiration and type of token)
+    //part 2 : payload : encoded not encrypted 
+    //part 3: encrypted and cannot decipher withou the secret which is in API and never leaves server
+
+    // payload : decode // base64 encoded string
+    const decoded = atob(payload); //we'll use a native JavaScript function called atob 
+
+    const jsonPayload = JSON.parse(decoded);
+
+    return Array.isArray(jsonPayload.role) ? jsonPayload.role : [jsonPayload.role]
+  }
+
+
 }

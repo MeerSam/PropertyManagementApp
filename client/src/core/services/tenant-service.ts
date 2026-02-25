@@ -3,12 +3,15 @@ import { Client } from '../../types/client';
 import { HttpClient } from '@angular/common/http';
 import { AuthErrorResponse, AuthSuccessResponse, SelectClientDto } from '../../types/user';
 import { environment } from '../../environments/environment';
+import { ToastService } from './toast-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TenantService {
+   //services are singletons they are instantiated when the angular app starts
   private http = inject(HttpClient);
+  private toastService = inject(ToastService)
   baseUrl = environment.apiUrl; //'https://localhost:5001/api/'; 
 
   private storedActiveClient = localStorage.getItem('activeClient');
@@ -25,7 +28,7 @@ export class TenantService {
   }
 
   setActiveClient(client: Client | null) {
-    if(!client) alert('Client Missing');
+    if(!client) this.toastService.warning('Client is Missing');
     this.activeClient.set(client);
     localStorage.setItem('activeClient', JSON.stringify(client));
 

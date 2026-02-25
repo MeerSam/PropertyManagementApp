@@ -1,0 +1,16 @@
+@if (members(); as members) {
+  @for (member of members; track member.id) {
+    <div class="card bg-base-100 w-96 shadow-sm">
+      <figure>
+        <img [src]="member.imageUrl" [alt]="member.firstName" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">
+          {{member.firstName + '' + member.lastName}}
+          <div class="badge badge-secondary">{{member.role}}</div>
+        </h2>
+        <p>{{member.description}}</p>
+      </div>
+    </div>
+  }
+}

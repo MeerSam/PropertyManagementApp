@@ -9,6 +9,7 @@ import { tap } from 'rxjs';
   providedIn: 'root',
 })
 export class SessionService {
+   //services are singletons they are instantiated when the angular app starts
   private accountService = inject(AccountService);
   private tenantService = inject(TenantService); 
 

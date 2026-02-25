@@ -9,8 +9,9 @@ export type User = {
     firstName: string;
     lastName: string;
     imageUrl?: string;
-    activeClient: Client;
     appRole?: string;
+    activeClient: Client;
+    accessToken: string;
 }
 
 export type LoginCreds = {
