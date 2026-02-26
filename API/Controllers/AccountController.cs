@@ -16,7 +16,7 @@ namespace API.Controllers;
 
 public class AccountController(AppDbContext context, ITokenService tokenService, IAuthService authService) : BaseApiController
 {
-    [Authorize]
+     
     [HttpPost("register")] // /api/acount/register    
     [ProducesResponseType(typeof(UserDto), 200)]
     [ProducesResponseType(typeof(Exception), 400)]
@@ -36,15 +36,12 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
             var clientId = User.GetClientId();
             var result = await authService.RegisterAsync(registerDto, clientId); 
 
-            return Ok(result);
+            return result;
         }
         catch (System.Exception ex)
         {
-            return BadRequest($"Something went wrong during registration  { ex.Message}");
+            return BadRequest($"Something went wrong during registration { ex.Message}");
         }
-
-
-
     }
     [HttpPost("login")]
     [ProducesResponseType(typeof(ClientSelectLoginResponseDto), 200)]

@@ -21,6 +21,8 @@
         </a>
         @if(accountService.currentUser()){
         <nav class="flex gap-6 my-2 uppercase text-lg text-white ml-auto">
+            <a routerLink="/home" routerLinkActive="text-accent">Home</a>
+
             @if ( accountService.currentUser()?.appRole =="owner" ){
             <a  routerLinkActive="text-accent">Property Info</a>
             <a  routerLinkActive="text-accent">Documents</a>
@@ -29,11 +31,12 @@
         
             <a routerLinkActive="text-accent">Violations/Notices</a>
             } @else {
-            @if (accountService.currentUser()?.appRole =="admin") {
-            <a routerLink="/properties" routerLinkActive="text-accent">Properties</a>
-            }
-            <a routerLink="/members" routerLinkActive="text-accent">Owners</a>
-            <a routerLink="/messages" routerLinkActive="text-accent">Messages</a>
+                @if (accountService.currentUser()?.appRole =="admin") {
+                    <a routerLink="/properties" routerLinkActive="text-accent">Properties</a>
+                }
+                <a routerLink="/members" routerLinkActive="text-accent">Owners</a>
+                <a routerLink="/dashboard" routerLinkActive="text-accent">Dashboard</a>
+                <a routerLink="/errors" routerLinkActive="text-accent">Errors</a>
             }
         </nav>
         }
