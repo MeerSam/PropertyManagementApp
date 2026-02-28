@@ -16,9 +16,9 @@ public static class MemberExtensions
         {
             ClientId = member.ClientId,
             ClientName = member.Client.Name,
-            DisplayName = member.User.DisplayName,
-            Email = member.User.Email ,
-            UserId = member.UserId,
+            DisplayName = member.User != null?  member.User.DisplayName : member.FirstName,
+            Email =member.User != null? member.User.Email: member.Email,
+            UserId = member.User != null?  member.UserId  :null,
             MemberId = member.Id 
         };
     }

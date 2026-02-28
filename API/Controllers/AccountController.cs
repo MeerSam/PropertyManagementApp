@@ -53,7 +53,10 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
         {
             var response = await authService.AuthenticateAsync(loginDto);
 
-            if (response.AvailableClients == null) return BadRequest("Issues Accessing Clients");
+            if (response.AvailableClients == null) return Unauthorized(new AuthErrorResponseDto
+            {
+                Message = "You are not authorized to access any clients at this point."
+            });
             {
                 if (response.AvailableClients.Count == 1)
                 {
@@ -158,24 +161,25 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
         var refreshToken = Request.Cookies["refreshToken"];
         if (refreshToken == null) return NoContent();
 
-        var user = await context.Users
+        var uca = await context.UserClientAccess        
             .FirstOrDefaultAsync(x => x.RefreshToken == refreshToken
             && x.RefreshTokenExpiry > DateTime.UtcNow);
 
-        if (user == null) return Unauthorized();
+        if (uca == null) return Unauthorized();
 
-        await SetRefreshTokenCookie(user);
+        await SetRefreshTokenCookie(uca);
 
-        return await user.ToDto(tokenService);
+        var  user =  uca.User;
+        return   user.ToDto(tokenService);
 
     }
 
 
-    private async Task SetRefreshTokenCookie(AppUser user)
+    private async Task SetRefreshTokenCookie(UserClientAccess uca)
     {
         var refreshToken = tokenService.GenerateRefreshToken();
-        user.RefreshToken = refreshToken;
-        user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7); //make it a long live token
+        uca.RefreshToken = refreshToken;
+        uca.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7); //make it a long live token
         await context.SaveChangesAsync();
 
         var cookieOptions = new CookieOptions

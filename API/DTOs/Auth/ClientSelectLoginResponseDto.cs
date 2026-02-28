@@ -12,6 +12,6 @@ public class ClientSelectLoginResponseDto
     public required string DisplayName { get; init; }
     public required string Email { get; init; }
     public required string Message { get; init; } = "Please select which HOA you want to access";
-    public required string SelectionToken { get; init; } // NEW: Special token for step 2
+    public required string SelectionToken { get; init; } // NEW: Special token for step 2 
     public required ICollection<UserClientAccessInfoDto>? AvailableClients { get; set; }
 }

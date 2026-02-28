@@ -8,7 +8,7 @@ public interface ITokenService
     Task CleanupExpiredSelectionTokensAsync(string id);
 
     // Service for Issuing tokens
-    Task<string> GenerateAccessToken(AppUser user, string clientId);  
+    string GenerateAccessToken(AppUser user, string clientId);  
     string GenerateRefreshToken();
     string GenerateSelectClientToken(AppUser user); 
 }

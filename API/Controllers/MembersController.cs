@@ -11,39 +11,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-
-    public class MembersController(AppDbContext context, IMemberRepository owner) : BaseApiController
+    [Authorize]
+    public class MembersController(IMemberRepository memberRepository, IPropertyRepository propertyRepository) : BaseApiController
     {
         [HttpGet]//https://localhost:5001/api/members
         public async Task<ActionResult<IReadOnlyList<Member>>> GetMembers([FromQuery] MemberParams memberParams)
-        {
-            // var users = await context.Users.ToListAsync();
+        { 
             memberParams.CurrentClientId = User.GetClientId();
-            return Ok(await owner.GetMembersAsync(memberParams.CurrentClientId));
+            return Ok(await memberRepository.GetMembersAsync());
         }
-
-        [Authorize]
+ 
         [HttpGet("{id}")] //https://localhost:5001/api/members/bob-id
-        public async Task<ActionResult<AppUser>> GetMember(string id)
+        public async Task<ActionResult<Member>> GetMember(string id)
         {
-            var user = await context.Users.FindAsync(id);
-            if (user == null) return NotFound();
-            return user;
+            var member = await memberRepository.GetMemberAsync(id);
+            if (member == null) return NotFound();
+            return member;
+        }   
+        [HttpGet("{id}/properties")]
+        public async Task<ActionResult<IReadOnlyList<Property>>> GetCurrentProperties(string id)
+        {
+            return Ok(await propertyRepository.GetMemberCurrentPropertiesAsync(id));
         }
-        // [HttpGet("clients")]
-        // public async Task<ActionResult<IReadOnlyList<Client>>> GetClientsForCurrentUser(string id)
-        // { 
-        //     var user = await context.Users.FirstOrDefaultAsync("id");
-        //     if (user == null) return NotFound();
-
-        //     var clients = await context.Members
-        //     .Where(m => m.UserId == userId)
-        //     .Select(m => m.Client)
-        //     .ToListAsync(); 
-
-
-        //     return clients;
-
-        // }
     }
 }

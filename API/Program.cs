@@ -1,5 +1,6 @@
 using System.Text;
 using API.Data;
+using API.Data.Repositories;
 using API.Interfaces;
 using API.Middleware;
 using API.Services;
@@ -19,10 +20,9 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 });
 builder.Services.AddCors();
 builder.Services.AddScoped<IAuthService, AuthService>(); // Scoped to the lifetime of request
-
-builder.Services.AddScoped<IMemberRepository, OwnerRepository>(); // Scoped to the lifetime of request
+builder.Services.AddScoped<IMemberRepository, MemberRepository>(); // Scoped to the lifetime of request
 builder.Services.AddScoped<ITokenService, TokenService>(); // Scoped to the lifetime of request
-
+builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -69,16 +69,20 @@ try
     // var userManager = services.GetRequiredService<UserManager<AppUser>>();
     // // migrating the database in code 
     // //creates database if it does not already exists
+    context.IsSeeding = true;
     await context.Database.MigrateAsync(); 
     // Since we used static method we have access  to Seedusers method
+    
+
     await Seed.SeedData(context); // userManger
+    context.IsSeeding = false;
+
     
 }
 catch (Exception ex)
 {
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occured during the migration");
-
     throw;
 }
 

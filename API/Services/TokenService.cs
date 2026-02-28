@@ -47,7 +47,7 @@ public class TokenService(IConfiguration config, AppDbContext context) : ITokenS
     /// <param name="memberId"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public async Task<string> GenerateAccessToken(AppUser user, string clientId)
+    public string GenerateAccessToken(AppUser user, string clientId)
     {
         var tokenKey = config["TokenKey"] ?? throw new Exception("Cannot get token key");
         // if this returns after the ?? 

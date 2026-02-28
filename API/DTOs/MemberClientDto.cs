@@ -6,7 +6,7 @@ public class MemberClientDto
 {
     
     public required string MemberId { get; set; }
-    public required string UserId { get; set; }
+    public   string? UserId { get; set; } =null; // User may be null not all login users have member profile and vice-versa
     public required string ClientId { get; set; }
 
     public required string ClientName { get; set; }

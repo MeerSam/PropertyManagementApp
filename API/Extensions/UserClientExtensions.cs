@@ -42,11 +42,11 @@ public static class UserClientExtensions
             ClientId = uca.ClientId,
             ClientName = uca.Client.Name,
            MemberId = uca.User.Members
-                .Where(m => m.UserId == uca.UserId && m.ClientId== uca.ClientId)
+                .Where(m => m.ClientId== uca.ClientId)
                 .Select(m => m.Id)
                 .FirstOrDefault(),                
             HasMemberProfile = uca.User.Members
-                .Any(m => m.User.Id == uca.UserId && m.ClientId== uca.ClientId) 
+                .Any(m =>  m.ClientId== uca.ClientId) 
         };
     }
 }

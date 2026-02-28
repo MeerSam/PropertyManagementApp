@@ -20,14 +20,10 @@ public class AppUser
     public required byte[] PasswordHash { get; set; }
     public required byte[] PasswordSalt { get; set; }
 
-    public string? RefreshToken { get; set; }
-    public DateTime? RefreshTokenExpiry { get; set; }
 
-    [JsonIgnore]
     public ICollection<Member> Members { get; set; } = [];
 
     // Navigation to client access (junction table)
-    [JsonIgnore]
     public ICollection<UserClientAccess> ClientAccess { get; set; } = [];
 
 }

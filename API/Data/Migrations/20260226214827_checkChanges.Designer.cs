@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260226214827_checkChanges")]
+    partial class checkChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.12");
@@ -61,7 +64,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("API.Entities.Client", b =>
@@ -84,7 +87,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("API.Entities.ClientSelectionToken", b =>
@@ -124,7 +127,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClientSelectionTokens", (string)null);
+                    b.ToTable("ClientSelectionTokens");
                 });
 
             modelBuilder.Entity("API.Entities.Member", b =>
@@ -185,97 +188,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Members", (string)null);
-                });
-
-            modelBuilder.Entity("API.Entities.Property", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("Bathrooms")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("Bedrooms")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsRented")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("LotNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("SquareFeet")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("State")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ZipCode")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("Properties", (string)null);
-                });
-
-            modelBuilder.Entity("API.Entities.PropertyOwnership", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsCurrent")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("MemberId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<decimal?>("OwnershipPercentage")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("OwnershipType")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("PropertyId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MemberId");
-
-                    b.HasIndex("PropertyId", "OwnershipType", "IsCurrent")
-                        .IsUnique()
-                        .HasFilter("\"IsCurrent\" = true AND \"OwnershipType\" = 0");
-
-                    b.ToTable("PropertyOwnerships", (string)null);
+                    b.ToTable("Members");
                 });
 
             modelBuilder.Entity("API.Entities.UserClientAccess", b =>
@@ -318,7 +231,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("UserClientAccess", (string)null);
+                    b.ToTable("UserClientAccess");
                 });
 
             modelBuilder.Entity("API.Entities.Member", b =>
@@ -341,36 +254,6 @@ namespace API.Data.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("API.Entities.Property", b =>
-                {
-                    b.HasOne("API.Entities.Client", "Client")
-                        .WithMany("Properties")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("API.Entities.PropertyOwnership", b =>
-                {
-                    b.HasOne("API.Entities.Member", "Member")
-                        .WithMany("PropertyOwnerships")
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Property", "Property")
-                        .WithMany("Ownerships")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Member");
-
-                    b.Navigation("Property");
                 });
 
             modelBuilder.Entity("API.Entities.UserClientAccess", b =>
@@ -403,19 +286,7 @@ namespace API.Data.Migrations
                 {
                     b.Navigation("Members");
 
-                    b.Navigation("Properties");
-
                     b.Navigation("UsersAccess");
-                });
-
-            modelBuilder.Entity("API.Entities.Member", b =>
-                {
-                    b.Navigation("PropertyOwnerships");
-                });
-
-            modelBuilder.Entity("API.Entities.Property", b =>
-                {
-                    b.Navigation("Ownerships");
                 });
 #pragma warning restore 612, 618
         }

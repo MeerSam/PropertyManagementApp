@@ -28,6 +28,8 @@ public class AuthService(AppDbContext context, ITokenService tokenService
         // Step 1: Find user by email
         var user = await context.Users.SingleOrDefaultAsync(x => x.Email!.ToLower() == loginDto.Email.ToLower()) ?? throw new UnauthorizedAccessException("Invalid creadentials entered");
         using var hmac = new HMACSHA512(user.PasswordSalt);
+
+        
         // Step 2: Validate password
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
         try
@@ -167,12 +169,12 @@ public class AuthService(AppDbContext context, ITokenService tokenService
 
 
         // Step 10: Generate FULL JWT with ClientId and MemberId claims
-        var accessToken = await tokenService.GenerateAccessToken(user, request.ClientId);
+        var accessToken = tokenService.GenerateAccessToken(user, request.ClientId);
         var refreshToken = tokenService.GenerateRefreshToken();
 
         // Step 11: Save refresh token
-        user.RefreshToken = HashToken(refreshToken);
-        user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+        clientAccess.RefreshToken = HashToken(refreshToken);
+        clientAccess.RefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
         await context.SaveChangesAsync();
 
         // Step 12: Build active client info
@@ -281,6 +283,8 @@ public class AuthService(AppDbContext context, ITokenService tokenService
             {
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                DisplayName = registerDto.DisplayName,
                 Gender = registerDto.Gender,
                 ClientId = clientId,
                 UserId = newUser.Id
@@ -290,7 +294,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
 
         if (finalresult <= 0) throw new Exception("Registration was unsuccessfull");
 
-        return await newUser.ToDto(tokenService);
+        return newUser.ToDto(tokenService);
 
     }
 
