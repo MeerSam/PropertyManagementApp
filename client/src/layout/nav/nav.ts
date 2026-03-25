@@ -1,9 +1,9 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AccountService } from '../../core/services/account-service';
 import { SessionService } from '../../core/services/session-service';
 import { TenantService } from '../../core/services/tenant-service';
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
+import { AppRole } from '../../types/user';
 
 @Component({
   selector: 'app-nav',
@@ -11,30 +11,34 @@ import { Router, RouterLink, RouterLinkActive } from "@angular/router";
   templateUrl: './nav.html',
   styleUrl: './nav.css',
 })
-export class Nav {
-  protected accountService = inject(AccountService)
-  protected sessionService = inject(SessionService)
+export class Nav { 
+  protected session = inject(SessionService)
   protected tenantService = inject(TenantService)
   protected router = inject(Router)
+  allowedOwnerRoles: AppRole[] = [
+    'owner',
+    'resident' 
+  ];
+
 
   titleFromApp = input<string>();
   protected creds: any = {} // empty object  
 
-  login() { 
-    this.sessionService.loginAndSelectClient(this.creds).subscribe({
-      next: result => { 
-        this.router.navigateByUrl("/members")
-        this.creds = {};  
+  login() {
+    this.session.login(this.creds).subscribe({
+      next: result => {
+        this.router.navigateByUrl("/dashboard")
+        this.creds = {};
       },
       error: error => alert(error.message),
-      complete: ()=> {
-        console.log("completed Login Request from nav")  
-      } 
-    }); 
+      complete: () => {
+        console.log("completed Login Request from nav")
+      }
+    });
   }
 
-  logout(){ 
-    this.accountService.logout();
+  logout() {
+    this.session.logout();
   }
-  
+
 }

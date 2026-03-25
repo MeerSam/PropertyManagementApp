@@ -1,29 +1,25 @@
-import { Component, inject, input } from '@angular/core';
-import { AccountService } from '../../core/services/account-service';
+import { Component, inject } from '@angular/core';
 import { SessionService } from '../../core/services/session-service';
-import { TenantService } from '../../core/services/tenant-service';
-import { Router, RouterOutlet, RouterLinkWithHref, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterOutlet, RouterLink } from '@angular/router';
 import { ToastService } from '../../core/services/toast-service';
 
 @Component({
   selector: 'app-nav-sidebar',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './nav-sidebar.html',
   styleUrl: './nav-sidebar.css',
 })
-export class NavSidebar {
-  protected accountService = inject(AccountService)
-  protected sessionService = inject(SessionService)
-  protected tenantService = inject(TenantService)
+export class NavSidebar { 
+  protected session = inject(SessionService) 
   private toastService =inject(ToastService)
   protected router = inject(Router)
   // titleFromApp = input<string>();
   protected creds: any = {} // empty object  
 
   login() {
-    this.sessionService.loginAndSelectClient(this.creds).subscribe({
+    this.session.login(this.creds).subscribe({
       next: result => {
-        this.router.navigateByUrl("/members")
+        this.router.navigateByUrl("/dashboard")
         this.creds = {};
       },
       error: error => {
@@ -36,6 +32,6 @@ export class NavSidebar {
   }
 
   logout() {
-    this.accountService.logout();
+    this.session.logout();
   }
 }

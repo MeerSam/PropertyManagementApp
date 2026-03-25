@@ -41,12 +41,12 @@ public static class UserClientExtensions
             ImageUrl = uca.User.ImageUrl,
             ClientId = uca.ClientId,
             ClientName = uca.Client.Name,
-           MemberId = uca.User.Members
-                .Where(m => m.ClientId== uca.ClientId)
+            MemberId = uca.Client.Members
+                .Where(m => m.UserId== uca.UserId)
                 .Select(m => m.Id)
                 .FirstOrDefault(),                
             HasMemberProfile = uca.User.Members
-                .Any(m =>  m.ClientId== uca.ClientId) 
+                .Any(m =>  m.UserId== uca.UserId) 
         };
     }
 }

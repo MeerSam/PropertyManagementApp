@@ -13,6 +13,8 @@ public class UserDto
     public required string LastName { get; set; }
     public string? ImageUrl { get; set; }  
 
+    public string? AppRole { get; set; }  
+
     public ActiveClientUserDto? ActiveClient { get; init; }
     public ICollection<UserClientAccessInfoDto>? AvailableClients { get; init; }
     

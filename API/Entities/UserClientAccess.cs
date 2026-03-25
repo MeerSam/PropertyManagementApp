@@ -20,7 +20,7 @@ public class UserClientAccess
     public Client Client { get; set; } = null!;
 
     // Access details
-    public required string Role { get; set; } // "Admin", "BoardMember", "CAM", "Owner", "Resident"
+    public required string Role { get; set; } // "admin", "board_member", "property_manager", "owner", "resident"
     public bool IsActive { get; set; } = true;
 
     // Audit trail

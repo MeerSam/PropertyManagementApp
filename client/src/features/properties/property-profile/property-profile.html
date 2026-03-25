@@ -1,0 +1,85 @@
+@if(property() ; as property){
+<div class="flex gap-6">
+    <!-- left side column -->
+    <div class="card bg-base-100 flex flex-col  h-[85vh] w-1/4">
+        <div class="card-body">
+            <div class="flex flex-col items-center">
+                <div class="flex gap-3">
+                    <span class="font-semibold text-2xl">Unit:</span>
+                    <span class="font-semibold text-2xl">{{property.unit}}</span>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="flex flex-col gap-3 w-full">
+                <div class="flex gap-3">
+                    <span class="font-semibold text-xl">{{property.address}}</span>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="flex flex-col gap-3 w-full">
+                <span class="font-semibold text-xl">Current Owners:</span>
+                @for (owner of owners(); track $index) {
+                    @if(owner){
+                        <span class="font-semibold text-xl ">
+                            {{owner.lastName}}, {{owner.firstName}}</span> 
+                    }
+                }
+            </div>
+            <div class="divider"></div>
+            <div class="flex flex-col gap-3 w-full">
+                <div class="flex gap-3">
+                    <span class="font-semibold text-xl">Beds:</span>
+                    <span class="font-semibold text-xl">{{property.bedrooms}}</span>
+                </div>
+
+                <div class="flex gap-3">
+                    <span class="font-semibold text-xl">Bathrooms:</span>
+                    <span class="font-semibold text-xl">{{property.bathrooms}}</span>
+                </div>
+                <div class="flex gap-3">
+                    <span class="font-semibold text-xl">Size (sq.ft.):</span>
+                    <span class="font-semibold text-xl">{{property.squareFeet}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-actions justify-between gap-2 px-2 mb-3">
+            <button class="btn btn-secondary" (click)="goBack()">Go Back</button>
+        </div>
+    </div>
+    <!-- right side column -->
+    <div class="card bg-base-300 w-3/4 p-6 flex flex-col  h-[85vh]">
+        <ul class="menu menu-vertical lg:menu-horizontal bg-base-200  rouded-box w-full text-xl">
+            <li><a routerLink="details" routerLinkActive="text-primary">Property Details</a></li>
+            <li><a routerLink="documents" routerLinkActive="text-primary">Documents</a></li>
+            <li><a routerLink="messages" routerLinkActive="text-primary">Messages</a></li>
+        </ul>
+        <div class="divider"></div>
+        <div class="flex flex-col gap-3 w-full">
+            <h3 class="card-title text-3xl text-primary w-full">Property {{title()}}</h3>
+        </div>
+        <div class="divider"></div>
+        <div class="flex justify-between items-center">
+            <div class="flex gap-3 w-full">
+                <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4 font-semibold">
+                    <legend class="fieldset-legend ">Rented??</legend>
+                    <label class="label">
+                        <input type="checkbox" [checked]="property.isRented"
+                            [disabled]="session.currentRole() !== 'admin'" class="checkbox checkbox-md" />
+                        @if (property.isRented) {
+                        Rented
+                        }@else {
+                        Owner Occupied
+                        }
+                    </label>
+                </fieldset>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="h-full">
+            <router-outlet />
+        </div>
+    </div>
+</div>
+} @else {
+<h1 class="font-semibold text-3xl">Property Not found</h1>
+}

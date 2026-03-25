@@ -1,8 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { AccountService } from '../../../core/services/account-service';
 import { MemberService } from '../../../core/services/member-service';
 import { Member, MemberParams } from '../../../types/member';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-member-list',

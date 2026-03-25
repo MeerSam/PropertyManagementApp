@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { NavSidebar } from "../layout/nav-sidebar/nav-sidebar";
-import { Nav } from "../layout/nav/nav";
  
 
 @Component({

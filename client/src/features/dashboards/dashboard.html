@@ -1,0 +1,144 @@
+<div class="p-6 space-y-6">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <h1 class="text-3xl font-bold">Welcome, {{ session.currentUser()?.displayName }}</h1>
+        <span class="badge badge-primary badge-lg">{{session.currentUser()?.appRole}}</span>
+    </div>
+
+    <!-- Property Overview -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="card bg-base-100 shadow-md col-span-2">
+            <div class="card-body">
+                <h2 class="card-title">Property overview</h2>
+                <!-- Icon + Summary -->
+                <div class="flex items-center gap-4">
+                    <div class="avatar">
+                        <div class="w-20 rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-20">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-lg font-semibold">Your Properties</p>
+                        <p class="text-lg opacity-70">Owned under your HOA {{session.activeClient()?.clientName}}
+                        </p>
+                    </div>
+                </div>
+                <!-- Property Cards -->
+                <div class="flex justify-around space-y-3">
+                    @if (properties$ | async ; as properties) {
+                    @for (property of properties; track property.id) {
+                    <app-property-card [property]="property" /> 
+                    }
+                    }
+                </div>
+                <div class="card-actions justify-end mt-4">
+                    <button class="btn btn-outline btn-primary">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- HOA Dues Summary -->
+        <div class="card bg-base-100 shadow-md">
+            <div class="card-body">
+                <h2 class="card-title">HOA Dues</h2>
+
+                <div class="stats shadow w-full">
+                    <div class="stat">
+                        <div class="stat-title">Balance</div>
+                        <!-- <div class="stat-value text-primary">${{ ledger.balance }}</div>
+                        <div class="stat-desc">Next due: {{ ledger.nextDueDate }}</div> -->
+                    </div>
+                </div>
+
+                <div class="card-actions justify-end mt-4">
+                    <button class="btn btn-primary btn-sm">View Ledger</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Requests & Reservations -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Maintenance Requests -->
+        <div class="card bg-base-100 shadow-md">
+            <div class="card-body">
+                <h2 class="card-title">Maintenance Requests</h2>
+
+                <ul class="space-y-3">
+                    <!-- <li *ngFor="let req of maintenanceRequests" class="flex justify-between items-center">
+                        <span>{{ req.title }}</span>
+                          <span class="badge" [ngClass]="{
+                'badge-warning': req.status === 'Pending',
+                'badge-info': req.status === 'In Progress',
+                'badge-success': req.status === 'Completed'
+              }">
+                            {{ req.status }}
+                        </span>  
+                    </li> -->
+                </ul>
+
+                <div class="card-actions justify-end mt-4">
+                    <button class="btn btn-outline btn-primary btn-sm">Submit Request</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amenity Reservations -->
+        <div class="card bg-base-100 shadow-md">
+            <div class="card-body">
+                <h2 class="card-title">Amenity Reservations</h2>
+
+                <ul class="space-y-3">
+                    <!-- <li *ngFor="let res of reservations" class="flex justify-between items-center">
+                        <span>{{ res.amenity }} — {{ res.date }}</span>
+                        <span class="badge badge-info">{{ res.status }}</span>
+                    </li> -->
+                </ul>
+
+                <div class="card-actions justify-end mt-4">
+                    <button class="btn btn-primary btn-sm">Book Amenity</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Community & Documents -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Announcements -->
+        <div class="card bg-base-100 shadow-md col-span-2">
+            <div class="card-body">
+                <h2 class="card-title">Community Announcements</h2>
+
+                <div class="space-y-4">
+                    <!-- <div *ngFor="let a of announcements()" class="alert alert-info shadow">
+                        <span>{{ a.message }}</span>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents -->
+        <div class="card bg-base-100 shadow-md">
+            <div class="card-body">
+                <h2 class="card-title">Documents</h2>
+
+                <ul class="space-y-3">
+                    <!-- <li *ngFor="let doc of documents" class="flex justify-between items-center">
+                        <span>{{ doc.name }}</span>
+                        <button class="btn btn-sm btn-outline">View</button>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>

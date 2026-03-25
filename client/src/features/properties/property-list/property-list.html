@@ -1,0 +1,19 @@
+<!-- @if ( !loadProperties()){
+<div class="flex justify-around gap-4">
+    @if (loadProperties() ; as properties) {
+        @for (property of properties; track property.id) {
+            <app-property-card [property]="property" />
+        }
+    }
+</div> 
+
+}-->
+@if(properties() ; as properties){
+<div class="flex flex-col w-full">
+    <div class="grid grid-cols-5 gap-6">
+        @for (property of properties; track property.id) {
+        <app-property-card [property]="property" />
+        }
+    </div>
+</div> 
+}

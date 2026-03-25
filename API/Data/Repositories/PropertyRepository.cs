@@ -9,16 +9,24 @@ public class PropertyRepository(AppDbContext context, ITenantService tenantServi
 {
     public async Task<IReadOnlyList<Property>> GetMemberCurrentPropertiesAsync(string memberId)
     {
+        var clientId = tenantService.GetCurrentClientId();
+
         return await context.PropertyOwnerships
-            .Where(po => po.MemberId == memberId && po.Property.ClientId == tenantService.GetCurrentClientId())
+            .Include(po => po.Member)
+            .Include(po => po.Property)
+            .Where(po => po.MemberId == memberId   
+                    && po.Property.ClientId == clientId
+                    && po.IsCurrent && po.EndDate ==null)
             .Select(po => po.Property)
+            .Distinct()
             .ToListAsync();
     }
 
     public async Task<IReadOnlyList<Property>> GetPropertiesAsync()
-    {
+    {   
+        var clientId = tenantService.GetCurrentClientId();
         var properties = await context.Properties
-            .Where(p => p.ClientId == tenantService.GetCurrentClientId())
+            .Where(p => p.ClientId == clientId)
             .ToListAsync();
         return properties;
     }
@@ -26,8 +34,10 @@ public class PropertyRepository(AppDbContext context, ITenantService tenantServi
     public async Task<Property?> GetPropertyAsync(string propertyId)
     {
         var property = await context.Properties
+            .Include(p => p.Ownerships) 
+                .ThenInclude(po => po.Member)
             .Where(p => p.ClientId == tenantService.GetCurrentClientId())
-            .Where(p => p.Id == propertyId)
+            .Where(p => p.Id == propertyId) 
             .SingleOrDefaultAsync();
 
         if (property != null)

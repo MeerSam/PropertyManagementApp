@@ -10,8 +10,8 @@
                     d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
             </svg>
             <h3 class="text-2xl font-semibold uppercase w-3/4">
-                @if(!tenantService.activeClient()) {
-                {{tenantService.activeClient()?.clientName + '|' || '' }}
+                @if(!session.activeClient()) {
+                {{session.activeClient()?.clientName + '|' || '' }}
                 } @else{
                 {{ titleFromApp() }}
                 }
@@ -19,11 +19,11 @@
             </h3>
 
         </a>
-        @if(accountService.currentUser()){
+        @if(session.currentUser()){
         <nav class="flex gap-6 my-2 uppercase text-lg text-white ml-auto">
             <a routerLink="/home" routerLinkActive="text-accent">Home</a>
 
-            @if ( accountService.currentUser()?.appRole =="owner" ){
+            @if (session.hasRole('owner', 'resident')){
             <a  routerLinkActive="text-accent">Property Info</a>
             <a  routerLinkActive="text-accent">Documents</a>
             <a  routerLinkActive="text-accent">Requests</a>
@@ -31,7 +31,7 @@
         
             <a routerLinkActive="text-accent">Violations/Notices</a>
             } @else {
-                @if (accountService.currentUser()?.appRole =="admin") {
+                @if (session.hasRole("admin")) {
                     <a routerLink="/properties" routerLinkActive="text-accent">Properties</a>
                 }
                 <a routerLink="/members" routerLinkActive="text-accent">Owners</a>
@@ -41,7 +41,7 @@
         </nav>
         }
         <div class="flex align-middle ml-auto gap-5">
-            @if(accountService.currentUser(); as user){
+            @if(session.currentUser(); as user){
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="flex items-center text-white text-xl gap-3 cursor-pointer">
                     <img src="/user.png" alt="user avatar" class="w-8 h-8 rounded-full" />

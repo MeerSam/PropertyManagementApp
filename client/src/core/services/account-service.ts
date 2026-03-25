@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { tap } from 'rxjs';
-import { AuthErrorResponse, AuthSuccessResponse, ClientSelectLoginResponse, RegisterDto, User, UserDto } from '../../types/user';
-import { Client } from '../../types/client';
+import { AppRole, User, UserDto } from '../../types/user';
+import { AuthErrorResponse, AuthSuccessResponse, ClientSelectLoginResponse, RegisterDto } from '../../types/auth';
 
 
 @Injectable({
@@ -18,39 +17,56 @@ export class AccountService {
   // in our components
   private http = inject(HttpClient);
   baseUrl = environment.apiUrl; //'https://localhost:5001/api/';
-  currentUser = signal<User | null>(null);
-
-
-  register(creds: RegisterDto) {
-    return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
-  }
-
-
-  login(creds: any) {
-    console.log(creds.email);
-    return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
-  }
-
-  setClientUserAfterLogin(response: AuthSuccessResponse) {
-    localStorage.setItem('user', JSON.stringify(response.user));
-    const _user = this.mapUserDtoToUser(response.user, response.accessToken);
-    if (_user) {
-      this.setCurrentUser(_user);
-      // client info from the reponse if only one client comes back as clientSelected. if two or more 
-      var client = response.user.activeClient;
-      client.isActiveClient = true;
-      localStorage.setItem('activeClient', JSON.stringify(client));
-      localStorage.removeItem('selectionToken');
-    }
-    else {
-      this.logout()
-    }
-  }
+  readonly currentUser = signal<User | null>(null);
 
   setCurrentUser(user: User) {
     this.currentUser.set(user);
   }
+  // fetching WebAPI data
+  register(creds: RegisterDto) {
+    return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
+  }
 
+  login(creds: any) {
+    return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
+  }
+
+
+  // ─── State Mutations (called only by SessionService) ──────────
+
+  /**
+   * Called by SessionService after a successful login or client selection.
+   * Maps the UserDto + accessToken → User and stores in signal + localStorage.
+   */
+
+  initUserFromStorage(): boolean {
+    const raw = localStorage.getItem('user');
+    if (!raw) return false;
+    try {
+      const user = JSON.parse(raw) as User;
+      this.setCurrentUser(user);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  setCurrentUserFromResponse(response: AuthSuccessResponse): void {
+    const user = this.mapUserDtoToUser(response.user, response.accessToken);
+    this.setCurrentUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  clearUser(): void {
+    this.currentUser.set(null);
+    localStorage.removeItem('user');
+  }
+  logout() {
+    localStorage.removeItem('user');
+    this.currentUser.set(null);
+    this.clearUser();
+  }
+  // ─── Type Guards ──────────────────────────────────────────────
   // A type guard in TypeScript is a small function that checks the shape of an object at runtime and tells TypeScript,
   //  “Inside this block, you can safely treat this as a specific type.”
 
@@ -64,33 +80,23 @@ export class AccountService {
 
   isAuthError(response: any): response is AuthErrorResponse {
     return response && 'message' in response && !('accessToken' in response);
-  }
+  } 
 
-  logout() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('activeClient');
-    this.currentUser.set(null);
-
-  }
-
-  getAvailableClients(): string[] {
-    const raw = localStorage.getItem('availableClients');
-
-    if (!raw) return [];
-    try {
-      return JSON.parse(raw) as string[];
-    } catch {
-      return [];
-    }
+  
+  // ─── Role Helpers ─────────────────────────────────────────────
+  hasRole(...roles: AppRole[]): boolean {
+    const role = this.currentUser()?.appRole;
+    return role ? roles.includes(role) : false;
   }
 
   private mapUserDtoToUser(dto: UserDto, accessToken: string): User {
     return {
       ...dto,
       accessToken,
-      // Only include this if your User type still has appRole
-      appRole: (dto as any).appRole
     };
+
+    // // Only include this if your User type still has appRole
+    // appRole: (dto as any).appRole
   }
 
 

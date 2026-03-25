@@ -1,0 +1,16 @@
+@if(property() ; as property){
+<div class="flex flex-col gap-3">
+    <h3 class="text-2xl font-semibold text-primary">Details for {{property.unit}}</h3>
+    <div>{{property.createdAt}}</div>
+    <div class="flex">
+        <span class="font-semibold">Mailing Address:</span>
+        <span>{{property.mailAddress}}</span>
+        <span>{{property.mailCity}}</span>
+        <span>{{property.mailState}}</span>
+        <span>{{property.mailZip}}</span>
+        <span >{{property.mailCountry}}</span>
+    </div>
+</div>
+} @else {
+<h1 class="font-semibold text-3xl">Property Not found</h1>
+}

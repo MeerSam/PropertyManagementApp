@@ -169,7 +169,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
 
 
         // Step 10: Generate FULL JWT with ClientId and MemberId claims
-        var accessToken = tokenService.GenerateAccessToken(user, request.ClientId);
+        var accessToken = tokenService.GenerateAccessToken(user, request.ClientId, clientAccess.Role);
         var refreshToken = tokenService.GenerateRefreshToken();
 
         // Step 11: Save refresh token
@@ -192,6 +192,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
         var allClientAccess = await context.UserClientAccess
             .Include(uca => uca.Client)
             .Include(uca => uca.User)
+            .ThenInclude(u => u.Members)
             .Where(uca => uca.UserId == userId && uca.IsActive)
             .Select(UserClientExtensions.ToDtoProjection())
             .ToListAsync();
@@ -206,6 +207,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
             FirstName = user.FirstName,
             LastName = user.LastName,
             ImageUrl = user.ImageUrl,
+            AppRole =activeClient.Role,
             ActiveClient = activeClient,
             AvailableClients = [.. allClientAccess]
         };
@@ -274,7 +276,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
             {
                 UserId = newUser.Id,
                 ClientId = clientId,
-                Role = registerDto.Role ?? "Resident",
+                Role = registerDto.Role ?? "resident",
                 IsActive = true,
                 GrantedDate = DateTime.Now,
             });

@@ -1,0 +1,26 @@
+@if(property(); as property){
+<div routerLink="/properties/{{property.id}}" class="card cursor-pointer transition-all duration-300 ease-in-out 
+            transform hover:-translate-y-2 relative">
+    <span class="text-lg">
+        @if (property.unit) {
+        Unit: {{property.unit}}
+        }
+    </span>
+    <span class="text-lg">Bath: {{property.bathrooms}} | Beds: {{property.bedrooms}}</span>
+    <span class="text-lg">City: {{property.city}}, {{property.state}}</span>
+    <div class="text-lg">Current Owner(s): </div>
+
+    @if(property.currentOwners){
+        @for (member of property.currentOwners; track member.id) {
+            <span class="font-semibold">{{member.lastName}},{{member.firstName}}</span> }
+        }
+    <div class="flex flex-col card cursor-pointer">
+        <div class="card-actions bg-black px-3 rounded-b-lg bg-linear-to-t  from-black via-black/75 to-black/0">
+            <div class="flex flex-col text-white justify-end mt-4 pb-1.5">
+                <span class="text-2xl font-semibold">{{property.address}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+}

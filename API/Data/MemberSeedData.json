@@ -15,7 +15,7 @@
         "City": "Greenbush",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/women/54.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     }, 
     {
         "ClientId": "bpi-id",
@@ -33,7 +33,7 @@
         "City": "Celeryville",
         "Country": "Canada",
         "ImageUrl": "https://randomuser.me/api/portraits/women/50.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
         "ClientId": "bpi-id",
@@ -51,7 +51,7 @@
         "City": "Rosewood",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/women/14.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
         "ClientId": "bpi-id",
@@ -69,7 +69,7 @@
         "City": "Orviston",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/women/11.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
         "ClientId": "bpi-id",
@@ -87,7 +87,7 @@
         "City": "Germanton",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/women/84.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
         "ClientId": "bpi-id",
@@ -105,7 +105,7 @@
         "City": "Cliff",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/men/90.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
         "ClientId": "bpi-id",
@@ -123,7 +123,7 @@
         "City": "Welda",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/men/99.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
         "ClientId": "pbc-id",
@@ -141,7 +141,7 @@
         "City": "Clarence",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/men/57.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
         "ClientId": "pbc-id",
@@ -159,7 +159,7 @@
         "City": "Herald",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/men/11.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
         "ClientId": "pbc-id",
@@ -177,7 +177,7 @@
         "City": "Lupton",
         "Country": "USA",
         "ImageUrl": "https://randomuser.me/api/portraits/men/93.jpg",
-        "Role": "Owner"
+        "Role": "owner"
     },
     {
     "ClientId": "bpi-id",
@@ -195,7 +195,7 @@
     "City": "Greenbush",
     "Country": "USA",
     "ImageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
-    "Role": "CoOwner"
+    "Role": "owner"
   },
   {
     "ClientId": "slh-id",
@@ -213,7 +213,7 @@
     "City": "Sunset Lakes",
     "Country": "USA",
     "ImageUrl": "https://randomuser.me/api/portraits/women/68.jpg",
-    "Role": "BoardMember"
+    "Role": "board_member"
   },
   {
     "ClientId": "pbc-id",
@@ -231,7 +231,7 @@
     "City": "Palm Breeze",
     "Country": "USA",
     "ImageUrl": "https://randomuser.me/api/portraits/men/45.jpg",
-    "Role": "Tenant"
+    "Role": "resident"
   },
   {
     "ClientId": "ovt-id",

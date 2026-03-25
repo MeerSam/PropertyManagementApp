@@ -9,21 +9,11 @@ export type User = {
     firstName: string;
     lastName: string;
     imageUrl?: string;
-    appRole?: string;
+    appRole: AppRole;
     activeClient: Client;
     accessToken: string;
 }
-
-export type LoginCreds = {
-    email: string;
-    password: string;
-}
-
-export interface SelectClientDto  {
-    clientId: string;
-    selectionToken: string;
-}
-
+ 
 export type UserDto = {
     id: string;
     email: string;
@@ -31,6 +21,7 @@ export type UserDto = {
     firstName: string;
     lastName: string;
     imageUrl?: string;
+    appRole: AppRole;
     activeClient: Client; 
     availableClients:UserClientAccessInfo[];
 }
@@ -48,41 +39,13 @@ export type UserClientAccessInfo = {
 }
 
 
-export interface AuthSuccessResponse {
-    success: boolean;
-    accessToken: string;
-    refreshToken: string;
-    clientName: string;
-    displayName: string;
-    expiresAt: string;
-    user: UserDto;
-
-}
-export interface ClientSelectLoginResponse {
-    userId: string;
-    displayName: string;
-    email: string;
-    message: string;
-    selectionToken: string;
-    availableClients: UserClientAccessInfo[];
-}
+export type AppRole = 
+  | 'admin'
+  | 'board_member'
+  | 'property_manager'
+  | 'owner'
+  | 'resident';
 
 
-export interface RegisterDto {
-  clientId: string;
-  email: string;
-  password: string;
-  displayName: string;
-  firstName: string;
-  lastName: string;
-  isBoardMember: boolean;
-  isAdminMember: boolean;
-  dateOfBirth: string;
-  gender: string;
-  appRole: string;
-}
 
-export type AuthErrorResponse = {
-     message: string;
-     error: string[];
-}
+ 

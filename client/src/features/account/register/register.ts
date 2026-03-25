@@ -1,9 +1,8 @@
 import { Component, inject, input, output, signal } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { RegisterDto } from '../../../types/user';
-import { Client } from '../../../types/client';
-import { ValidationError } from '@angular/forms/signals';
-import { TenantService } from '../../../core/services/tenant-service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegisterDto } from '../../../types/auth';
+import { Client } from '../../../types/client'; 
+import { SessionService } from '../../../core/services/session-service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +11,7 @@ import { TenantService } from '../../../core/services/tenant-service';
   styleUrl: './register.css',
 })
 export class Register {
-  protected tenantService = inject(TenantService) 
+  protected session = inject(SessionService) 
 
   clientFromHome = input.required<Client | null>();
   protected creds = {} as RegisterDto;
@@ -21,7 +20,7 @@ export class Register {
   cancelRegister = output<boolean>(); 
 
   getListOfClients(): Client[] {
-    const activeClient = this.tenantService.activeClient();
+    const activeClient = this.session.activeClient();
 
     // Wrap a single client into an array
     const ensureArray = (x: Client | Client[]) => Array.isArray(x) ? x : [x];
@@ -32,7 +31,7 @@ export class Register {
     }
 
     // Otherwise return available clients (already an array)
-    return this.tenantService.availableClients();
+    return this.session.availableClients();
   }
 
   register() {

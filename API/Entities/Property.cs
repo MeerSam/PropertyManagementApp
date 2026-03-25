@@ -5,7 +5,7 @@ namespace API.Entities;
 
 public class Property
 {
-    public string Id { get; set; } =Guid.NewGuid().ToString();
+    public string Id { get; set; } = Guid.NewGuid().ToString();
     public required string Address { get; set; }
     public string? Unit { get; set; }
     public string? City { get; set; }
@@ -21,16 +21,16 @@ public class Property
 
 
     // Multi-Tenant field
-    public string ClientId { get; set; }= null!;
+    public string ClientId { get; set; } = null!;
     [JsonIgnore]
     public Client Client { get; set; } = null!;
 
     public ICollection<PropertyOwnership> Ownerships { get; set; } = [];
- 
-//  // Convenience
-//     public IEnumerable<PropertyOwnership> CurrentOwners => 
-//         Ownerships.Where(o => o.IsCurrent);
 
-//     public PropertyOwnership? PrimaryOwner =>
-//         Ownerships.FirstOrDefault(o => o.IsCurrent && o.OwnershipType == OwnershipType.Primary);
+    // // Convenience
+    // public IEnumerable<PropertyOwnership> CurrentOwners =>
+    //     Ownerships.Where(o => o.IsCurrent);
+
+    // public PropertyOwnership? PrimaryOwner =>
+    //     Ownerships.FirstOrDefault(o => o.IsCurrent && o.OwnershipType == OwnershipType.Primary);
 }

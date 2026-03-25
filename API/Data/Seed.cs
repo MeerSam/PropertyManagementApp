@@ -87,8 +87,24 @@ public class Seed
         // 6. PropertyOwnership (historical)
         if (!await context.PropertyOwnerships.AnyAsync())
         {
-            context.PropertyOwnerships.AddRange(data.PropertyOwnerships);
-            await context.SaveChangesAsync();
+            foreach (var ownership in data.PropertyOwnerships)
+            {
+                var owner_record = new PropertyOwnership
+                {
+                    Id =  ownership.Id,
+                    PropertyId= ownership.PropertyId,
+                    MemberId = ownership.MemberId,
+                    OwnershipType = ownership.OwnershipType,   
+                    IsCurrent = ownership.IsCurrent,
+                    StartDate = ownership.StartDate,
+                    EndDate = ownership.EndDate,
+                    OwnershipPercentage = ownership.OwnershipPercentage                 
+
+                };
+                context.PropertyOwnerships.Add(owner_record);
+            }
+            var result = await context.SaveChangesAsync();
+            if (result < 0) return; 
 
         }
 
@@ -160,7 +176,7 @@ public class Seed
                             {
                                 UserId = user.Id,
                                 ClientId = client.Id,
-                                Role = member.Role ?? "Owner",
+                                Role = member.Role ?? "owner",
                                 IsActive = true,
                                 GrantedDate = DateTime.Now,
                             });
@@ -193,7 +209,7 @@ public class Seed
                             {
                                 UserId = existUser.Id,
                                 ClientId = client.Id,
-                                Role = member.Role ?? "Owner",
+                                Role = member.Role ?? "owner",
                                 IsActive = true,
                                 GrantedDate = DateTime.Now,
                             });

@@ -19,7 +19,7 @@ public class ClientRepository(AppDbContext context) : IClientRepository
         var clients = await context.UserClientAccess
             .Include(uca => uca.Client)
             .Include(uca => uca.User)
-            .ThenInclude(uca => uca.Members)
+            .ThenInclude(u => u.Members)
             .Where(uca => uca.UserId == userId && uca.Client.IsActive == true)
             .Select(uca => uca.ToDto())
             .ToListAsync();

@@ -1,0 +1,254 @@
+{
+    "Clients": [
+        {
+            "Id": "bpi-id",
+            "Name": "Boca Palms Inc",
+            "Address": "1220 Palms Drive, Boca Raton, FL",
+            "IsActive": true,
+            "CreatedAt": "2023-01-10T00:00:00Z"
+        },
+        {
+            "Id": "sapphire-id",
+            "Name": "Sapphire Lakes HOA",
+            "Address": "88 Sapphire Lakes Blvd, Naples, FL",
+            "IsActive": true,
+            "CreatedAt": "2023-03-15T00:00:00Z"
+        }
+    ],
+    "Users": [
+        {
+            "Id": "anna-id",
+            "Email": "anna@test.com",
+            "DisplayName": "Anna",
+            "FirstName": "Anna",
+            "LastName": "Maria",
+            "DateOfBirth": "1973-01-15",
+            "Gender": "female",
+            "ImageUrl": "https://randomuser.me/api/portraits/women/52.jpg",
+            "Created": "2023-06-24T00:00:00Z"
+        },
+        {
+            "Id": "jake-id",
+            "Email": "jake@test.com",
+            "DisplayName": "Jake",
+            "FirstName": "Jake",
+            "LastName": "Smith",
+            "DateOfBirth": "1973-01-15",
+            "Gender": "male",
+            "ImageUrl": "https://randomuser.me/api/portraits/men/67.jpg",
+            "Created": "2023-01-20T00:00:00Z"
+        },
+        {
+            "Id": "lisa-id",
+            "Email": "lisa@test.com",
+            "DisplayName": "Lisa",
+            "FirstName": "Lisa",
+            "LastName": "Louise",
+            "DateOfBirth": "1986-07-22",
+            "Gender": "female",
+            "ImageUrl": "https://randomuser.me/api/portraits/women/54.jpg",
+            "Created": "2023-06-24T00:00:00Z"
+        },
+        {
+            "Id": "john-id",
+            "Email": "john@test.com",
+            "DisplayName": "John",
+            "FirstName": "John",
+            "LastName": "Miller",
+            "DateOfBirth": "1982-11-10",
+            "Gender": "male",
+            "ImageUrl": "https://randomuser.me/api/portraits/men/32.jpg",
+            "Created": "2023-07-01T00:00:00Z"
+        },
+        {
+            "Id": "sara-id",
+            "Email": "sara@test.com",
+            "DisplayName": "Sara",
+            "FirstName": "Sara",
+            "LastName": "Nguyen",
+            "DateOfBirth": "1990-04-18",
+            "Gender": "female",
+            "ImageUrl": "https://randomuser.me/api/portraits/women/68.jpg",
+            "Created": "2023-08-12T00:00:00Z"
+        }
+    ],
+    "Members": [
+        {
+            "Id": "mem-lisa-id",
+            "ClientId": "bpi-id",
+            "UserId": "lisa-id",
+            "FirstName": "Lisa",
+            "LastName": "Louise",
+            "Email": "lisa@test.com",
+            "Gender": "female",
+            "DateOfBirth": "1986-07-22",
+            "DisplayName": "Lisa",
+            "City": "Boca Raton",
+            "Country": "USA",
+            "Created": "2023-06-24T00:00:00Z",
+            "LastActive": "2024-06-21T00:00:00Z",
+            "Description": "Owner and resident at Boca Palms.",
+            "ImageUrl": "https://randomuser.me/api/portraits/women/54.jpg"
+        },
+        {
+            "Id": "mem-john-id",
+            "ClientId": "bpi-id",
+            "UserId": "john-id",
+            "FirstName": "John",
+            "LastName": "Miller",
+            "Email": "john@test.com",
+            "Gender": "male",
+            "DateOfBirth": "1982-11-10",
+            "DisplayName": "John",
+            "City": "Boca Raton",
+            "Country": "USA",
+            "Created": "2023-07-01T00:00:00Z",
+            "LastActive": "2024-06-20T00:00:00Z",
+            "Description": "Co-owner and resident.",
+            "ImageUrl": "https://randomuser.me/api/portraits/men/32.jpg"
+        },
+        {
+            "Id": "mem-sara-id",
+            "ClientId": "sapphire-id",
+            "UserId": "sara-id",
+            "FirstName": "Sara",
+            "LastName": "Nguyen",
+            "Email": "sara@test.com",
+            "Gender": "female",
+            "DateOfBirth": "1990-04-18",
+            "DisplayName": "Sara",
+            "City": "Naples",
+            "Country": "USA",
+            "Created": "2023-08-12T00:00:00Z",
+            "LastActive": "2024-06-10T00:00:00Z",
+            "Description": "Board member at Sapphire Lakes.",
+            "ImageUrl": "https://randomuser.me/api/portraits/women/68.jpg"
+        }
+    ],
+    "UserClientAccess": [
+        {
+            "UserId": "anna-id",
+            "ClientId": "bpi-id",
+            "Role": "property_manager",
+            "IsActive": true,
+            "GrantedDate": "2023-02-24T00:00:00Z"
+        },
+        {
+            "UserId": "anna-id",
+            "ClientId": "bpi-id",
+            "Role": "property_manager",
+            "IsActive": true,
+            "GrantedDate": "2023-02-24T00:00:00Z"
+        },
+        {
+            "UserId": "lisa-id",
+            "ClientId": "bpi-id",
+            "Role": "owner",
+            "IsActive": true,
+            "GrantedDate": "2023-06-24T00:00:00Z"
+        },
+        {
+            "UserId": "john-id",
+            "ClientId": "bpi-id",
+            "Role": "owner",
+            "IsActive": true,
+            "GrantedDate": "2023-07-01T00:00:00Z"
+        },
+        {
+            "UserId": "sara-id",
+            "ClientId": "sapphire-id",
+            "Role": "board_member",
+            "IsActive": true,
+            "GrantedDate": "2023-08-12T00:00:00Z"
+        }
+    ],
+    "Properties": [
+        {
+            "Id": "prop-101",
+            "ClientId": "bpi-id",
+            "Address": "101 Palm Breeze Way",
+            "Unit": null,
+            "City": "Boca Raton",
+            "State": "FL",
+            "ZipCode": "33433",
+            "LotNumber": "A-101",
+            "SquareFeet": 1800,
+            "Bedrooms": 3,
+            "Bathrooms": 2,
+            "IsRented": false,
+            "CreatedAt": "2023-06-01T00:00:00Z"
+        },
+        {
+            "Id": "prop-304",
+            "ClientId": "bpi-id",
+            "Address": "304 Palm Breeze Way",
+            "Unit": null,
+            "City": "Boca Raton",
+            "State": "FL",
+            "ZipCode": "33433",
+            "LotNumber": "A-304",
+            "SquareFeet": 1800,
+            "Bedrooms": 3,
+            "Bathrooms": 2,
+            "IsRented": false,
+            "CreatedAt": "2023-06-01T00:00:00Z"
+        },
+        {
+            "Id": "prop-202",
+            "ClientId": "sapphire-id",
+            "Address": "202 Sapphire Lakes Blvd",
+            "Unit": "12B",
+            "City": "Naples",
+            "State": "FL",
+            "ZipCode": "34104",
+            "LotNumber": "SL-12B",
+            "SquareFeet": 1500,
+            "Bedrooms": 2,
+            "Bathrooms": 2,
+            "IsRented": false,
+            "CreatedAt": "2023-07-15T00:00:00Z"
+        }
+    ],
+    "PropertyOwnerships": [
+        {
+            "Id": 1,
+            "PropertyId": "prop-101",
+            "MemberId": "mem-lisa-id",
+            "StartDate": "2023-06-24T00:00:00Z",
+            "EndDate": null,
+            "OwnershipType": 0,
+            "OwnershipPercentage": 60,
+            "IsCurrent": true
+        },
+        {
+            "Id": 2,
+            "PropertyId": "prop-101",
+            "MemberId": "mem-john-id",
+            "StartDate": "2023-07-01T00:00:00Z",
+            "EndDate": null,
+            "OwnershipType": 1,
+            "OwnershipPercentage": 40,
+            "IsCurrent": true
+        },
+        {
+            "Id": 3,
+            "PropertyId": "prop-202",
+            "MemberId": "mem-sara-id",
+            "StartDate": "2023-08-12T00:00:00Z",
+            "EndDate": null,
+            "OwnershipType": 0,
+            "OwnershipPercentage": 100,
+            "IsCurrent": true
+        },
+        {
+            "Id": 4,
+            "PropertyId": "prop-304",
+            "MemberId": "mem-lisa-id",
+            "StartDate": "2023-06-24T00:00:00Z",
+            "EndDate": null,
+            "OwnershipType": 0,
+            "OwnershipPercentage": 100,
+            "IsCurrent": true
+        }
+    ]
+}

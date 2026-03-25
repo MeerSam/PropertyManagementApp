@@ -1,8 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AccountService } from '../../core/services/account-service';
 import { SessionService } from '../../core/services/session-service';
-import { TenantService } from '../../core/services/tenant-service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../core/services/toast-service';
 
@@ -15,10 +13,8 @@ import { ToastService } from '../../core/services/toast-service';
 export class Login {
   private fb = inject(FormBuilder);
   private router = inject(Router);
-  protected accountService = inject(AccountService);
-  protected tenantService = inject(TenantService);
-  protected sessionService = inject(SessionService);
-  private toastService =inject(ToastService)
+  protected session = inject(SessionService);
+  private toastService = inject(ToastService)
 
   protected loginForm: FormGroup;
   protected selectClientForm: FormGroup;
@@ -39,21 +35,26 @@ export class Login {
     if (this.loginForm.invalid) return;
 
     const creds = this.loginForm.value;
-    this.sessionService.loginAndSelectClient(creds).subscribe({
-      next: result => {
-        // navigate to Dashboard 
-        if(this.accountService.isAuthSuccess(result)){
-          // this.router.navigateByUrl('/dashboard');
-          this.toastService.info("successfully logged in")
+    console.log('In login: ')
+    this.session.login(creds).subscribe({
+      next: outcome => {
+        switch (outcome?.status) {
+          case 'success':
+            this.toastService.info("successfully logged in...")
+            this.router.navigateByUrl('/dashboard');
+            break;
+          case 'needs_client_selection':
+            this.toastService.info("successfully logged in. Choose client")
+            this.router.navigateByUrl('/select-client');
+            break;
 
-        }else if(this.accountService.isClientSelect(result)) { 
-          // show step2
-          this.toastService.info("successfully logged in. Choose client")
+          case 'error':
+            this.toastService.error(outcome?.message)
+            break;
+          default:
+            this.toastService.error('Unknown error during login process')
+            break;
         }
-        else{
-          this.toastService.error(result.message)  
-        }
-         
       },
       error: error => this.toastService.error(error.error),
       complete: () => console.log("Login completed")
@@ -64,6 +65,10 @@ export class Login {
     if (this.selectClientForm.invalid) return;
     const clientchoice = this.selectClientForm.value;
 
+  }
+
+  logout() {
+    this.session.logout()
   }
 
 }
