@@ -4,10 +4,12 @@ import { PropertyService } from '../../../core/services/property-service';
 import { SessionService } from '../../../core/services/session-service';
 import { Property } from '../../../types/property';
 import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { AgePipe } from '../../../core/pipes/age-pipe';
 
 @Component({
   selector: 'app-property-details',
-  imports: [],
+  imports: [DatePipe, AgePipe],
   templateUrl: './property-details.html',
   styleUrl: './property-details.css',
 })

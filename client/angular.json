@@ -28,6 +28,10 @@
         "@schematics/angular:resolver": {
           "skipTests": true,
           "path": "src"
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true,
+          "path": "src/core/pipes"
         }
       },
       "root": "",

@@ -49,9 +49,9 @@
     <!-- right side column -->
     <div class="card bg-base-300 w-3/4 p-6 flex flex-col  h-[85vh]">
         <ul class="menu menu-vertical lg:menu-horizontal bg-base-200  rouded-box w-full text-xl">
-            <li><a routerLink="details" routerLinkActive="text-primary">Property Details</a></li>
-            <li><a routerLink="documents" routerLinkActive="text-primary">Documents</a></li>
-            <li><a routerLink="messages" routerLinkActive="text-primary">Messages</a></li>
+            <li><a routerLink="details" routerLinkActive="text-primary" [routerLinkActiveOptions]="{exact:true}">Property Details</a></li>
+            <li><a routerLink="documents" routerLinkActive="text-primary" [routerLinkActiveOptions]="{exact:true}">Documents</a></li>
+            <li><a routerLink="messages" routerLinkActive="text-primary" [routerLinkActiveOptions]="{exact:true}">Messages</a></li>
         </ul>
         <div class="divider"></div>
         <div class="flex flex-col gap-3 w-full">

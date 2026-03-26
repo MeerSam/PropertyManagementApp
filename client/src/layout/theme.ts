@@ -1,0 +1,1 @@
+export const themes =["light","dark","cupcake","forest","autumn", "winter", "caramellatte", "black", "halloween"]
