@@ -14,6 +14,9 @@ import { DashboardAdmin } from '../features/dashboards/dashboard-admin/dashboard
 import { PropertyProfile } from '../features/properties/property-profile/property-profile';
 import { PropertyDocuments } from '../features/properties/property-documents/property-documents';
 import { propertyResolver } from '../features/properties/property-resolver';
+import { memberResolver } from '../features/members/member-resolver';
+import { MemberProfile } from '../features/members/member-profile/member-profile';
+import { preventUnsavedChangesGuard } from '../core/guards/prevent-unsaved-changes-guard';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -22,8 +25,38 @@ export const routes: Routes = [
         canActivate: [authGuard],
         runGuardsAndResolvers: 'always',
         children: [
-            { path: 'members', component: MemberList },
-            { path: 'members/:id', component: MemberDetailed },
+            { path: 'members', 
+                canActivate: [authGuard],
+                runGuardsAndResolvers: 'always', 
+                children: [
+                    { path: '', component: MemberList, pathMatch: 'full' },
+                    { path: ':id', 
+                        component: MemberDetailed, 
+                        runGuardsAndResolvers: 'always',
+                        resolve: {member: memberResolver},
+                        title: 'Details', 
+                        children: [
+                            { path: '', redirectTo:'profile',  pathMatch:'full'},                           
+                            { path: 'profile', 
+                                component: MemberProfile,  
+                                title:'Profile', 
+                                canDeactivate:[preventUnsavedChangesGuard], 
+                                runGuardsAndResolvers: 'always',
+                            },
+                            { path: 'properties', 
+                                component: PropertyList,  
+                                title:'Properties',
+                                canDeactivate:[preventUnsavedChangesGuard], 
+                                runGuardsAndResolvers: 'always'},
+                            { path: 'documents', 
+                                component: MemberProfile,  
+                                title:'Properties',
+                                canDeactivate:[preventUnsavedChangesGuard], 
+                                runGuardsAndResolvers: 'always'}
+                        ]
+                    },
+                ]
+            },            
             { path: 'messages', component: Messages },
             {
                 path: 'dashboard',
@@ -52,7 +85,7 @@ export const routes: Routes = [
                         children: [
                             { path: '', redirectTo:'details', pathMatch:'full'},
                             { path: 'details', component: PropertyDetails,  title:'Details'},
-                            { path: 'documents', component: PropertyDocuments, title:'Documents' },
+                            { path: 'documents', component: PropertyDocuments, title:'Documents'},
                         ]
                     },
                 ]

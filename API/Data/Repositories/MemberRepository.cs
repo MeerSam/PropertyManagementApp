@@ -20,7 +20,20 @@ public class MemberRepository(AppDbContext context, ITenantService tenantService
         return member;
     }
 
-  
+    public async  Task<Member?> GetMemberForUpdateAsync(string memberId)
+    {
+        var member = await context.Members
+            .Include( m => m.User)         
+            .SingleOrDefaultAsync(m => m.Id ==memberId);
+
+        if (member == null) return member;
+
+        if (member.ClientId != tenantService.GetCurrentClientId())
+        {
+            throw new UnauthorizedAccessException("Cannot access this member");
+        }
+        return member;
+    }
 
     public async  Task<IReadOnlyList<Member>> GetMembersAsync()
     {

@@ -1,1 +1,49 @@
-<p>member-detailed works!</p>
+@if(memberService.member(); as member){
+<div class="flex gap-6">
+    <!-- left side column -->
+    <div class="card bg-base-100 flex flex-col  h-[85vh] w-1/4">
+        <img src="{{member.imageUrl || '/user.png'}}" alt="image of member {{member.firstName}} {{member.lastName}}"
+            class="rounded-full mx-10 mt-3 object-cover" />
+        <div class="card-body">
+            <div class="flex flex-col items-center">
+                <div class="flex text-2xl text-primary items-center">
+                    <span class="text-2xl">{{member.displayName}}</span>
+                </div>
+                <div class="text-sm">{{member.email}}</div>
+            </div>
+            <ul class="menu rouded-box w-full text-xl">
+                <li><a routerLink="profile" routerLinkActive="text-primary"
+                        [routerLinkActiveOptions]="{exact:true}">Profile</a></li>
+                <li><a routerLink="documents" routerLinkActive="text-primary"
+                        [routerLinkActiveOptions]="{exact:true}">Documents</a></li>
+                        @if(!isCurrentUser()){
+                            <li><a routerLink="messages" routerLinkActive="text-primary"
+                        [routerLinkActiveOptions]="{exact:true}">Messages</a></li>
+                        }
+                
+                <li><a routerLink="properties" routerLinkActive="text-primary"
+                        [routerLinkActiveOptions]="{exact:true}">Properties</a></li>
+            </ul>
+        </div>
+
+
+    </div>
+    <!-- right side column -->
+    <div class="card bg-base-300 p-6 flex flex-col  h-[85vh] w-3/4">
+        <div class="flex justify-between items-center">
+            <h3 class="card-title text-3xl text-primary">{{title()}}</h3>
+            @if(isCurrentUser()){
+            <button 
+                (click)="memberService.editMode.set(!memberService.editMode())"
+                class="btn btn-outline btn-primary">{{memberService.editMode()? 'Cancel': 'Edit'}}</button>
+            }
+        </div>
+        <div class="divider"></div>
+        <div class="h-full">
+            <router-outlet />
+        </div>
+    </div>
+</div>
+} @else {
+<h1 class="font-semibold text-3xl">Member Not found</h1>
+}

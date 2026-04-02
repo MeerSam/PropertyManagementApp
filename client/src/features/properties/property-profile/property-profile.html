@@ -20,8 +20,10 @@
                 <span class="font-semibold text-xl">Current Owners:</span>
                 @for (owner of owners(); track $index) {
                     @if(owner){
-                        <span class="font-semibold text-xl ">
-                            {{owner.lastName}}, {{owner.firstName}}</span> 
+                        <div role="button" routerLink="/members/{{owner.id}}" class="flex items-center text-primary text-xl gap-3 cursor-pointer">
+                            <img [src]="owner?.imageUrl || '/user.png'" alt="user avatar" class="w-10 h-10 rounded-full">
+                            <span class="font-semibold text-xl">{{owner.lastName}}, {{owner.firstName}}</span>                        
+                        </div>
                     }
                 }
             </div>
@@ -49,9 +51,12 @@
     <!-- right side column -->
     <div class="card bg-base-300 w-3/4 p-6 flex flex-col  h-[85vh]">
         <ul class="menu menu-vertical lg:menu-horizontal bg-base-200  rouded-box w-full text-xl">
-            <li><a routerLink="details" routerLinkActive="text-primary" [routerLinkActiveOptions]="{exact:true}">Property Details</a></li>
-            <li><a routerLink="documents" routerLinkActive="text-primary" [routerLinkActiveOptions]="{exact:true}">Documents</a></li>
-            <li><a routerLink="messages" routerLinkActive="text-primary" [routerLinkActiveOptions]="{exact:true}">Messages</a></li>
+            <li><a routerLink="details" routerLinkActive="text-primary"
+                    [routerLinkActiveOptions]="{exact:true}">Property Details</a></li>
+            <li><a routerLink="documents" routerLinkActive="text-primary"
+                    [routerLinkActiveOptions]="{exact:true}">Documents</a></li>
+            <li><a routerLink="messages" routerLinkActive="text-primary"
+                    [routerLinkActiveOptions]="{exact:true}">Messages</a></li>
         </ul>
         <div class="divider"></div>
         <div class="flex flex-col gap-3 w-full">

@@ -1,0 +1,70 @@
+@if (this.memberService.member(); as member){
+<div class="flex flex-col gap-3">
+    <div class="flex gap-3">
+        <span class="font-semibold">Member since:</span>
+        <span>{{member.created | date: 'longDate'}}</span>
+    </div>
+    <div class="flex gap-3">
+        <span class="font-semibold">Last Active</span>
+        <span class="font-semibold">{{member.lastActive | date:'short'}}</span>
+    </div>
+    <h3 class="text-lg font-semibold text-primary">About {{member.displayName}}</h3>
+
+    @if(memberService.editMode()){
+    <div>
+        <form #editForm="ngForm" (ngSubmit)="updateProfile()" class="flex flex-col w-full gap-4">
+            <label class="floating-label">
+                <span>Display Name</span>
+                <input class="input w-full" name="displayName" [(ngModel)]="editabelMember.displayName"
+                    placeholder="Display Name" />
+            </label>
+            <label class="floating-label">
+                <span>First Name</span>
+                <input class="input w-full" name="firstName" [(ngModel)]="editabelMember.firstName"
+                    placeholder="First Name" />
+            </label>
+            <label class="floating-label">
+                <span>Last Name</span>
+                <input class="input w-full" name="lastName" [(ngModel)]="editabelMember.lastName"
+                    placeholder="Last Name" />
+            </label>
+            <label class="floating-label">
+                <span>Email</span>
+                <input class="input w-full" name="email" [(ngModel)]="editabelMember.email"
+                    placeholder="Email Address" />
+            </label>
+            <label class="floating-label">
+                <span>Description</span>
+                <textarea class="textarea w-full" name="description" [(ngModel)]="editabelMember.description"
+                    placeholder="Description"></textarea>
+            </label>
+            <div class="flex self-end">
+                <button [disabled]="!editForm.dirty" type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    } @else {
+    <div class="flex flex-col gap-3">
+        <div class="flex gap-3">
+            <span class="font-semibold">First Name:</span>
+            <span>{{member.firstName}}</span>
+        </div>
+        <div class="flex gap-3">
+            <span class="font-semibold">Last Name:</span>
+            <span>{{member.lastName}}</span>
+        </div>
+        <div class="flex gap-3">
+            <span class="font-semibold">Display Name:</span>
+            <span>{{member.displayName}}</span>
+        </div>
+        <div class="flex gap-3">
+            <span class="font-semibold">Age:</span>
+            <span>{{member.dateOfBirth |  age}} ({{member.dateOfBirth | date:'MMM dd, yyyy'}})</span>
+        </div>
+        <div>{{member.description}}</div>
+
+    </div>
+    }
+</div>
+}

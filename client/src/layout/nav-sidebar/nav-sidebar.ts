@@ -1,8 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { SessionService } from '../../core/services/session-service';
 import { Router, RouterOutlet, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ToastService } from '../../core/services/toast-service';
 import { themes } from '../theme';
+import { BusyService } from '../../core/services/busy-service';
 
 @Component({
   selector: 'app-nav-sidebar',
@@ -14,10 +15,13 @@ export class NavSidebar {
   protected session = inject(SessionService)
   private toastService = inject(ToastService)
   protected router = inject(Router)
+  protected busyService = inject(BusyService)
   // titleFromApp = input<string>();
   protected creds: any = {} // empty object  
   protected selectedTheme = signal<string>(localStorage.getItem('theme') || 'light');
-  protected themes = themes;
+  protected themes = themes; 
+  protected memberId : string| undefined =  this.session.activeClient()?.memberId;
+
 
   login() {
     this.session.login(this.creds).subscribe({

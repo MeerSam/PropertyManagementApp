@@ -132,8 +132,8 @@ export class SessionService {
   switchClient() {
     this.tenantService.clearActiveClient();
     // Keep user, clear client — router navigates to /select-client
-  }
-
+  } 
+  
   private mapToClient(accessInfo: UserClientAccessInfo[]): Client[] {
     const clients: Client[] = accessInfo.map(x => ({
       clientId: x.clientId,

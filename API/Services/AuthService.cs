@@ -169,7 +169,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
 
 
         // Step 10: Generate FULL JWT with ClientId and MemberId claims
-        var accessToken = tokenService.GenerateAccessToken(user, request.ClientId, clientAccess.Role);
+        var accessToken = tokenService.GenerateAccessToken(user, request.ClientId, clientAccess.Role, member?.Id?? "");
         var refreshToken = tokenService.GenerateRefreshToken();
 
         // Step 11: Save refresh token

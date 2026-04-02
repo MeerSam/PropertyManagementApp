@@ -3,6 +3,7 @@ export type Member = {
   email: string
   firstName: string;
   lastName: string;
+  displayName: string;
   dateOfBirth: string;
   gender: string;
   imageUrl?: string;
@@ -27,4 +28,14 @@ export type MemberRole =
   | 'primary'
   | 'secondary'
   | 'readonly'
-  | 'restricted' 
+  | 'restricted'
+
+
+export type EditableMember = {
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  description?: string;
+  email: string
+
+}

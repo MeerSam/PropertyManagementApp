@@ -9,7 +9,7 @@ import { AgePipe } from '../../../core/pipes/age-pipe';
 
 @Component({
   selector: 'app-property-details',
-  imports: [DatePipe, AgePipe],
+  imports: [AgePipe],
   templateUrl: './property-details.html',
   styleUrl: './property-details.css',
 })

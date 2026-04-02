@@ -24,7 +24,8 @@
                         </h3>
                     </div>
                     <div class="dropdown">
-                        <button tabindex="1" class="flex flex-col justify-center align-middle text-white cursor-pointer uppercase text-xs">
+                        <button tabindex="1"
+                            class="flex flex-col justify-center align-middle text-white cursor-pointer uppercase text-xs">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="size-6 flex self-center">
                                 <path fill-rule="evenodd"
@@ -53,17 +54,28 @@
                             </div>
                             <ul tabindex="-1"
                                 class="dropdown-content  menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                                <li><a>Edit Profile</a></li>
+                                <li><a routerLink="/members/{{memberId}}">Edit Profile</a></li>
                                 <li><a (click)="logout()">Logout</a></li>
                             </ul>
                         </div>
                         }
                     </div>
                 </nav>
+                <!-- @if(busyService.busyRequestCount()> 0){
+                <div class="flex flex-col-reverse justify-center w-full">
+                    <span class="loading loading-sm loading-spinner text-accent"></span> 
+                </div>
+                } -->
+                @if(busyService.busyRequestCount() > 0) {
+                <div class="flex flex-col items-center">
+                    <span class="loading loading-dots text-secondary w-25 h-25"></span>
+                </div>
+                }
 
                 <!-- Page content here -->
                 <div [class.mt-24]="router.url !== '/'" [class.mx-auto]="router.url !== '/'"
                     [class.container]="router.url !== '/'">
+
                     <router-outlet />
                 </div>
             </div>
@@ -104,7 +116,7 @@
                             </button>
                         </li>
                         <li>
-                            <button class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Owners"
+                            <button class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Residents"
                                 routerLink="/members" routerLinkActive="active"
                                 [routerLinkActiveOptions]="{ exact: true }">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
@@ -112,7 +124,19 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                 </svg>
-                                <span class="is-drawer-close:hidden">Owners</span>
+                                <span class="is-drawer-close:hidden">Residents</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                                data-tip="Lisa Profile" routerLink="/members/mem-owner-001" routerLinkActive="active"
+                                [routerLinkActiveOptions]="{ exact: true }">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="currentColor" class="size-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                                </svg>
+                                <span class="is-drawer-close:hidden">Lisa Profile</span>
                             </button>
                         </li>
                         <li>

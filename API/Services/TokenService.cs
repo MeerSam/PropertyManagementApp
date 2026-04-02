@@ -47,7 +47,7 @@ public class TokenService(IConfiguration config, AppDbContext context) : ITokenS
     /// <param name="memberId"></param>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public string GenerateAccessToken(AppUser user, string clientId, string role)
+    public string GenerateAccessToken(AppUser user, string clientId, string role, string memberId)
     {
         var tokenKey = config["TokenKey"] ?? throw new Exception("Cannot get token key");
         // if this returns after the ?? 
@@ -64,8 +64,9 @@ public class TokenService(IConfiguration config, AppDbContext context) : ITokenS
         {
             new(ClaimTypes.Email, user.Email!),
             new(ClaimTypes.NameIdentifier, user.Id),
-            new ("ClientId", clientId ?? "") ,
-            new ( ClaimTypes.Role, role)
+            new ("ClientId", clientId ?? ""),
+            new("MemberId", memberId ?? "") ,
+            new(ClaimTypes.Role, role)
         };
 
         // var roles = await userManager.GetRolesAsync(user);

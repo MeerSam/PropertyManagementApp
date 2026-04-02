@@ -50,7 +50,9 @@ public class PropertiesController(IPropertyRepository propertyRepository) : Base
                     Email = o.Member.Email,
                     FirstName = o.Member.FirstName,
                     LastName = o.Member.LastName ,
-                    ClientId =o.Member.ClientId
+                    ClientId =o.Member.ClientId,
+                    ImageUrl = o.Member.ImageUrl,
+                    UserId = o.Member.UserId
                 })]
         };
 
