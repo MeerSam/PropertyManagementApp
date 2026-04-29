@@ -73,7 +73,7 @@
         },
         {
             "Id": "owner-001",
-            "Email": "owner001@bpi.test",
+            "Email": "owner001-bpi@test.com",
             "DisplayName": "Owner 001",
             "FirstName": "Alex",
             "LastName": "Baker",
@@ -84,7 +84,7 @@
         },
         {
             "Id": "owner-002",
-            "Email": "owner002@bpi.test",
+            "Email": "owner002-bpi@test.com",
             "DisplayName": "Owner 002",
             "FirstName": "Emily",
             "LastName": "Clark",
@@ -95,7 +95,7 @@
         },
         {
             "Id": "owner-003",
-            "Email": "owner003@bpi.test",
+            "Email": "owner003-bpi@test.com",
             "DisplayName": "Owner 003",
             "FirstName": "Michael",
             "LastName": "Davis",
@@ -106,7 +106,7 @@
         },
         {
             "Id": "owner-004",
-            "Email": "owner004@bpi.test",
+            "Email": "owner004-bpi@test.com",
             "DisplayName": "Owner 004",
             "FirstName": "Sophia",
             "LastName": "Evans",
@@ -117,7 +117,7 @@
         },
         {
             "Id": "owner-005",
-            "Email": "owner005@bpi.test",
+            "Email": "owner005-bpi@test.com",
             "DisplayName": "Owner 005",
             "FirstName": "Daniel",
             "LastName": "Foster",
@@ -128,7 +128,7 @@
         },
         {
             "Id": "owner-006",
-            "Email": "owner006@bpi.test",
+            "Email": "owner006-bpi@test.com",
             "DisplayName": "Owner 006",
             "FirstName": "Olivia",
             "LastName": "Green",
@@ -139,7 +139,7 @@
         },
         {
             "Id": "owner-007",
-            "Email": "owner007@bpi.test",
+            "Email": "owner007-bpi@test.com",
             "DisplayName": "Owner 007",
             "FirstName": "Christopher",
             "LastName": "Harris",
@@ -150,7 +150,7 @@
         },
         {
             "Id": "owner-008",
-            "Email": "owner008@bpi.test",
+            "Email": "owner008-bpi@test.com",
             "DisplayName": "Owner 008",
             "FirstName": "Grace",
             "LastName": "Irwin",
@@ -161,7 +161,7 @@
         },
         {
             "Id": "owner-009",
-            "Email": "owner009@bpi.test",
+            "Email": "owner009-bpi@test.com",
             "DisplayName": "Owner 009",
             "FirstName": "Matthew",
             "LastName": "Johnson",
@@ -172,7 +172,7 @@
         },
         {
             "Id": "owner-010",
-            "Email": "owner010@bpi.test",
+            "Email": "owner010-bpi@test.com",
             "DisplayName": "Owner 010",
             "FirstName": "Chloe",
             "LastName": "King",
@@ -183,7 +183,7 @@
         },
         {
             "Id": "owner-011",
-            "Email": "owner011@bpi.test",
+            "Email": "owner011-bpi@test.com",
             "DisplayName": "Owner 011",
             "FirstName": "Ethan",
             "LastName": "Lewis",
@@ -194,7 +194,7 @@
         },
         {
             "Id": "owner-012",
-            "Email": "owner012@bpi.test",
+            "Email": "owner012-bpi@test.com",
             "DisplayName": "Owner 012",
             "FirstName": "Ava",
             "LastName": "Mitchell",
@@ -205,7 +205,7 @@
         },
         {
             "Id": "owner-013",
-            "Email": "owner013@bpi.test",
+            "Email": "owner013-bpi@test.com",
             "DisplayName": "Owner 013",
             "FirstName": "Logan",
             "LastName": "Nelson",
@@ -216,7 +216,7 @@
         },
         {
             "Id": "owner-014",
-            "Email": "owner014@bpi.test",
+            "Email": "owner014-bpi@test.com",
             "DisplayName": "Owner 014",
             "FirstName": "Isabella",
             "LastName": "Owens",
@@ -227,7 +227,7 @@
         },
         {
             "Id": "owner-015",
-            "Email": "owner015@bpi.test",
+            "Email": "owner015-bpi@test.com",
             "DisplayName": "Owner 015",
             "FirstName": "Noah",
             "LastName": "Parker",
@@ -238,7 +238,7 @@
         },
         {
             "Id": "owner-016",
-            "Email": "owner016@bpi.test",
+            "Email": "owner016-bpi@test.com",
             "DisplayName": "Owner 016",
             "FirstName": "Mia",
             "LastName": "Quinn",
@@ -249,7 +249,7 @@
         },
         {
             "Id": "owner-017",
-            "Email": "owner017@bpi.test",
+            "Email": "owner017-bpi@test.com",
             "DisplayName": "Owner 017",
             "FirstName": "Liam",
             "LastName": "Reed",
@@ -260,7 +260,7 @@
         },
         {
             "Id": "owner-018",
-            "Email": "owner018@bpi.test",
+            "Email": "owner018-bpi@test.com",
             "DisplayName": "Owner 018",
             "FirstName": "Harper",
             "LastName": "Scott",
@@ -271,7 +271,7 @@
         },
         {
             "Id": "owner-019",
-            "Email": "owner019@bpi.test",
+            "Email": "owner019-bpi@test.com",
             "DisplayName": "Owner 019",
             "FirstName": "James",
             "LastName": "Turner",
@@ -282,7 +282,7 @@
         },
         {
             "Id": "owner-020",
-            "Email": "owner020@bpi.test",
+            "Email": "owner020-bpi@test.com",
             "DisplayName": "Owner 020",
             "FirstName": "Ella",
             "LastName": "Underwood",
@@ -293,7 +293,7 @@
         },
         {
             "Id": "owner-021",
-            "Email": "owner021@bpi.test",
+            "Email": "owner021-bpi@test.com",
             "DisplayName": "Owner 021",
             "FirstName": "Benjamin",
             "LastName": "Vargas",
@@ -304,7 +304,7 @@
         },
         {
             "Id": "owner-022",
-            "Email": "owner022@bpi.test",
+            "Email": "owner022-bpi@test.com",
             "DisplayName": "Owner 022",
             "FirstName": "Lily",
             "LastName": "Walker",
@@ -315,7 +315,7 @@
         },
         {
             "Id": "owner-023",
-            "Email": "owner023@bpi.test",
+            "Email": "owner023-bpi@test.com",
             "DisplayName": "Owner 023",
             "FirstName": "Henry",
             "LastName": "Xavier",
@@ -326,7 +326,7 @@
         },
         {
             "Id": "owner-024",
-            "Email": "owner024@bpi.test",
+            "Email": "owner024-bpi@test.com",
             "DisplayName": "Owner 024",
             "FirstName": "Zoe",
             "LastName": "Young",
@@ -337,7 +337,7 @@
         },
         {
             "Id": "owner-025",
-            "Email": "owner025@bpi.test",
+            "Email": "owner025-bpi@test.com",
             "DisplayName": "Owner 025",
             "FirstName": "Jack",
             "LastName": "Zimmerman",
@@ -348,7 +348,7 @@
         },
         {
             "Id": "owner-026",
-            "Email": "owner026@bpi.test",
+            "Email": "owner026-bpi@test.com",
             "DisplayName": "Owner 026",
             "FirstName": "Natalie",
             "LastName": "Adams",
@@ -359,7 +359,7 @@
         },
         {
             "Id": "owner-027",
-            "Email": "owner027@bpi.test",
+            "Email": "owner027-bpi@test.com",
             "DisplayName": "Owner 027",
             "FirstName": "Owen",
             "LastName": "Bennett",
@@ -370,7 +370,7 @@
         },
         {
             "Id": "owner-028",
-            "Email": "owner028@bpi.test",
+            "Email": "owner028-bpi@test.com",
             "DisplayName": "Owner 028",
             "FirstName": "Hannah",
             "LastName": "Cole",
@@ -381,7 +381,7 @@
         },
         {
             "Id": "owner-029",
-            "Email": "owner029@bpi.test",
+            "Email": "owner029-bpi@test.com",
             "DisplayName": "Owner 029",
             "FirstName": "Ryan",
             "LastName": "Diaz",
@@ -392,7 +392,7 @@
         },
         {
             "Id": "owner-030",
-            "Email": "owner030@bpi.test",
+            "Email": "owner030-bpi@test.com",
             "DisplayName": "Owner 030",
             "FirstName": "Victoria",
             "LastName": "Edwards",
@@ -403,7 +403,7 @@
         },
         {
             "Id": "owner-031",
-            "Email": "owner031@bpi.test",
+            "Email": "owner031-bpi@test.com",
             "DisplayName": "Owner 031",
             "FirstName": "Jason",
             "LastName": "Fleming",
@@ -414,7 +414,7 @@
         },
         {
             "Id": "owner-032",
-            "Email": "owner032@bpi.test",
+            "Email": "owner032-bpi@test.com",
             "DisplayName": "Owner 032",
             "FirstName": "Madison",
             "LastName": "Garcia",
@@ -425,7 +425,7 @@
         },
         {
             "Id": "owner-033",
-            "Email": "owner033@bpi.test",
+            "Email": "owner033-bpi@test.com",
             "DisplayName": "Owner 033",
             "FirstName": "Aaron",
             "LastName": "Hall",
@@ -436,7 +436,7 @@
         },
         {
             "Id": "owner-034",
-            "Email": "owner034@bpi.test",
+            "Email": "owner034-bpi@test.com",
             "DisplayName": "Owner 034",
             "FirstName": "Samantha",
             "LastName": "Ingram",
@@ -447,7 +447,7 @@
         },
         {
             "Id": "owner-035",
-            "Email": "owner035@bpi.test",
+            "Email": "owner035-bpi@test.com",
             "DisplayName": "Owner 035",
             "FirstName": "Tyler",
             "LastName": "Jacobs",
@@ -458,7 +458,7 @@
         },
         {
             "Id": "owner-036",
-            "Email": "owner036@bpi.test",
+            "Email": "owner036-bpi@test.com",
             "DisplayName": "Owner 036",
             "FirstName": "Abigail",
             "LastName": "Keller",
@@ -469,7 +469,7 @@
         },
         {
             "Id": "owner-037",
-            "Email": "owner037@bpi.test",
+            "Email": "owner037-bpi@test.com",
             "DisplayName": "Owner 037",
             "FirstName": "Brandon",
             "LastName": "Lopez",
@@ -480,7 +480,7 @@
         },
         {
             "Id": "owner-038",
-            "Email": "owner038@bpi.test",
+            "Email": "owner038-bpi@test.com",
             "DisplayName": "Owner 038",
             "FirstName": "Claire",
             "LastName": "Martin",
@@ -491,7 +491,7 @@
         },
         {
             "Id": "owner-039",
-            "Email": "owner039@bpi.test",
+            "Email": "owner039-bpi@test.com",
             "DisplayName": "Owner 039",
             "FirstName": "Dylan",
             "LastName": "Nguyen",
@@ -502,7 +502,7 @@
         },
         {
             "Id": "owner-040",
-            "Email": "owner040@bpi.test",
+            "Email": "owner040-bpi@test.com",
             "DisplayName": "Owner 040",
             "FirstName": "Eva",
             "LastName": "Ortiz",
@@ -513,7 +513,7 @@
         },
         {
             "Id": "owner-041",
-            "Email": "owner041@bpi.test",
+            "Email": "owner041-bpi@test.com",
             "DisplayName": "Owner 041",
             "FirstName": "Gavin",
             "LastName": "Perez",
@@ -524,7 +524,7 @@
         },
         {
             "Id": "owner-042",
-            "Email": "owner042@bpi.test",
+            "Email": "owner042-bpi@test.com",
             "DisplayName": "Owner 042",
             "FirstName": "Hailey",
             "LastName": "Ramirez",
@@ -535,7 +535,7 @@
         },
         {
             "Id": "owner-043",
-            "Email": "owner043@bpi.test",
+            "Email": "owner043-bpi@test.com",
             "DisplayName": "Owner 043",
             "FirstName": "Ian",
             "LastName": "Sanchez",
@@ -546,7 +546,7 @@
         },
         {
             "Id": "owner-044",
-            "Email": "owner044@bpi.test",
+            "Email": "owner044-bpi@test.com",
             "DisplayName": "Owner 044",
             "FirstName": "Julia",
             "LastName": "Thompson",
@@ -557,7 +557,7 @@
         },
         {
             "Id": "owner-045",
-            "Email": "owner045@bpi.test",
+            "Email": "owner045-bpi@test.com",
             "DisplayName": "Owner 045",
             "FirstName": "Kevin",
             "LastName": "Usher",
@@ -568,7 +568,7 @@
         },
         {
             "Id": "owner-046",
-            "Email": "owner046@bpi.test",
+            "Email": "owner046-bpi@test.com",
             "DisplayName": "Owner 046",
             "FirstName": "Lauren",
             "LastName": "Vega",
@@ -579,7 +579,7 @@
         },
         {
             "Id": "owner-047",
-            "Email": "owner047@bpi.test",
+            "Email": "owner047-bpi@test.com",
             "DisplayName": "Owner 047",
             "FirstName": "Mason",
             "LastName": "White",
@@ -590,7 +590,7 @@
         },
         {
             "Id": "owner-048",
-            "Email": "owner048@bpi.test",
+            "Email": "owner048-bpi@test.com",
             "DisplayName": "Owner 048",
             "FirstName": "Nora",
             "LastName": "Xu",
@@ -601,7 +601,7 @@
         },
         {
             "Id": "owner-049",
-            "Email": "owner049@sapphire.test",
+            "Email": "owner049-sapphire@test.com",
             "DisplayName": "Owner 049",
             "FirstName": "Omar",
             "LastName": "Young",
@@ -612,7 +612,7 @@
         },
         {
             "Id": "owner-050",
-            "Email": "owner050@sapphire.test",
+            "Email": "owner050-sapphire@test.com",
             "DisplayName": "Owner 050",
             "FirstName": "Paige",
             "LastName": "Zimmer",
@@ -623,7 +623,7 @@
         },
         {
             "Id": "owner-051",
-            "Email": "owner051@sapphire.test",
+            "Email": "owner051-sapphire@test.com",
             "DisplayName": "Owner 051",
             "FirstName": "Quentin",
             "LastName": "Allen",
@@ -634,7 +634,7 @@
         },
         {
             "Id": "owner-052",
-            "Email": "owner052@sapphire.test",
+            "Email": "owner052-sapphire@test.com",
             "DisplayName": "Owner 052",
             "FirstName": "Rachel",
             "LastName": "Brown",
@@ -645,7 +645,7 @@
         },
         {
             "Id": "owner-053",
-            "Email": "owner053@sapphire.test",
+            "Email": "owner053-sapphire@test.com",
             "DisplayName": "Owner 053",
             "FirstName": "Sean",
             "LastName": "Carter",
@@ -656,7 +656,7 @@
         },
         {
             "Id": "owner-054",
-            "Email": "owner054@sapphire.test",
+            "Email": "owner054-sapphire@test.com",
             "DisplayName": "Owner 054",
             "FirstName": "Tara",
             "LastName": "Diaz",
@@ -667,7 +667,7 @@
         },
         {
             "Id": "owner-055",
-            "Email": "owner055@sapphire.test",
+            "Email": "owner055-sapphire@test.com",
             "DisplayName": "Owner 055",
             "FirstName": "Ulysses",
             "LastName": "Edwards",
@@ -678,7 +678,7 @@
         },
         {
             "Id": "owner-056",
-            "Email": "owner056@sapphire.test",
+            "Email": "owner056-sapphire@test.com",
             "DisplayName": "Owner 056",
             "FirstName": "Vanessa",
             "LastName": "Foster",
@@ -689,7 +689,7 @@
         },
         {
             "Id": "owner-057",
-            "Email": "owner057@sapphire.test",
+            "Email": "owner057-sapphire@test.com",
             "DisplayName": "Owner 057",
             "FirstName": "Wesley",
             "LastName": "Gonzalez",
@@ -700,7 +700,7 @@
         },
         {
             "Id": "owner-058",
-            "Email": "owner058@sapphire.test",
+            "Email": "owner058-sapphire@test.com",
             "DisplayName": "Owner 058",
             "FirstName": "Yasmin",
             "LastName": "Hughes",
@@ -711,7 +711,7 @@
         },
         {
             "Id": "owner-059",
-            "Email": "owner059@sapphire.test",
+            "Email": "owner059-sapphire@test.com",
             "DisplayName": "Owner 059",
             "FirstName": "Zachary",
             "LastName": "Irwin",
@@ -722,7 +722,7 @@
         },
         {
             "Id": "owner-060",
-            "Email": "owner060@sapphire.test",
+            "Email": "owner060-sapphire@test.com",
             "DisplayName": "Owner 060",
             "FirstName": "Amelia",
             "LastName": "Jones",
@@ -733,7 +733,7 @@
         },
         {
             "Id": "owner-061",
-            "Email": "owner061@sapphire.test",
+            "Email": "owner061-sapphire@test.com",
             "DisplayName": "Owner 061",
             "FirstName": "Brian",
             "LastName": "Knight",
@@ -744,7 +744,7 @@
         },
         {
             "Id": "owner-062",
-            "Email": "owner062@sapphire.test",
+            "Email": "owner062-sapphire@test.com",
             "DisplayName": "Owner 062",
             "FirstName": "Caitlin",
             "LastName": "Lopez",
@@ -755,7 +755,7 @@
         },
         {
             "Id": "owner-063",
-            "Email": "owner063@sapphire.test",
+            "Email": "owner063-sapphire@test.com",
             "DisplayName": "Owner 063",
             "FirstName": "Derek",
             "LastName": "Morris",
@@ -766,7 +766,7 @@
         },
         {
             "Id": "owner-064",
-            "Email": "owner064@sapphire.test",
+            "Email": "owner064-sapphire@test.com",
             "DisplayName": "Owner 064",
             "FirstName": "Erin",
             "LastName": "Nash",
@@ -834,7 +834,7 @@
             "UserId": "owner-001",
             "FirstName": "Alex",
             "LastName": "Baker",
-            "Email": "owner001@bpi.test",
+            "Email": "owner001-bpi@test.com",
             "Gender": "male",
             "DateOfBirth": "1980-01-15",
             "DisplayName": "Alex Baker",
@@ -851,7 +851,7 @@
             "UserId": "owner-002",
             "FirstName": "Emily",
             "LastName": "Clark",
-            "Email": "owner002@bpi.test",
+            "Email": "owner002-bpi@test.com",
             "Gender": "female",
             "DateOfBirth": "1985-02-20",
             "DisplayName": "Emily Clark",
@@ -868,7 +868,7 @@
             "UserId": "owner-003",
             "FirstName": "Michael",
             "LastName": "Davis",
-            "Email": "owner003@bpi.test",
+            "Email": "owner003-bpi@test.com",
             "Gender": "male",
             "DateOfBirth": "1978-03-10",
             "DisplayName": "Michael Davis",
@@ -885,7 +885,7 @@
             "UserId": "owner-004",
             "FirstName": "Sophia",
             "LastName": "Evans",
-            "Email": "owner004@bpi.test",
+            "Email": "owner004-bpi@test.com",
             "Gender": "female",
             "DateOfBirth": "1990-04-05",
             "DisplayName": "Sophia Evans",
@@ -902,7 +902,7 @@
             "UserId": "owner-005",
             "FirstName": "Daniel",
             "LastName": "Foster",
-            "Email": "owner005@bpi.test",
+            "Email": "owner005-bpi@test.com",
             "Gender": "male",
             "DateOfBirth": "1982-05-18",
             "DisplayName": "Daniel Foster",
@@ -917,7 +917,7 @@
             "Id": "mem-owner-006",
             "UserId": "owner-006",
             "ClientId": "bpi-id",
-            "Email": "owner006@bpi.test",
+            "Email": "owner006-bpi@test.com",
             "DisplayName": "Owner 006",
             "FirstName": "Olivia",
             "LastName": "Green",
@@ -931,7 +931,7 @@
         {
             "Id": "mem-owner-007",
             "UserId": "owner-007",
-            "Email": "owner007@bpi.test",
+            "Email": "owner007-bpi@test.com",
             "DisplayName": "Owner 007",
             "FirstName": "Christopher",
             "LastName": "Harris",
@@ -946,7 +946,7 @@
         {
             "Id": "mem-owner-008",
             "UserId": "owner-008",
-            "Email": "owner008@bpi.test",
+            "Email": "owner008-bpi@test.com",
             "DisplayName": "Owner 008",
             "FirstName": "Grace",
             "LastName": "Irwin",
@@ -961,7 +961,7 @@
         {
             "Id": "mem-owner-009",
             "UserId": "owner-009",
-            "Email": "owner009@bpi.test",
+            "Email": "owner009-bpi@test.com",
             "DisplayName": "Owner 009",
             "FirstName": "Matthew",
             "LastName": "Johnson",
@@ -976,7 +976,7 @@
         {
             "Id": "mem-owner-010",
             "UserId": "owner-010",
-            "Email": "owner010@bpi.test",
+            "Email": "owner010-bpi@test.com",
             "DisplayName": "Owner 010",
             "FirstName": "Chloe",
             "LastName": "King",
@@ -991,7 +991,7 @@
         {
             "Id": "mem-owner-011",
             "UserId": "owner-011",
-            "Email": "owner011@bpi.test",
+            "Email": "owner011-bpi@test.com",
             "DisplayName": "Owner 011",
             "FirstName": "Ethan",
             "LastName": "Lewis",
@@ -1006,7 +1006,7 @@
         {
             "Id": "mem-owner-012",
             "UserId": "owner-012",
-            "Email": "owner012@bpi.test",
+            "Email": "owner012-bpi@test.com",
             "DisplayName": "Owner 012",
             "FirstName": "Ava",
             "LastName": "Mitchell",
@@ -1021,7 +1021,7 @@
         {
             "Id": "mem-owner-013",
             "UserId": "owner-013",
-            "Email": "owner013@bpi.test",
+            "Email": "owner013-bpi@test.com",
             "DisplayName": "Owner 013",
             "FirstName": "Logan",
             "LastName": "Nelson",
@@ -1036,7 +1036,7 @@
         {
             "Id": "mem-owner-014",
             "UserId": "owner-014",
-            "Email": "owner014@bpi.test",
+            "Email": "owner014-bpi@test.com",
             "DisplayName": "Owner 014",
             "FirstName": "Isabella",
             "LastName": "Owens",
@@ -1051,7 +1051,7 @@
         {
             "Id": "mem-owner-015",
             "UserId": "owner-015",
-            "Email": "owner015@bpi.test",
+            "Email": "owner015-bpi@test.com",
             "DisplayName": "Owner 015",
             "FirstName": "Noah",
             "LastName": "Parker",
@@ -1066,7 +1066,7 @@
         {
             "Id": "mem-owner-016",
             "UserId": "owner-016",
-            "Email": "owner016@bpi.test",
+            "Email": "owner016-bpi@test.com",
             "DisplayName": "Owner 016",
             "FirstName": "Mia",
             "LastName": "Quinn",
@@ -1081,7 +1081,7 @@
         {
             "Id": "mem-owner-017",
             "UserId": "owner-017",
-            "Email": "owner017@bpi.test",
+            "Email": "owner017-bpi@test.com",
             "DisplayName": "Owner 017",
             "FirstName": "Liam",
             "LastName": "Reed",
@@ -1096,7 +1096,7 @@
         {
             "Id": "mem-owner-018",
             "UserId": "owner-018",
-            "Email": "owner018@bpi.test",
+            "Email": "owner018-bpi@test.com",
             "DisplayName": "Owner 018",
             "FirstName": "Harper",
             "LastName": "Scott",
@@ -1111,7 +1111,7 @@
         {
             "Id": "mem-owner-019",
             "UserId": "owner-019",
-            "Email": "owner019@bpi.test",
+            "Email": "owner019-bpi@test.com",
             "DisplayName": "Owner 019",
             "FirstName": "James",
             "LastName": "Turner",
@@ -1126,7 +1126,7 @@
         {
             "Id": "mem-owner-020",
             "UserId": "owner-020",
-            "Email": "owner020@bpi.test",
+            "Email": "owner020-bpi@test.com",
             "DisplayName": "Owner 020",
             "FirstName": "Ella",
             "LastName": "Underwood",
@@ -1141,7 +1141,7 @@
         {
             "Id": "mem-owner-021",
             "UserId": "owner-021",
-            "Email": "owner021@bpi.test",
+            "Email": "owner021-bpi@test.com",
             "DisplayName": "Owner 021",
             "FirstName": "Benjamin",
             "LastName": "Vargas",
@@ -1156,7 +1156,7 @@
         {
             "Id": "mem-owner-022",
             "UserId": "owner-022",
-            "Email": "owner022@bpi.test",
+            "Email": "owner022-bpi@test.com",
             "DisplayName": "Owner 022",
             "FirstName": "Lily",
             "LastName": "Walker",
@@ -1171,7 +1171,7 @@
         {
             "Id": "mem-owner-023",
             "UserId": "owner-023",
-            "Email": "owner023@bpi.test",
+            "Email": "owner023-bpi@test.com",
             "DisplayName": "Owner 023",
             "FirstName": "Henry",
             "LastName": "Xavier",
@@ -1186,7 +1186,7 @@
         {
             "Id": "mem-owner-024",
             "UserId": "owner-024",
-            "Email": "owner024@bpi.test",
+            "Email": "owner024-bpi@test.com",
             "DisplayName": "Owner 024",
             "FirstName": "Zoe",
             "LastName": "Young",
@@ -1201,7 +1201,7 @@
         {
             "Id": "mem-owner-025",
             "UserId": "owner-025",
-            "Email": "owner025@bpi.test",
+            "Email": "owner025-bpi@test.com",
             "DisplayName": "Owner 025",
             "FirstName": "Jack",
             "LastName": "Zimmerman",
@@ -1216,7 +1216,7 @@
         {
             "Id": "mem-owner-026",
             "UserId": "owner-026",
-            "Email": "owner026@bpi.test",
+            "Email": "owner026-bpi@test.com",
             "DisplayName": "Owner 026",
             "FirstName": "Natalie",
             "LastName": "Adams",
@@ -1231,7 +1231,7 @@
         {
             "Id": "mem-owner-027",
             "UserId": "owner-027",
-            "Email": "owner027@bpi.test",
+            "Email": "owner027-bpi@test.com",
             "DisplayName": "Owner 027",
             "FirstName": "Owen",
             "LastName": "Bennett",
@@ -1246,7 +1246,7 @@
         {
             "Id": "mem-owner-028",
             "UserId": "owner-028",
-            "Email": "owner028@bpi.test",
+            "Email": "owner028-bpi@test.com",
             "DisplayName": "Owner 028",
             "FirstName": "Hannah",
             "LastName": "Cole",
@@ -1261,7 +1261,7 @@
         {
             "Id": "mem-owner-029",
             "UserId": "owner-029",
-            "Email": "owner029@bpi.test",
+            "Email": "owner029-bpi@test.com",
             "DisplayName": "Owner 029",
             "FirstName": "Ryan",
             "LastName": "Diaz",
@@ -1276,7 +1276,7 @@
         {
             "Id": "mem-owner-030",
             "UserId": "owner-030",
-            "Email": "owner030@bpi.test",
+            "Email": "owner030-bpi@test.com",
             "DisplayName": "Owner 030",
             "FirstName": "Victoria",
             "LastName": "Edwards",
@@ -1291,7 +1291,7 @@
         {
             "Id": "mem-owner-031",
             "UserId": "owner-031",
-            "Email": "owner031@bpi.test",
+            "Email": "owner031-bpi@test.com",
             "DisplayName": "Owner 031",
             "FirstName": "Jason",
             "LastName": "Fleming",
@@ -1306,7 +1306,7 @@
         {
             "Id": "mem-owner-032",
             "UserId": "owner-032",
-            "Email": "owner032@bpi.test",
+            "Email": "owner032-bpi@test.com",
             "DisplayName": "Owner 032",
             "FirstName": "Madison",
             "LastName": "Garcia",
@@ -1321,7 +1321,7 @@
         {
             "Id": "mem-owner-033",
             "UserId": "owner-033",
-            "Email": "owner033@bpi.test",
+            "Email": "owner033-bpi@test.com",
             "DisplayName": "Owner 033",
             "FirstName": "Aaron",
             "LastName": "Hall",
@@ -1336,7 +1336,7 @@
         {
             "Id": "mem-owner-034",
             "UserId": "owner-034",
-            "Email": "owner034@bpi.test",
+            "Email": "owner034-bpi@test.com",
             "DisplayName": "Owner 034",
             "FirstName": "Samantha",
             "LastName": "Ingram",
@@ -1351,7 +1351,7 @@
         {
             "Id": "mem-owner-035",
             "UserId": "owner-035",
-            "Email": "owner035@bpi.test",
+            "Email": "owner035-bpi@test.com",
             "DisplayName": "Owner 035",
             "FirstName": "Tyler",
             "LastName": "Jacobs",
@@ -1366,7 +1366,7 @@
         {
             "Id": "mem-owner-036",
             "UserId": "owner-036",
-            "Email": "owner036@bpi.test",
+            "Email": "owner036-bpi@test.com",
             "DisplayName": "Owner 036",
             "FirstName": "Abigail",
             "LastName": "Keller",
@@ -1381,7 +1381,7 @@
         {
             "Id": "mem-owner-037",
             "UserId": "owner-037",
-            "Email": "owner037@bpi.test",
+            "Email": "owner037-bpi@test.com",
             "DisplayName": "Owner 037",
             "FirstName": "Brandon",
             "LastName": "Lopez",
@@ -1396,7 +1396,7 @@
         {
             "Id": "mem-owner-038",
             "UserId": "owner-038",
-            "Email": "owner038@bpi.test",
+            "Email": "owner038-bpi@test.com",
             "DisplayName": "Owner 038",
             "FirstName": "Claire",
             "LastName": "Martin",
@@ -1411,7 +1411,7 @@
         {
             "Id": "mem-owner-039",
             "UserId": "owner-039",
-            "Email": "owner039@bpi.test",
+            "Email": "owner039-bpi@test.com",
             "DisplayName": "Owner 039",
             "FirstName": "Dylan",
             "LastName": "Nguyen",
@@ -1426,7 +1426,7 @@
         {
             "Id": "mem-owner-040",
             "UserId": "owner-040",
-            "Email": "owner040@bpi.test",
+            "Email": "owner040-bpi@test.com",
             "DisplayName": "Owner 040",
             "FirstName": "Eva",
             "LastName": "Ortiz",
@@ -1441,7 +1441,7 @@
         {
             "Id": "mem-owner-041",
             "UserId": "owner-041",
-            "Email": "owner041@bpi.test",
+            "Email": "owner041-bpi@test.com",
             "DisplayName": "Owner 041",
             "FirstName": "Gavin",
             "LastName": "Perez",
@@ -1456,7 +1456,7 @@
         {
             "Id": "mem-owner-042",
             "UserId": "owner-042",
-            "Email": "owner042@bpi.test",
+            "Email": "owner042-bpi@test.com",
             "DisplayName": "Owner 042",
             "FirstName": "Hailey",
             "LastName": "Ramirez",
@@ -1471,7 +1471,7 @@
         {
             "Id": "mem-owner-043",
             "UserId": "owner-043",
-            "Email": "owner043@bpi.test",
+            "Email": "owner043-bpi@test.com",
             "DisplayName": "Owner 043",
             "FirstName": "Ian",
             "LastName": "Sanchez",
@@ -1486,7 +1486,7 @@
         {
             "Id": "mem-owner-044",
             "UserId": "owner-044",
-            "Email": "owner044@bpi.test",
+            "Email": "owner044-bpi@test.com",
             "DisplayName": "Owner 044",
             "FirstName": "Julia",
             "LastName": "Thompson",
@@ -1501,7 +1501,7 @@
         {
             "Id": "mem-owner-045",
             "UserId": "owner-045",
-            "Email": "owner045@bpi.test",
+            "Email": "owner045-bpi@test.com",
             "DisplayName": "Owner 045",
             "FirstName": "Kevin",
             "LastName": "Usher",
@@ -1516,7 +1516,7 @@
         {
             "Id": "mem-owner-046",
             "UserId": "owner-046",
-            "Email": "owner046@bpi.test",
+            "Email": "owner046-bpi@test.com",
             "DisplayName": "Owner 046",
             "FirstName": "Lauren",
             "LastName": "Vega",
@@ -1531,7 +1531,7 @@
         {
             "Id": "mem-owner-047",
             "UserId": "owner-047",
-            "Email": "owner047@bpi.test",
+            "Email": "owner047-bpi@test.com",
             "DisplayName": "Owner 047",
             "FirstName": "Mason",
             "LastName": "White",
@@ -1546,7 +1546,7 @@
         {
             "Id": "mem-owner-048",
             "UserId": "owner-048",
-            "Email": "owner048@bpi.test",
+            "Email": "owner048-bpi@test.com",
             "DisplayName": "Owner 048",
             "FirstName": "Nora",
             "LastName": "Xu",
@@ -1561,7 +1561,7 @@
         {
             "Id": "mem-owner-049",
             "UserId": "owner-049",
-            "Email": "owner049@sapphire.test",
+            "Email": "owner049-sapphire@test.com",
             "DisplayName": "Owner 049",
             "FirstName": "Omar",
             "LastName": "Young",
@@ -1576,7 +1576,7 @@
         {
             "Id": "mem-owner-050",
             "UserId": "owner-050",
-            "Email": "owner050@sapphire.test",
+            "Email": "owner050-sapphire@test.com",
             "DisplayName": "Owner 050",
             "FirstName": "Paige",
             "LastName": "Zimmer",
@@ -1591,7 +1591,7 @@
         {
             "Id": "mem-owner-051",
             "UserId": "owner-051",
-            "Email": "owner051@sapphire.test",
+            "Email": "owner051-sapphire@test.com",
             "DisplayName": "Owner 051",
             "FirstName": "Quentin",
             "LastName": "Allen",
@@ -1606,7 +1606,7 @@
         {
             "Id": "mem-owner-052",
             "UserId": "owner-052",
-            "Email": "owner052@sapphire.test",
+            "Email": "owner052-sapphire@test.com",
             "DisplayName": "Owner 052",
             "FirstName": "Rachel",
             "LastName": "Brown",
@@ -1621,7 +1621,7 @@
         {
             "Id": "mem-owner-053",
             "UserId": "owner-053",
-            "Email": "owner053@sapphire.test",
+            "Email": "owner053-sapphire@test.com",
             "DisplayName": "Owner 053",
             "FirstName": "Sean",
             "LastName": "Carter",
@@ -1636,7 +1636,7 @@
         {
             "Id": "mem-owner-054",
             "UserId": "owner-054",
-            "Email": "owner054@sapphire.test",
+            "Email": "owner054-sapphire@test.com",
             "DisplayName": "Owner 054",
             "FirstName": "Tara",
             "LastName": "Diaz",
@@ -1651,7 +1651,7 @@
         {
             "Id": "mem-owner-055",
             "UserId": "owner-055",
-            "Email": "owner055@sapphire.test",
+            "Email": "owner055-sapphire@test.com",
             "DisplayName": "Owner 055",
             "FirstName": "Ulysses",
             "LastName": "Edwards",
@@ -1666,7 +1666,7 @@
         {
             "Id": "mem-owner-056",
             "UserId": "owner-056",
-            "Email": "owner056@sapphire.test",
+            "Email": "owner056-sapphire@test.com",
             "DisplayName": "Owner 056",
             "FirstName": "Vanessa",
             "LastName": "Foster",
@@ -1681,7 +1681,7 @@
         {
             "Id": "mem-owner-057",
             "UserId": "owner-057",
-            "Email": "owner057@sapphire.test",
+            "Email": "owner057-sapphire@test.com",
             "DisplayName": "Owner 057",
             "FirstName": "Wesley",
             "LastName": "Gonzalez",
@@ -1696,7 +1696,7 @@
         {
             "Id": "mem-owner-058",
             "UserId": "owner-058",
-            "Email": "owner058@sapphire.test",
+            "Email": "owner058-sapphire@test.com",
             "DisplayName": "Owner 058",
             "FirstName": "Yasmin",
             "LastName": "Hughes",
@@ -1711,7 +1711,7 @@
         {
             "Id": "mem-owner-059",
             "UserId": "owner-059",
-            "Email": "owner059@sapphire.test",
+            "Email": "owner059-sapphire@test.com",
             "DisplayName": "Owner 059",
             "FirstName": "Zachary",
             "LastName": "Irwin",
@@ -1726,7 +1726,7 @@
         {
             "Id": "mem-owner-060",
             "UserId": "owner-060",
-            "Email": "owner060@sapphire.test",
+            "Email": "owner060-sapphire@test.com",
             "DisplayName": "Owner 060",
             "FirstName": "Amelia",
             "LastName": "Jones",
@@ -1741,7 +1741,7 @@
         {
             "Id": "mem-owner-061",
             "UserId": "owner-062",
-            "Email": "owner061@sapphire.test",
+            "Email": "owner061-sapphire@test.com",
             "DisplayName": "Owner 061",
             "FirstName": "Brian",
             "LastName": "Knight",
@@ -1756,7 +1756,7 @@
         {
             "Id": "mem-owner-062",
             "UserId": "owner-062",
-            "Email": "owner062@sapphire.test",
+            "Email": "owner062-sapphire@test.com",
             "DisplayName": "Owner 062",
             "FirstName": "Caitlin",
             "LastName": "Lopez",
@@ -1771,7 +1771,7 @@
         {
             "Id": "mem-owner-063",
             "UserId": "owner-063",
-            "Email": "owner063@sapphire.test",
+            "Email": "owner063-sapphire@test.com",
             "DisplayName": "Owner 063",
             "FirstName": "Derek",
             "LastName": "Morris",
@@ -1786,7 +1786,7 @@
         {
             "Id": "mem-owner-064",
             "UserId": "owner-064",
-            "Email": "owner064@sapphire.test",
+            "Email": "owner064-sapphire@test.com",
             "DisplayName": "Owner 064",
             "FirstName": "Erin",
             "LastName": "Nash",
@@ -2278,14 +2278,14 @@
     ],
     "Properties": [
         {
-            "Id": "prop-001",
+            "Id": "prop-101",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 101 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 101",
             "Unit": "101",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-001",
+            "LotNumber": "APT-001",
             "SquareFeet": 1800,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2293,14 +2293,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-002",
+            "Id": "prop-102",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 102 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 102",
             "Unit": "102",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-002",
+            "LotNumber": "APT-002",
             "SquareFeet": 1750,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2308,14 +2308,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-003",
+            "Id": "prop-103",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 103 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 103",
             "Unit": "103",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-003",
+            "LotNumber": "APT-003",
             "SquareFeet": 1900,
             "Bedrooms": 4,
             "Bathrooms": 3,
@@ -2323,44 +2323,29 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-004",
+            "Id": "prop-104",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 104 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 104",
             "Unit": "104",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-004",
+            "LotNumber": "APT-004",
             "SquareFeet": 1650,
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
             "CreatedAt": "2023-06-01T00:00:00Z"
-        },
+        }, 
         {
-            "Id": "prop-005",
+            "Id": "prop-106",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 105 Palm Breeze Way",
-            "Unit": "105",
-            "City": "Boca Raton",
-            "State": "FL",
-            "ZipCode": "33433",
-            "LotNumber": "A-005",
-            "SquareFeet": 1850,
-            "Bedrooms": 3,
-            "Bathrooms": 2,
-            "IsRented": false,
-            "CreatedAt": "2023-06-01T00:00:00Z"
-        },
-        {
-            "Id": "prop-006",
-            "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 106 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 106",
             "Unit": "106",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-006",
+            "LotNumber": "APT-005",
             "SquareFeet": 1700,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2368,44 +2353,29 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-007",
+            "Id": "prop-107",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 107 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 107",
             "Unit": "107",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-007",
+            "LotNumber": "APT-006",
             "SquareFeet": 2000,
             "Bedrooms": 4,
             "Bathrooms": 3,
             "IsRented": false,
             "CreatedAt": "2023-06-01T00:00:00Z"
-        },
+        }, 
         {
-            "Id": "prop-008",
+            "Id": "prop-109",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 108 Palm Breeze Way",
-            "Unit": "108",
-            "City": "Boca Raton",
-            "State": "FL",
-            "ZipCode": "33433",
-            "LotNumber": "A-008",
-            "SquareFeet": 1600,
-            "Bedrooms": 3,
-            "Bathrooms": 2,
-            "IsRented": false,
-            "CreatedAt": "2023-06-01T00:00:00Z"
-        },
-        {
-            "Id": "prop-009",
-            "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 109 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 109",
             "Unit": "109",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-009",
+            "LotNumber": "APT-007",
             "SquareFeet": 1850,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2413,14 +2383,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-010",
+            "Id": "prop-110",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 110 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 110",
             "Unit": "110",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-010",
+            "LotNumber": "APT-008",
             "SquareFeet": 1750,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2428,14 +2398,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-011",
+            "Id": "prop-111",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 111 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 111",
             "Unit": "111",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-011",
+            "LotNumber": "APT-009",
             "SquareFeet": 1800,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2443,44 +2413,29 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-012",
+            "Id": "prop-112",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 112 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 112",
             "Unit": "112",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-012",
+            "LotNumber": "APT-010",
             "SquareFeet": 1700,
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
             "CreatedAt": "2023-06-01T00:00:00Z"
-        },
+        }, 
         {
-            "Id": "prop-013",
+            "Id": "prop-114",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 113 Palm Breeze Way",
-            "Unit": "113",
-            "City": "Boca Raton",
-            "State": "FL",
-            "ZipCode": "33433",
-            "LotNumber": "A-013",
-            "SquareFeet": 1900,
-            "Bedrooms": 4,
-            "Bathrooms": 3,
-            "IsRented": false,
-            "CreatedAt": "2023-06-01T00:00:00Z"
-        },
-        {
-            "Id": "prop-014",
-            "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 114 Palm Breeze Way",
+            "Address": "290 W Palmetto Road, APT 114",
             "Unit": "114",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-014",
+            "LotNumber": "APT-011",
             "SquareFeet": 1650,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2488,14 +2443,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-015",
+            "Id": "prop-201",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 115 Palm Breeze Way",
-            "Unit": "115",
+            "Address": "290 W Palmetto Road, APT 201",
+            "Unit": "201",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-015",
+            "LotNumber": "APT-012",
             "SquareFeet": 1800,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2503,14 +2458,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-016",
+            "Id": "prop-202",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 116 Palm Breeze Way",
-            "Unit": "116",
+            "Address": "290 W Palmetto Road, APT 202",
+            "Unit": "202",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-016",
+            "LotNumber": "APT-013",
             "SquareFeet": 1750,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2518,14 +2473,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-017",
+            "Id": "prop-203",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 117 Palm Breeze Way",
-            "Unit": "117",
+            "Address": "290 W Palmetto Road, APT 203",
+            "Unit": "203",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-017",
+            "LotNumber": "APT-014",
             "SquareFeet": 1850,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2533,14 +2488,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-018",
+            "Id": "prop-204",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 118 Palm Breeze Way",
-            "Unit": "118",
+            "Address": "290 W Palmetto Road, APT 204",
+            "Unit": "204",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-018",
+            "LotNumber": "APT-015",
             "SquareFeet": 1600,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2548,14 +2503,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-019",
+            "Id": "prop-205",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 119 Palm Breeze Way",
-            "Unit": "119",
+            "Address": "290 W Palmetto Road, APT 205",
+            "Unit": "205",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-019",
+            "LotNumber": "APT-016",
             "SquareFeet": 2000,
             "Bedrooms": 4,
             "Bathrooms": 3,
@@ -2563,14 +2518,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-020",
+            "Id": "prop-206",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 120 Palm Breeze Way",
-            "Unit": "120",
+            "Address": "290 W Palmetto Road, APT 206",
+            "Unit": "206",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-020",
+            "LotNumber": "APT-017",
             "SquareFeet": 1750,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2578,14 +2533,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-021",
+            "Id": "prop-207",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 121 Palm Breeze Way",
-            "Unit": "121",
+            "Address": "290 W Palmetto Road, APT 207",
+            "Unit": "207",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-020",
+            "LotNumber": "APT-018",
             "SquareFeet": 1750,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2593,14 +2548,14 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-022",
+            "Id": "prop-208",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 122 Palm Breeze Way",
-            "Unit": "122",
+            "Address": "290 W Palmetto Road, APT 208",
+            "Unit": "208",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-020",
+            "LotNumber": "APT-019",
             "SquareFeet": 1750,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2608,14 +2563,74 @@
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
-            "Id": "prop-023",
+            "Id": "prop-209",
             "ClientId": "bpi-id",
-            "Address": "290 W Palmetto Road, APT 123 Palm Breeze Way",
-            "Unit": "123",
+            "Address": "290 W Palmetto Road, APT 209",
+            "Unit": "209",
             "City": "Boca Raton",
             "State": "FL",
             "ZipCode": "33433",
-            "LotNumber": "A-020",
+            "LotNumber": "APT-020",
+            "SquareFeet": 1750,
+            "Bedrooms": 3,
+            "Bathrooms": 2,
+            "IsRented": false,
+            "CreatedAt": "2023-06-01T00:00:00Z"
+        },
+        {
+            "Id": "prop-210",
+            "ClientId": "bpi-id",
+            "Address": "290 W Palmetto Road, APT 210",
+            "Unit": "210",
+            "City": "Boca Raton",
+            "State": "FL",
+            "ZipCode": "33433",
+            "LotNumber": "APT-021",
+            "SquareFeet": 1750,
+            "Bedrooms": 3,
+            "Bathrooms": 2,
+            "IsRented": false,
+            "CreatedAt": "2023-06-01T00:00:00Z"
+        },
+        {
+            "Id": "prop-211",
+            "ClientId": "bpi-id",
+            "Address": "290 W Palmetto Road, APT 211",
+            "Unit": "211",
+            "City": "Boca Raton",
+            "State": "FL",
+            "ZipCode": "33433",
+            "LotNumber": "APT-022",
+            "SquareFeet": 1750,
+            "Bedrooms": 3,
+            "Bathrooms": 2,
+            "IsRented": false,
+            "CreatedAt": "2023-06-01T00:00:00Z"
+        },
+        {
+            "Id": "prop-212",
+            "ClientId": "bpi-id",
+            "Address": "290 W Palmetto Road, APT 212",
+            "Unit": "212",
+            "City": "Boca Raton",
+            "State": "FL",
+            "ZipCode": "33433",
+            "LotNumber": "APT-023",
+            "SquareFeet": 1750,
+            "Bedrooms": 3,
+            "Bathrooms": 2,
+            "IsRented": false,
+            "CreatedAt": "2023-06-01T00:00:00Z"
+        },
+        {
+            "Id": "prop-214",
+            "ClientId": "bpi-id",
+            "Address": "290 W Palmetto Road, APT 214",
+            "Unit": "214",
+            "City": "Boca Raton",
+            "State": "FL",
+            "ZipCode": "33433",
+            "LotNumber": "APT-024",
             "SquareFeet": 1750,
             "Bedrooms": 3,
             "Bathrooms": 2,
@@ -2625,8 +2640,8 @@
     ],
     "PropertyOwnerships": [
         {
-            "Id": 1,
-            "PropertyId": "prop-001",
+            "Id": "owner-001-prop-101",
+            "PropertyId": "prop-101",
             "MemberId": "mem-owner-001",
             "StartDate": "2017-03-24T00:00:00Z",
             "EndDate": null,
@@ -2635,8 +2650,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 2,
-            "PropertyId": "prop-002",
+            "Id": "owner-002-prop-102",
+            "PropertyId": "prop-102",
             "MemberId": "mem-owner-002",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2645,8 +2660,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 3,
-            "PropertyId": "prop-003",
+            "Id": "owner-003-prop-103",
+            "PropertyId": "prop-103",
             "MemberId": "mem-owner-003",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2655,8 +2670,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 4,
-            "PropertyId": "prop-004",
+            "Id": "owner-004-prop-104",
+            "PropertyId": "prop-104",
             "MemberId": "mem-owner-004",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2665,18 +2680,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 5,
-            "PropertyId": "prop-005",
-            "MemberId": "mem-owner-005",
-            "StartDate": "2023-06-01T00:00:00Z",
-            "EndDate": null,
-            "OwnershipType": 0,
-            "OwnershipPercentage": 100,
-            "IsCurrent": true
-        },
-        {
-            "Id": 6,
-            "PropertyId": "prop-006",
+            "Id": "owner-006-prop-106",
+            "PropertyId": "prop-106",
             "MemberId": "mem-owner-006",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2685,8 +2690,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 7,
-            "PropertyId": "prop-007",
+            "Id": "owner-007-prop-107",
+            "PropertyId": "prop-107",
             "MemberId": "mem-owner-007",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2695,18 +2700,18 @@
             "IsCurrent": true
         },
         {
-            "Id": 8,
-            "PropertyId": "prop-008",
+            "Id": "owner-008-prop-107",
+            "PropertyId": "prop-107",
             "MemberId": "mem-owner-008",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
             "OwnershipType": 0,
             "OwnershipPercentage": 100,
-            "IsCurrent": true
+            "IsCurrent": false
         },
         {
-            "Id": 9,
-            "PropertyId": "prop-009",
+            "Id": "owner-009-prop-109",
+            "PropertyId": "prop-109",
             "MemberId": "mem-owner-009",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2715,8 +2720,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 10,
-            "PropertyId": "prop-010",
+            "Id": "owner-010-prop-110",
+            "PropertyId": "prop-110",
             "MemberId": "mem-owner-010",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2725,8 +2730,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 11,
-            "PropertyId": "prop-011",
+            "Id": "owner-011-prop-111",
+            "PropertyId": "prop-111",
             "MemberId": "mem-owner-011",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2735,8 +2740,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 12,
-            "PropertyId": "prop-012",
+            "Id": "owner-012-prop-112",
+            "PropertyId": "prop-112",
             "MemberId": "mem-owner-012",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2745,18 +2750,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 13,
-            "PropertyId": "prop-013",
-            "MemberId": "mem-owner-013",
-            "StartDate": "2023-06-01T00:00:00Z",
-            "EndDate": null,
-            "OwnershipType": 0,
-            "OwnershipPercentage": 100,
-            "IsCurrent": true
-        },
-        {
-            "Id": 14,
-            "PropertyId": "prop-014",
+            "Id": "owner-014-prop-114",
+            "PropertyId": "prop-114",
             "MemberId": "mem-owner-014",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2765,8 +2760,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 15,
-            "PropertyId": "prop-015",
+            "Id": "owner-015-prop-201",
+            "PropertyId": "prop-201",
             "MemberId": "mem-owner-015",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2775,8 +2770,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 16,
-            "PropertyId": "prop-016",
+            "Id": "owner-016-prop-202",
+            "PropertyId": "prop-202",
             "MemberId": "mem-owner-016",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2785,8 +2780,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 17,
-            "PropertyId": "prop-017",
+            "Id": "owner-017-prop-203",
+            "PropertyId": "prop-203",
             "MemberId": "mem-owner-017",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2795,8 +2790,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 18,
-            "PropertyId": "prop-018",
+            "Id": "owner-018-prop-204",
+            "PropertyId": "prop-204",
             "MemberId": "mem-owner-018",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2805,8 +2800,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 19,
-            "PropertyId": "prop-019",
+            "Id": "owner-019-prop-205",
+            "PropertyId": "prop-205",
             "MemberId": "mem-owner-019",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2815,8 +2810,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 20,
-            "PropertyId": "prop-020",
+            "Id": "owner-020-prop-206",
+            "PropertyId": "prop-206",
             "MemberId": "mem-owner-020",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2825,8 +2820,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 21,
-            "PropertyId": "prop-021",
+            "Id": "owner-021-prop-207",
+            "PropertyId": "prop-207",
             "MemberId": "mem-owner-021",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2835,8 +2830,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 22,
-            "PropertyId": "prop-022",
+            "Id": "owner-022-prop-208",
+            "PropertyId": "prop-208",
             "MemberId": "mem-owner-022",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
@@ -2845,8 +2840,8 @@
             "IsCurrent": true
         },
         {
-            "Id": 23,
-            "PropertyId": "prop-001",
+            "Id": "lisa-id-prop-209",
+            "PropertyId": "prop-209",
             "MemberId": "mem-lisa-id",
             "StartDate": "2017-03-24T00:00:00Z",
             "EndDate": null,
@@ -2855,13 +2850,43 @@
             "IsCurrent": true
         }, 
         {
-            "Id": 24,
-            "PropertyId": "prop-022",
-            "MemberId": "mem-owner-001",
+            "Id": "owner-023-prop-210",
+            "PropertyId": "prop-210",
+            "MemberId": "mem-owner-023",
             "StartDate": "2023-06-01T00:00:00Z",
             "EndDate": null,
             "OwnershipType": 1,
             "OwnershipPercentage": 50,
+            "IsCurrent": true
+        },
+        {
+            "Id": "owner-005-prop-211",
+            "PropertyId": "prop-211",
+            "MemberId": "mem-owner-005",
+            "StartDate": "2023-06-01T00:00:00Z",
+            "EndDate": null,
+            "OwnershipType": 0,
+            "OwnershipPercentage": 100,
+            "IsCurrent": true
+        },
+        {
+            "Id": "owner-024-prop-212",
+            "PropertyId": "prop-212",
+            "MemberId": "mem-owner-024",
+            "StartDate": "2023-06-01T00:00:00Z",
+            "EndDate": null,
+            "OwnershipType": 0,
+            "OwnershipPercentage": 100,
+            "IsCurrent": true
+        },
+        {
+            "Id": "john-id-prop-214",
+            "PropertyId": "prop-214",
+            "MemberId": "mem-john-id",
+            "StartDate": "2023-06-01T00:00:00Z",
+            "EndDate": null,
+            "OwnershipType": 0,
+            "OwnershipPercentage": 100,
             "IsCurrent": true
         }
     ]

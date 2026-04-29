@@ -16,7 +16,7 @@ export class MemberService {
   private session = inject(SessionService);  
   private baseUrl = environment.apiUrl;
   editMode = signal(false);
-  member =signal<Member|null>(null);
+  member =signal<Member|null>(null);   // not the loggedIn user but the clicked member
 
 
   getMembers(memberParams: MemberParams) {

@@ -5,9 +5,9 @@ namespace API.DTOs;
 
 public class PropertyOwnershipDto
 {
-public int? Id { get; set; } 
-    public string? PropertyId { get; set; }  
-    public string? MemberId { get; set; } 
+    public string? Id { get; set; }
+    public string? PropertyId { get; set; }
+    public string? MemberId { get; set; }
 
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }  // null = still active

@@ -25,9 +25,11 @@ public class PropertiesController(IPropertyRepository propertyRepository) : Base
             Address = property.Address,
             Unit = property.Unit,
             Bedrooms = property.Bedrooms,
-            Bathrooms =property.Bathrooms,
-            IsRented = property.IsRented,   
-            SquareFeet = property.SquareFeet,            
+            Bathrooms = property.Bathrooms,
+            IsRented = property.IsRented,
+            SquareFeet = property.SquareFeet,
+            City = property.City,
+            State = property.State,
             Ownerships = [.. property.Ownerships
                 .Select(o => new PropertyOwnershipDto
                 {

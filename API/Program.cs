@@ -1,6 +1,8 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using API.Data;
 using API.Data.Repositories;
+using API.Helpers;
 using API.Interfaces;
 using API.Middleware;
 using API.Services;
@@ -12,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
@@ -24,6 +28,7 @@ builder.Services.AddScoped<IMemberRepository, MemberRepository>(); // Scoped to 
 builder.Services.AddScoped<ITokenService, TokenService>(); // Scoped to the lifetime of request
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -36,11 +41,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
-        
+
     });
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ITenantService, TenantService>();
+builder.Services.AddScoped<Supabase.Client>(_ =>
+    new Supabase.Client(
+        builder.Configuration["SupabaseSettings:Url"]!,
+        builder.Configuration["SupabaseSettings:ServiceRoleKey"]!,
+        new Supabase.SupabaseOptions { AutoConnectRealtime = false }
+        )
+);
+builder.Services.Configure<SupabaseSettings>(
+    builder.Configuration.GetSection("SupabaseSettings")); // Inject and use it anywhere
+builder.Services.AddScoped<IUserClientRepository, UserClientRespository>();
+
+builder.Services.AddScoped<IDocumentStorageService, SupabaseStorageService>();
+builder.Services.AddScoped<IDocumentAccessService, DocumentAccessService>();
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+
 
 var app = builder.Build();
 
@@ -70,14 +90,14 @@ try
     // // migrating the database in code 
     // //creates database if it does not already exists
     context.IsSeeding = true;
-    await context.Database.MigrateAsync(); 
+    await context.Database.MigrateAsync();
     // Since we used static method we have access  to Seedusers method
-    
+
 
     await Seed.SeedData(context); // userManger
     context.IsSeeding = false;
 
-    
+
 }
 catch (Exception ex)
 {

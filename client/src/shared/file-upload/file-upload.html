@@ -1,0 +1,73 @@
+<div class="flex w-full gap-6 min-h-20">
+    <!-- Drop Zone -->
+    <div class="flex items-center gap-4 w-2/3">
+        <!-- <label 
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+            [class.border-purple-600]="isDragging"
+            [class.border-4]="isDragging"
+            [class.bg-purple-100]="isDragging"
+            for="dropzone-file" 
+            class="flex flex-col items-center justify-center w-full border-2
+             border-gray-300 h-full border-dashed rounded-lg cursor-pointer">
+            <p class="mb-2 text-lg">click to upload or drag and drop</p>
+            <input type="file" id="dropzone-file" class="hidden" (change)="onFileSelected($event)"  />
+        </label> -->
+        <div 
+            (dragover)="onDragOver($event)" 
+            (dragleave)="onDragLeave($event)" 
+            (drop)="onDrop($event)"
+            (click)="fileInput.click()" 
+            [class.border-primary]="isDragging()" 
+            [class.border-4]="isDragging()"
+            [class.bg-primary]="isDragging()" 
+            [class.bg-opacity-10]="isDragging()" 
+            class="flex flex-col items-center justify-center w-full border-2
+             border-dashed border-base-300 h-full rounded-lg cursor-pointer
+             hover:border-primary hover:bg-base-200 transition-all duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-base-content/40 mb-2" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            <p class="text-sm text-base-content/60">
+                <span class="font-semibold text-primary">Click to upload</span> or drag and drop
+            </p>
+            <!-- Input is OUTSIDE the label — prevents file dialog on drop -->
+            <input #fileInput type="file" 
+                class="hidden" 
+                (change)="onFileSelected($event)"  
+                (click)="$event.stopPropagation()" />
+        </div>
+    </div>
+    
+<!-- we will show the preview of the image next to the dropzone-->
+@if(imageSrc() || fileName() ){
+    <div class="flex flex-col w-1/3 gap-3">
+        @if (imageSrc()) {
+        <div class="flex justify-center border-2 border-gray-300 rounded-lg">
+            <img src="{{imageSrc()}}" alt="image preview" class="aspect-square object-cover rounded-lg" />
+        </div>
+        }
+    </div>
+} 
+</div>
+@if (fileName()) {
+    <div class="flex justify-center border-2 border-gray-300 rounded-lg mt-2  text-gray-500 dark:text-gray-400">
+        <span class="font-semibold text-blue-600 h-9">
+            {{fileName()}}
+        </span>
+    </div>
+}
+@if(imageSrc() || fileName() ){
+    <div class="flex w-full gap-3 mt-4">
+        <button (click)="onCancel()" class="btn flex-1">Cancel</button>
+        <button (click)="onUploadFile()" [disabled]="loading()" class="btn btn-primary flex-1">
+            @if(loading()){
+                <span class="loading loading-spinner"></span>
+            }
+        Upload & Create Document</button>
+    </div>
+
+}

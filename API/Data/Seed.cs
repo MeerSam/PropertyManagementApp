@@ -87,157 +87,33 @@ public class Seed
         // 6. PropertyOwnership (historical)
         if (!await context.PropertyOwnerships.AnyAsync())
         {
+            var count = 0;
             foreach (var ownership in data.PropertyOwnerships)
             {
-                var owner_record = new PropertyOwnership
+                if (count < 25)
                 {
-                    Id =  ownership.Id,
-                    PropertyId= ownership.PropertyId,
-                    MemberId = ownership.MemberId,
-                    OwnershipType = ownership.OwnershipType,   
-                    IsCurrent = ownership.IsCurrent,
-                    StartDate = ownership.StartDate,
-                    EndDate = ownership.EndDate,
-                    OwnershipPercentage = ownership.OwnershipPercentage                 
+                    count++;
+                    var owner_record = new PropertyOwnership
+                    {
+                        Id = ownership.Id,
+                        PropertyId = ownership.PropertyId,
+                        MemberId = ownership.MemberId,
+                        OwnershipType = ownership.OwnershipType,
+                        IsCurrent = ownership.IsCurrent,
+                        StartDate = ownership.StartDate,
+                        EndDate = ownership.EndDate,
+                        OwnershipPercentage = ownership.OwnershipPercentage
 
-                };
-                context.PropertyOwnerships.Add(owner_record);
+                    };
+                    context.PropertyOwnerships.Add(owner_record);
+                }
+
             }
             var result = await context.SaveChangesAsync();
-            if (result < 0) return; 
+            if (result < 0) return;
 
         }
 
-    }
-    public static async Task SeedDataOld(AppDbContext context)
-    {
-        if (!await context.Clients.AnyAsync())
-        {
-
-            var rawClientData = await File.ReadAllTextAsync("Data/ClientSeedData.json");
-
-            var clients = JsonSerializer.Deserialize<List<SeedClientDto>>(rawClientData);
-
-            if (clients != null)
-            {
-                foreach (var clientInfo in clients)
-                {
-
-                    var client = new Client
-                    {
-                        Id = clientInfo.ClientId,
-                        Name = clientInfo.Name,
-                        Address = clientInfo.Address,
-                        IsActive = clientInfo.IsActive
-                    };
-                    context.Clients.Add(client);
-
-                }
-                ;
-            }
-
-            await context.SaveChangesAsync();
-        }
-
-        if (!await context.Users.AnyAsync())
-        {
-            var rawMemberData = await File.ReadAllTextAsync("Data/MemberSeedData.json");
-
-            var members = JsonSerializer.Deserialize<List<SeedDto>>(rawMemberData);
-
-            if (members != null)
-            {
-                // we need to work on password Hash
-                using var hmac = new HMACSHA512(); // removed since using ASPNET IDENTITY
-
-                foreach (var member in members)
-                {
-                    var existUser = await context.Users.FirstOrDefaultAsync(x => x.Id == member.UserId);
-                    var client = await context.Clients.FirstAsync(x => x.Id == member.ClientId);
-                    if (existUser == null)
-                    {
-                        var user = new AppUser
-                        {
-                            Id = member.UserId,
-                            Email = member.Email,
-                            // UserName = member.Email, // must be in for AspNET Identity
-                            DisplayName = member.DisplayName,
-                            ImageUrl = member.ImageUrl,
-                            FirstName = member.FirstName,
-                            LastName = member.LastName,
-                            Gender = member.Gender,
-                            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd")),
-                            PasswordSalt = hmac.Key
-                        };
-
-                        if (client != null)
-                        {
-                            user.ClientAccess.Add(new UserClientAccess
-                            {
-                                UserId = user.Id,
-                                ClientId = client.Id,
-                                Role = member.Role ?? "owner",
-                                IsActive = true,
-                                GrantedDate = DateTime.Now,
-                            });
-
-
-                            user.Members.Add(new Member
-                            {
-                                Id = member.MemberId,
-                                ImageUrl = member.ImageUrl,
-                                Email = member.Email,
-                                DisplayName = member.DisplayName,
-                                FirstName = member.FirstName,
-                                LastName = member.LastName,
-                                Gender = member.Gender,
-                                ClientId = client.Id,
-                                UserId = user.Id
-                            });
-                        }
-                        if (!await context.Users.AnyAsync(u => u.Id == member.UserId))
-                        {
-                            context.Users.Add(user);
-                        }
-                    }
-                    else
-                    {
-                        var access = await context.UserClientAccess.FirstOrDefaultAsync(x => x.ClientId == member.ClientId && x.UserId == member.UserId);
-                        if (access == null)
-                        {
-                            existUser.ClientAccess.Add(new UserClientAccess
-                            {
-                                UserId = existUser.Id,
-                                ClientId = client.Id,
-                                Role = member.Role ?? "owner",
-                                IsActive = true,
-                                GrantedDate = DateTime.Now,
-                            });
-                        }
-
-                        if (!await context.Members.AnyAsync(x => x.Id == member.MemberId))
-                        {
-                            existUser.Members.Add(new Member
-                            {
-                                Id = member.MemberId,
-                                ImageUrl = member.ImageUrl,
-                                Email = member.Email,
-                                DisplayName = member.DisplayName,
-                                FirstName = member.FirstName,
-                                LastName = member.LastName,
-                                Gender = member.Gender,
-                                ClientId = client.Id,
-                                UserId = existUser.Id
-                            });
-                        }
-                    }
-                }
-
-                await context.SaveChangesAsync();
-                context.ChangeTracker.Clear();
-            }
-
-        }
     }
 }
 

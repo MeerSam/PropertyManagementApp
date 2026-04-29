@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260408041605_AddDocuments")]
+    partial class AddDocuments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.12");
@@ -165,8 +168,8 @@ namespace API.Data.Migrations
                     b.Property<string>("PropertyId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PropertyOwnershipId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("PropertyOwnershipId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Scope")
                         .HasColumnType("INTEGER");
@@ -320,8 +323,9 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.PropertyOwnership", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("TEXT");

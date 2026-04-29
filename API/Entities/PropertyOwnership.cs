@@ -5,14 +5,14 @@ namespace API.Entities;
 
 public class PropertyOwnership
 {
-    public int Id { get; set; }
+    public string Id { get; set; } = Guid.NewGuid().ToString();
     public required string PropertyId { get; set; }  
     public required string MemberId { get; set; } 
 
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }  // null = still active
 
-    public OwnershipType OwnershipType { get; set; }  // Primary, CoOwner
+    public OwnershipType OwnershipType { get; set; }  // Primary=0, CoOwner=1
     public decimal? OwnershipPercentage { get; set; } // optional — e.g. 50/50 split
     public bool IsCurrent { get; set; }
 

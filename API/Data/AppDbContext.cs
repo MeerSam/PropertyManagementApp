@@ -25,6 +25,8 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
 
     public DbSet<PropertyOwnership> PropertyOwnerships { get; set; }
 
+    public DbSet<Document> Documents { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -55,7 +57,7 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
             .OnDelete(DeleteBehavior.Cascade); //- Should be deleted when the Client is deleted.
 
 
-        // Member → Client (required)
+        // Member -> Client (required)
 
         builder.Entity<Member>()
             .HasOne(m => m.Client)
@@ -64,7 +66,7 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
             .OnDelete(DeleteBehavior.Cascade); //- Should be deleted when the Client is deleted.
 
 
-        // Member → AppUser (optional)
+        // Member -> AppUser (optional)
         builder.Entity<Member>()
             .HasOne(m => m.User)
             .WithMany()
@@ -98,6 +100,61 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
             .HasIndex(po => new { po.PropertyId, po.OwnershipType, po.IsCurrent })
             .IsUnique()
             .HasFilter("\"IsCurrent\" = true AND \"OwnershipType\" = 0"); // 0 = Primary
+
+        // Tenant query filter — same pattern as Property/Member
+        if (!IsSeeding)
+        {
+            builder.Entity<Document>()
+                .HasQueryFilter(d =>
+                    !IsSeeding &&
+                    d.ClientId == tenantService.GetCurrentClientId() &&
+                    d.IsActive);
+        }
+
+        // Document -> Client
+        builder.Entity<Document>()
+            .HasOne(d => d.Client)
+            .WithMany()
+            .HasForeignKey(d => d.ClientId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Document -> Property (optional)
+        builder.Entity<Document>()
+            .HasOne(d => d.Property)
+            .WithMany()
+            .HasForeignKey(d => d.PropertyId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Document -> PropertyOwnership (optional)
+        builder.Entity<Document>()
+            .HasOne(d => d.PropertyOwnership)
+            .WithMany()
+            .HasForeignKey(d => d.PropertyOwnershipId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Document -> UploadedBy
+        builder.Entity<Document>()
+            .HasOne(d => d.UploadedBy)
+            .WithMany()
+            .HasForeignKey(d => d.UploadedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Self-referential versioning chain
+        builder.Entity<Document>()
+            .HasOne(d => d.SupersededBy)
+            .WithMany()
+            .HasForeignKey(d => d.SupersededById)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        // Unique index: no duplicate StorageKey
+        builder.Entity<Document>()
+            .HasIndex(d => d.StorageKey)
+            .IsUnique();
+
+
     }
 
 }

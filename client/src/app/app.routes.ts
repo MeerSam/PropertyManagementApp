@@ -16,7 +16,8 @@ import { PropertyDocuments } from '../features/properties/property-documents/pro
 import { propertyResolver } from '../features/properties/property-resolver';
 import { memberResolver } from '../features/members/member-resolver';
 import { MemberProfile } from '../features/members/member-profile/member-profile';
-import { preventUnsavedChangesGuard } from '../core/guards/prevent-unsaved-changes-guard';
+import { preventUnsavedChangesGuard } from '../core/guards/prevent-unsaved-changes-guard'; 
+import { DocumentList } from '../features/documents/document-list/document-list';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -90,6 +91,12 @@ export const routes: Routes = [
                     },
                 ]
             },
+            {
+                path: 'documents',
+                canActivate:[authGuard],
+                runGuardsAndResolvers:'always',
+                component: DocumentList
+            }
         ]
     },
     { path: 'errors', component: TestErrors },
@@ -99,9 +106,9 @@ export const routes: Routes = [
 
 // ### 6. **Recommended Route Structure**
 // ```
-// /dashboard                    → redirects based on role
-// /dashboard/admin/*            → Admin views
-// /dashboard/board/*            → Board member views
-// /dashboard/manager/*          → Property manager views
-// /dashboard/owner/*            → Owner views (Primary/Resident gated at component level)
+// /dashboard                    -> redirects based on role
+// /dashboard/admin/*            -> Admin views
+// /dashboard/board/*            -> Board member views
+// /dashboard/manager/*          -> Property manager views
+// /dashboard/owner/*            -> Owner views (Primary/Resident gated at component level)
 // ```

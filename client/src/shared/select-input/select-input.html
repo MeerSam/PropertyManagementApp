@@ -1,0 +1,17 @@
+<label class="floating-label text-left m-2">
+    <span class="text-lg">{{ label() }}</span>
+    <select
+        class="select w-full"
+        [class.select-error]="control.invalid && control.touched"
+        [class.select-success]="control.valid && control.touched"
+        [formControl]="control"
+        (change)="onSelect($event)">
+        <option value="" disabled>{{ placeholder() }}</option>
+        @for (opt of options(); track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+        }
+    </select>
+    @if (control.hasError('required') && control.touched) {
+        <div class="validation-hint text-error text-xs">{{ label() }} is a required field!</div>
+    }
+</label>

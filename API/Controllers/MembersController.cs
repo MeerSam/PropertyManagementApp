@@ -29,7 +29,7 @@ namespace API.Controllers
             return member;
         }
         [HttpGet("{id}/properties")]
-        public async Task<ActionResult<IReadOnlyList<Property>>> GetCurrentProperties(string id)
+        public async Task<ActionResult<IReadOnlyList<PropertyDto>>> GetCurrentProperties(string id)
         {
             return Ok(await propertyRepository.GetMemberCurrentPropertiesAsync(id));
         }

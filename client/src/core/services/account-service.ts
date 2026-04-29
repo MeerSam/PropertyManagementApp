@@ -36,7 +36,7 @@ export class AccountService {
 
   /**
    * Called by SessionService after a successful login or client selection.
-   * Maps the UserDto + accessToken → User and stores in signal + localStorage.
+   * Maps the UserDto + accessToken -> User and stores in signal + localStorage.
    */
 
   initUserFromStorage(): boolean {
