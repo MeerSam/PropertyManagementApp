@@ -28,7 +28,7 @@ export class PropertyProfile implements OnInit {
     // coming from the data resolver
     this.route.data.subscribe(data => {
       this.property.set(data['property']) 
-      console.log(data['property']);
+// //*meera console.log(.log(data['property']);
     })
     this.title.set(this.route.firstChild?.snapshot?.title) // coming from app.route.path_title
 

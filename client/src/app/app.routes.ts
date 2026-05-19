@@ -17,7 +17,9 @@ import { propertyResolver } from '../features/properties/property-resolver';
 import { memberResolver } from '../features/members/member-resolver';
 import { MemberProfile } from '../features/members/member-profile/member-profile';
 import { preventUnsavedChangesGuard } from '../core/guards/prevent-unsaved-changes-guard'; 
-import { DocumentList } from '../features/documents/document-list/document-list';
+import { MemberDocument } from '../features/members/member-document/member-document';
+import { DocumentRecords } from '../features/documents/document-records/document-records';
+import { DocumentScope } from '../types/document';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -49,8 +51,11 @@ export const routes: Routes = [
                                 title:'Properties',
                                 canDeactivate:[preventUnsavedChangesGuard], 
                                 runGuardsAndResolvers: 'always'},
-                            { path: 'documents', 
-                                component: MemberProfile,  
+                            { path: 'documents',
+                                component: MemberDocument,  
+                                data: {
+                                    scope: 'OwnerTenure' 
+                                },
                                 title:'Properties',
                                 canDeactivate:[preventUnsavedChangesGuard], 
                                 runGuardsAndResolvers: 'always'}
@@ -86,7 +91,9 @@ export const routes: Routes = [
                         children: [
                             { path: '', redirectTo:'details', pathMatch:'full'},
                             { path: 'details', component: PropertyDetails,  title:'Details'},
-                            { path: 'documents', component: PropertyDocuments, title:'Documents'},
+                            { path: 'documents', 
+                                component: PropertyDocuments, 
+                                title:'Documents'},
                         ]
                     },
                 ]
@@ -95,7 +102,8 @@ export const routes: Routes = [
                 path: 'documents',
                 canActivate:[authGuard],
                 runGuardsAndResolvers:'always',
-                component: DocumentList
+                data: {scope: 'Community' as DocumentScope},
+                component: DocumentRecords
             }
         ]
     },

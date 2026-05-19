@@ -93,13 +93,15 @@ public class DocumentsController(AppDbContext context,
             Scope = uploadDocDto.Scope,
             Category = uploadDocDto.Category,
             PropertyId = uploadDocDto.PropertyId,
-            PropertyOwnershipId =   uploadDocDto.PropertyOwnershipId ,
+            PropertyOwnershipId = uploadDocDto.PropertyOwnershipId,
             StorageKey = storageKey,
             FileName = file.FileName,
             MimeType = file.ContentType,
             FileSizeBytes = file.Length,
             UploadedByUserId = userId,
-            Notes = uploadDocDto.Notes
+            Notes = uploadDocDto.Notes,
+            CreatedByUserId = userId,
+            ModifiedByUserId = userId   
         };
 
         context.Documents.Add(doc);
@@ -115,6 +117,37 @@ public class DocumentsController(AppDbContext context,
         return doc.ToDto();
 
     }
+
+    [HttpGet("member/{memberId}")]
+    public async Task<ActionResult<IReadOnlyList<DocumentDto>>> GetAllMemberDocuments(string memberId,[FromQuery] DocumentParams documentParams)
+    {
+        var userId = User.GetUserId();
+        var clientId = User.GetClientId();
+        var loggedIn_memberId = User.GetMemberId(); 
+        // var documentParams = new DocumentParams
+        // {
+        //     Scope= DocumentScope.OwnerTenure
+        // }; 
+
+        if (string.IsNullOrEmpty(memberId)) return BadRequest("Must send member in request for querying member documents");
+
+        var hasAccess = await loginAccess.GetAccessByIdAsync(clientId, userId);
+        // Any active UserClientAccess for this client can view
+        if (hasAccess == null) return Forbid("Unable request community docs based on the credentials");
+
+        // Managers, admins, board can always view list
+        // Owners must be current primary owner of this property
+        bool canView = hasAccess.Role is "admin" or "property_manager" or "board_member";
+
+        if (!canView) canView = (loggedIn_memberId == memberId);   
+       
+        if(!canView) return Unauthorized("You are unauthorized to view requested information"); 
+ 
+        var result = await documentRepository.GetAllDocumentsByMember(clientId, memberId,documentParams  );
+        
+        return Ok(result);
+    }
+
 
     [HttpGet("community")]
     public async Task<ActionResult<IReadOnlyList<DocumentDto>>> GetCommunityDocuments()
@@ -136,10 +169,10 @@ public class DocumentsController(AppDbContext context,
         var clientId = User.GetClientId();
 
         var access = await loginAccess.GetAccessByIdAsync(clientId, userId);
-        if (access == null) return Unauthorized("You do not have access to documents you requested.");
+        if (access == null) return Forbid("You do not have access to documents you requested.");
 
 
-        // Managers, admins, board can always list
+        // Managers, admins, board can always view list
         // Owners must be current primary owner of this property
         bool canView = access.Role is "admin" or "property_manager" or "board_member";
 
@@ -180,7 +213,7 @@ public class DocumentsController(AppDbContext context,
 
             var ownership = await context.PropertyOwnerships
                         .Include(po => po.Member)
-                        .Where(po => po.Id ==  ownershipId 
+                        .Where(po => po.Id == ownershipId
                                 && po.Property.ClientId == clientId
                                 && po.Member != null && po.MemberId == member.Id
                                 && po.OwnershipType == OwnershipType.Primary)

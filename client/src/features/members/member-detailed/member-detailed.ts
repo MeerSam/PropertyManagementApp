@@ -13,7 +13,7 @@ import { MemberService } from '../../../core/services/member-service';
 export class MemberDetailed implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private session = inject(SessionService);
+  protected session = inject(SessionService);
   protected memberService = inject(MemberService);
   // member = signal<Member | null>(null)  ; // member signal loaded into the member-service for access to updated member info
   loading = true;
@@ -21,6 +21,7 @@ export class MemberDetailed implements OnInit {
   protected isCurrentUser = computed(() => {
     return this.session.currentUser()?.id === this.memberService.member()?.userId;
   })
+  
 
 
   ngOnInit(): void {
@@ -32,9 +33,11 @@ export class MemberDetailed implements OnInit {
 
       if(!child) return ;
       child.data.subscribe( data =>{        
-        console.log('OnInit MemberDetailed data', data['member'])
+// //*meera console.log(.log('OnInit MemberDetailed data', data['member'])
       }) 
     })
+
+    
     this.route.url.subscribe(() => {
       const child = this.route.firstChild;
       if (child) {

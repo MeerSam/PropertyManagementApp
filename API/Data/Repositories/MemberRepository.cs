@@ -20,11 +20,11 @@ public class MemberRepository(AppDbContext context, ITenantService tenantService
         return member;
     }
 
-    public async  Task<Member?> GetMemberForUpdateAsync(string memberId)
+    public async Task<Member?> GetMemberForUpdateAsync(string memberId)
     {
         var member = await context.Members
-            .Include( m => m.User)         
-            .SingleOrDefaultAsync(m => m.Id ==memberId);
+            .Include(m => m.User)
+            .SingleOrDefaultAsync(m => m.Id == memberId);
 
         if (member == null) return member;
 
@@ -35,16 +35,23 @@ public class MemberRepository(AppDbContext context, ITenantService tenantService
         return member;
     }
 
-    public async  Task<IReadOnlyList<Member>> GetMembersAsync()
+    public async Task<IReadOnlyList<Member>> GetMembersAsync()
     {
         var members = await context.Members
-            .Include(m => m.PropertyOwnerships) 
-            .Where(m => m.ClientId == tenantService.GetCurrentClientId()) 
+            .Include(m => m.PropertyOwnerships)
+            .Where(m => m.ClientId == tenantService.GetCurrentClientId())
             .ToListAsync();
 
         return members;
 
     }
+
+    // public async Task<IReadOnlyList<Photo>> GetPhotosForMemberAsync(string memberId)
+    // {
+    // return await context.Members.Where(x => x.Id == memberId)
+    //   .SelectMany(x => x.Photos)
+    //   .ToListAsync();
+    // }
 
     public async Task<bool> SaveAllAsync()
     {

@@ -18,7 +18,7 @@ export class TestErrors {
     this.http.get(this.baseUrl + 'buggy/not-found').subscribe({
       next: response => console.log(response),
       error: error => {
-        console.log(error); 
+// //*meera console.log(.log(error); 
       }
     })
   }
@@ -26,7 +26,7 @@ export class TestErrors {
     this.http.get(this.baseUrl + 'buggy/bad-request').subscribe({
       next: response => console.log(response),
       error: error => {
-        console.log(error); 
+// //*meera console.log(.log(error); 
       }
     })
   }
@@ -35,7 +35,7 @@ export class TestErrors {
     this.http.get(this.baseUrl + 'buggy/server-error').subscribe({
       next: response => console.log(response),
       error: error => {
-        console.log(error); 
+// //*meera console.log(.log(error); 
       }
     })
   }
@@ -43,7 +43,7 @@ export class TestErrors {
     this.http.get(this.baseUrl + 'buggy/auth').subscribe({
       next: response => console.log(response),
       error: error => {
-        console.log(error); 
+// //*meera console.log(.log(error); 
       }
     })
   }
@@ -51,7 +51,7 @@ export class TestErrors {
     this.http.post(this.baseUrl + 'account/register',{}).subscribe({
       next: response => console.log(response),
       error: error => {
-        console.log(error);
+// //*meera console.log(.log(error);
         this.validationErrors.set(error);
       }
     })

@@ -20,7 +20,7 @@ export class Dashboard   {
 
   constructor()  {
     const memberId = this.session.activeClient()?.memberId
-    console.log(memberId)
+// //*meera console.log(.log(memberId)
     if (memberId) {
       this.properties$ = this.propertyService.getPropertiesByOwner(memberId);
     }

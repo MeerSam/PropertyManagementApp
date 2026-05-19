@@ -16,7 +16,7 @@ export class FileUpload implements AfterViewInit {
   protected fileName = signal<string | null | undefined>(null);
 
   ngAfterViewInit(): void {
-    console.log(" ngAfterViewInit of the fileUploader Component ", this.fileName())
+    // console.log(" ngAfterViewInit of the fileUploader Component ", this.fileName())
     this.reset()
   } 
 
@@ -65,7 +65,7 @@ export class FileUpload implements AfterViewInit {
     }
   }
   reset() {
-    console.log('resetting the file upload component')
+    // console.log('resetting the file upload component')
     this.fileToUpload = null;
     this.imageSrc.set(null);
     this.fileName.set(null);

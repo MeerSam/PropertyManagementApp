@@ -1,7 +1,9 @@
 using System;
+using System.Linq.Expressions;
 using API.DTOs.Docs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using Humanizer;
 using Microsoft.EntityFrameworkCore;
@@ -15,24 +17,24 @@ ITenantService tenantService) : IDocumentRepository
     {
         //  Mkae sure the access is checked 
         return await context.Documents
-            .Where(d => d.ClientId == clientId 
-                && d.IsActive == true 
+            .Where(d => d.ClientId == clientId
+                && d.IsActive == true
                 && (d.Scope == DocumentScope.Community || d.Scope == DocumentScope.Public))
-            .OrderByDescending(d=> d.UploadedAt)
+            .OrderByDescending(d => d.UploadedAt)
             .Select(DocumentExtensions.ToDtoProjection())
             .ToListAsync();
     }
 
 
     public async Task<IReadOnlyList<DocumentDto>> GetDocumentsByProperty(string propertyId, DocumentScope? scope = DocumentScope.PropertyHistory)
-    { 
+    {
         // current owner can see the PropertyHistory belonging to property and their own docs (d.PropertyOwnership == only the person can see)
 
         var docs = await context.Documents
-            .Where(d => d.IsActive 
+            .Where(d => d.IsActive
                 && d.ClientId == tenantService.GetCurrentClientId()
-                && d.PropertyId == propertyId  
-                && d.Scope == scope )
+                && d.PropertyId == propertyId
+                && d.Scope == scope)
         .Select(DocumentExtensions.ToDtoProjection())
         .ToListAsync();
 
@@ -40,13 +42,13 @@ ITenantService tenantService) : IDocumentRepository
 
     }
 
-    public async Task<IReadOnlyList<DocumentDto>> GetDocumentsByOwnership(string ownershipId,DocumentScope? scope)
+    public async Task<IReadOnlyList<DocumentDto>> GetDocumentsByOwnership(string ownershipId, DocumentScope? scope)
     {
         var docs = await context.Documents
-            .Where(d => d.IsActive 
-                && d.ClientId == tenantService.GetCurrentClientId() 
-                && d.PropertyOwnershipId == ownershipId 
-                && (scope ==null || d.Scope == scope) )
+            .Where(d => d.IsActive
+                && d.ClientId == tenantService.GetCurrentClientId()
+                && d.PropertyOwnershipId == ownershipId
+                && (scope == null || d.Scope == scope))
         .Select(DocumentExtensions.ToDtoProjection())
         .ToListAsync();
 
@@ -61,28 +63,28 @@ ITenantService tenantService) : IDocumentRepository
         if (userClientAccess == null) return false;
 
         if (userClientAccess.Role == "board_member")
-        switch (scope)
-        {
-            case DocumentScope.Community:
-            case DocumentScope.Public:
-                return userClientAccess != null;
-            case DocumentScope.OwnerTenure:
-            case DocumentScope.PropertyHistory:
-                if (propertyId == null) return false;
+            switch (scope)
+            {
+                case DocumentScope.Community:
+                case DocumentScope.Public:
+                    return userClientAccess != null;
+                case DocumentScope.OwnerTenure:
+                case DocumentScope.PropertyHistory:
+                    if (propertyId == null) return false;
 
-                var ownership = await context.PropertyOwnerships
-                        .Include(po => po.Member)
-                        .Where(po => po.PropertyId == propertyId
-                                && po.Property.ClientId == clientId
-                                && po.IsCurrent == true
-                                && po.EndDate == null
-                                && po.Member != null && po.Member.UserId == userClientAccess.UserId
-                                && po.OwnershipType == OwnershipType.Primary)
-                        .Select(po => po.MemberId)
-                        .ToListAsync();
-                if (ownership != null) return true;
-                return false;
-        }
+                    var ownership = await context.PropertyOwnerships
+                            .Include(po => po.Member)
+                            .Where(po => po.PropertyId == propertyId
+                                    && po.Property.ClientId == clientId
+                                    && po.IsCurrent == true
+                                    && po.EndDate == null
+                                    && po.Member != null && po.Member.UserId == userClientAccess.UserId
+                                    && po.OwnershipType == OwnershipType.Primary)
+                            .Select(po => po.MemberId)
+                            .ToListAsync();
+                    if (ownership != null) return true;
+                    return false;
+            }
         return false;
 
     }
@@ -97,5 +99,63 @@ ITenantService tenantService) : IDocumentRepository
         //we can avoid getting the error by using the update method
         // in case of identical savechanges which in SaveAllAsync method will return false.
         context.Entry(document).State = EntityState.Modified;
+    }
+
+    public async Task<IReadOnlyList<DocumentDto>> GetAllDocumentsByMember(string clientId, string memberId, DocumentParams documentParams)
+    {
+
+        var currentProperties = await context.PropertyOwnerships
+            .Where(po => po.Property.ClientId == clientId
+                    && po.IsCurrent == true
+                    && po.EndDate == null
+                    && po.Member != null && po.Member.Id == memberId
+                    && po.OwnershipType == OwnershipType.Primary)
+            .Select(po => po.PropertyId)
+            .ToListAsync();
+
+        var scope = documentParams.Scope ?? null;
+
+
+        var docs = await context.Documents
+            .Include(d => d.Property)
+            .Where(d => d.IsActive &&
+                        d.ClientId == tenantService.GetCurrentClientId() &&
+                        (scope == null || d.Scope == scope) &&
+                        (d.Scope == DocumentScope.Public ||
+                            d.Scope == DocumentScope.Community ||
+                            (d.Scope == DocumentScope.OwnerTenure &&
+                                d.PropertyOwnership != null &&
+                                d.PropertyOwnership.MemberId == memberId) ||
+                            (d.Scope == DocumentScope.PropertyHistory
+                                && d.PropertyId != null
+                                && currentProperties.Contains(d.PropertyId))
+                        )
+                    )
+            .Select(DocumentExtensions.ToDtoProjection())
+            .OrderBy(d => d.Scope)
+            .ThenBy(d => d.PropertyId)
+            .ThenByDescending(d => d.UploadedAt)
+            .ToListAsync();
+
+        return docs;
+
+    }
+
+    private static Expression<Func<Document, bool>> VisibilityRule(string memberId, IReadOnlyList<string> currentProperties)
+    {
+        return d =>
+            d.Scope == DocumentScope.Public ||
+            d.Scope == DocumentScope.Community ||
+            (d.Scope == DocumentScope.OwnerTenure &&
+                d.PropertyOwnership != null &&
+                d.PropertyOwnership.MemberId == memberId) ||
+            (d.Scope == DocumentScope.PropertyHistory &&
+                d.PropertyId != null &&
+                currentProperties.Contains(d.PropertyId));
+    }
+
+    private static Expression<Func<Document, bool>> ScopeFilter(DocumentScope? scope)
+    {
+        return d => scope == null || d.Scope == scope;
     }
 }

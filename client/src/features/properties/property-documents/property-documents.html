@@ -1,1 +1,9 @@
-<p>property-documents works!</p>
+@if(propertyId() ){
+<!-- <app-document-list [documentParams]="{ 
+  scope: 'PropertyHistory', 
+  propertyId: propertyId(),
+  ownerships: ownerships(), 
+  }" /> -->
+
+<app-document-records [scope]="scope()" [propertyId]=propertyId() [ownerships]=ownerships() />
+}

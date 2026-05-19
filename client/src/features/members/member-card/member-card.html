@@ -1,9 +1,9 @@
 @if(member(); as member){
 <div routerLink="/members/{{member.id}}" class="card cursor-pointer transition-all duration-300 ease-in-out 
             transform hover:-translate-y-2 relative">
-    <div class="card bg-base-100 w-96 shadow-sm">
+    <div class="card bg-base-100 w-90 shadow-sm gap-2">
         <figure>
-            <img [src]="member.imageUrl" [alt]="member.firstName" />
+            <img src="{{member.imageUrl || '/user.png'}}" alt="{{member.firstName}} image" class="size-1/2 object-cover rounded-box" />
         </figure>
         <div class="card-body">
             <h2 class="card-title">

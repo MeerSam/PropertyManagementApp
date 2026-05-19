@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { AppRole, User, UserDto } from '../../types/user';
-import { AuthErrorResponse, AuthSuccessResponse, ClientSelectLoginResponse, RegisterDto } from '../../types/auth';
+import { AppRole, EditableUser, User, UserDto } from '../../types/user';
+import { AuthErrorResponse, AuthSuccessResponse, ClientSelectLoginResponse, RegisterDto, RegisterResponse } from '../../types/auth';
+import { EditableMember } from '../../types/member';
 
 
 @Injectable({
@@ -24,13 +25,16 @@ export class AccountService {
   }
   // fetching WebAPI data
   register(creds: RegisterDto) {
-    return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
+    console.log('creds', creds)
+    return this.http.post<RegisterResponse>(this.baseUrl + 'account/register', creds);
   }
 
   login(creds: any) {
     return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
   }
-
+  updateUser(data: EditableUser) {
+    return this.http.put(this.baseUrl + 'account', data);
+  }
 
   // ─── State Mutations (called only by SessionService) ──────────
 
@@ -80,9 +84,9 @@ export class AccountService {
 
   isAuthError(response: any): response is AuthErrorResponse {
     return response && 'message' in response && !('accessToken' in response);
-  } 
+  }
 
-  
+
   // ─── Role Helpers ─────────────────────────────────────────────
   hasRole(...roles: AppRole[]): boolean {
     const role = this.currentUser()?.appRole;

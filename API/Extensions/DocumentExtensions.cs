@@ -43,7 +43,9 @@ public static class DocumentExtensions
             IsSuperseded= document.IsSuperseded,
             SupersededById=document.SupersededById,
             UploadedAt=document.UploadedAt,
-            Notes=document.Notes
+            Notes=document.Notes,
+            Property = document.Property, 
+            PropertyId = document.PropertyId,
         };
     }
 

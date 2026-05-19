@@ -3,6 +3,7 @@ using API.Entities;
 using API.Interfaces;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data;
 
@@ -26,6 +27,8 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
     public DbSet<PropertyOwnership> PropertyOwnerships { get; set; }
 
     public DbSet<Document> Documents { get; set; }
+    public DbSet<Vehicle> Vehicles { get; set; }
+    // public DbSet<Photo> Photos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -40,6 +43,10 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
             builder.Entity<UserClientAccess>().HasQueryFilter(uca => !IsSeeding && uca.ClientId == tenantService.GetCurrentClientId());
             builder.Entity<Property>().HasQueryFilter(p => !IsSeeding && p.ClientId == tenantService.GetCurrentClientId());
             builder.Entity<Member>().HasQueryFilter(m => !IsSeeding && m.ClientId == tenantService.GetCurrentClientId());
+            builder.Entity<Vehicle>().HasQueryFilter(v => v.ClientId == tenantService.GetCurrentClientId());
+            builder.Entity<Vehicle>().HasQueryFilter(v => v.ClientId == tenantService.GetCurrentClientId());
+            // EF Core captures the method call(tenantService.GetCurrentClientId()) inside the expression tree and evaluates it later — not during model creation.
+            // This prevents the “No active HTTP context” crash if you create a var clientID =tenantService.GetCurrentClientId() outside the expression.
         }
 
 
@@ -154,6 +161,59 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
             .HasIndex(d => d.StorageKey)
             .IsUnique();
 
+        builder.Entity<Vehicle>(entity =>
+        {
+            entity.HasKey(v => v.Id);
+
+            entity.HasOne(v => v.Owner)
+                .WithMany(m => m.Vehicles)
+                .HasForeignKey(v => v.OwnerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(v => v.User)
+                .WithMany()
+                .HasForeignKey(v => v.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(v => v.Client)
+                .WithMany(c => c.Vehicles)
+                .HasForeignKey(v => v.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // builder.Entity<Photo>()
+        // .HasOne(p => p.Member)
+        // .WithMany(m => m.Photos)
+        // .HasForeignKey(p => p.MemberId)
+        // .OnDelete(DeleteBehavior.Cascade);
+
+        /* var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+            v => v.ToUniversalTime(),
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc)
+        );
+
+        // for Message we've used Optional Datetime (i.e. DateRead is Datetime?)
+        // for the compiler its not the same that is why the DateRead was not returning a UTC Time
+        // therefore we must do the same as above for optional DateTime
+        var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>(
+            v => v.HasValue ? v.Value.ToUniversalTime() : null,
+            v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : null
+        );
+
+        foreach (var entityType in builder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties())
+            {
+                if (property.ClrType == typeof(DateTime))
+                {
+                    property.SetValueConverter(dateTimeConverter);
+                }
+                else if (property.ClrType == typeof(DateTime?))
+                {
+                    property.SetValueConverter(nullableDateTimeConverter);
+                }
+            }
+        } */
 
     }
 

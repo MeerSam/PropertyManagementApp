@@ -2,6 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using API.Data;
+using API.Data.Repositories;
 using API.DTOs;
 using API.DTOs.Auth;
 using API.Entities;
@@ -11,16 +12,17 @@ using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Supabase.Gotrue;
 
 namespace API.Controllers;
 
 public class AccountController(AppDbContext context, ITokenService tokenService, IAuthService authService) : BaseApiController
 {
-     
+
     [HttpPost("register")] // /api/acount/register    
-    [ProducesResponseType(typeof(UserDto), 200)]
+    [ProducesResponseType(typeof(RegisterResponseDto), 200)]
     [ProducesResponseType(typeof(Exception), 400)]
-    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<RegisterResponseDto>> Register(RegisterDto registerDto)
     {
         /// This Method is only allowed after a user logged in and has rights to register new users
         /// The Signup and Register is not available for new users 
@@ -34,13 +36,21 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
 
             var requestUserId = User.GetUserId();
             var clientId = User.GetClientId();
-            var result = await authService.RegisterAsync(registerDto, clientId); 
+            var result = await authService.RegisterAsync(registerDto, clientId);
 
-            return result;
+            return new RegisterResponseDto
+            {
+                Success = !string.IsNullOrEmpty(result.Id),
+                Id = result.Id,
+                DisplayName = result.DisplayName,
+                ClientName = result.ActiveClient?.ClientName ?? string.Empty,
+                ActiveClient = result.ActiveClient,
+                AppRole = result.AppRole
+            };
         }
         catch (System.Exception ex)
         {
-            return BadRequest($"Something went wrong during registration { ex.Message}");
+            return BadRequest($"Something went wrong during registration {ex.Message}");
         }
     }
     [HttpPost("login")]
@@ -139,10 +149,11 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
 
     }
 
-    [HttpPut("updateuser")]
-    public async Task<IActionResult> UpdateUserData(LoginDto loginDto)
+    [HttpPut("updatecreds")]
+    public async Task<IActionResult> UpdateUserCredentials(LoginDto loginDto)
     {
         var user = await context.Users.SingleOrDefaultAsync(x => x.Email!.ToLower() == loginDto.Email.ToLower());
+
         if (user == null) return NotFound("Invalid user");
         using var hmac = new HMACSHA512();
 
@@ -161,7 +172,7 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
         var refreshToken = Request.Cookies["refreshToken"];
         if (refreshToken == null) return NoContent();
 
-        var uca = await context.UserClientAccess        
+        var uca = await context.UserClientAccess
             .FirstOrDefaultAsync(x => x.RefreshToken == refreshToken
             && x.RefreshTokenExpiry > DateTime.UtcNow);
 
@@ -169,9 +180,68 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
 
         await SetRefreshTokenCookie(uca);
 
-        var  user =  uca.User;
-        return   user.ToDto(tokenService);
+        var user = uca.User;
+        return user.ToDto(tokenService);
 
+    }
+    [HttpPut("updateuser")]
+    public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
+    {
+        var currentUserId = User.GetUserId();
+        var clientId = User.GetClientId();
+
+        var userToUpdate = await context.Users
+        .SingleOrDefaultAsync(x => x.Id == userUpdateDto.UserId);
+        if (userToUpdate == null) return NotFound("Invalid user");
+
+        // Verify user has access to the selected client
+        var userClientAccess = await context.UserClientAccess
+            .Where(uca => uca.ClientId == clientId
+                && uca.UserId == currentUserId
+                && uca.IsActive)
+            .FirstOrDefaultAsync() ?? throw new UnauthorizedAccessException("You don't have access to this HOA community"); ;
+
+
+        var allowedRoles = new HashSet<string>
+        {
+            "board_member",
+            "admin",
+            "property_manager"
+        };
+
+        if (allowedRoles.Contains(userClientAccess.Role))
+        {
+            // authorized
+            userToUpdate.DisplayName = userUpdateDto.DisplayName ?? userToUpdate.DisplayName;
+            userToUpdate.FirstName = userUpdateDto.FirstName ?? userToUpdate.FirstName;
+            userToUpdate.LastName = userUpdateDto.LastName ?? userToUpdate.LastName;
+            userToUpdate.Email = userUpdateDto.Email ?? userToUpdate.Email;
+             userToUpdate.ImageUrl = userUpdateDto.ImageUrl ?? userToUpdate.ImageUrl;
+            if (userUpdateDto.DateOfBirth != default)
+            {
+                userToUpdate.DateOfBirth = DateOnly.FromDateTime(userUpdateDto.DateOfBirth);
+            }
+
+        } 
+        var user = await context.Users
+            .Include(u => u.Members)
+            .FirstAsync(u => u.Id == userUpdateDto.UserId);
+
+        foreach (var member in user.Members)
+        {
+            member.DisplayName = userUpdateDto.DisplayName ?? member.DisplayName;
+            member.FirstName = userUpdateDto.FirstName ?? member.FirstName;
+            member.LastName = userUpdateDto.LastName ?? member.LastName;
+            member.Email = userUpdateDto.Email ?? member.Email;
+            member.Description = userUpdateDto.Description ?? member.Description;
+            member.ImageUrl =userUpdateDto.ImageUrl ?? member.ImageUrl;
+            if (userUpdateDto.DateOfBirth != default)
+            {
+                member.DateOfBirth = DateOnly.FromDateTime(userUpdateDto.DateOfBirth);
+            }
+        }
+        if (await context.SaveChangesAsync() > 0) return NoContent(); 
+        return BadRequest("Update could not be completed");
     }
 
 

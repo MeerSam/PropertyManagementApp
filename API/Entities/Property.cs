@@ -19,14 +19,16 @@ public class Property
     public int? Bathrooms { get; set; }
     public bool IsRented { get; set; } = false;
 
+    // public string? AssignedParking { get; set; } 
+
 
     // Multi-Tenant field
     public string ClientId { get; set; } = null!;
     [JsonIgnore]
     public Client Client { get; set; } = null!;
 
-    public ICollection<PropertyOwnership> Ownerships { get; set; } = [];
-
+    public ICollection<PropertyOwnership> Ownerships { get; set; } = []; 
+ 
     // // Convenience
     // public IEnumerable<PropertyOwnership> CurrentOwners =>
     //     Ownerships.Where(o => o.IsCurrent);

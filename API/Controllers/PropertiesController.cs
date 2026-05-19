@@ -40,8 +40,18 @@ public class PropertiesController(IPropertyRepository propertyRepository) : Base
                     EndDate =o.EndDate,
                     OwnershipType =o.OwnershipType.ToString(),
                     OwnershipPercentage =o.OwnershipPercentage,
-                    IsCurrent= o.IsCurrent
-
+                    IsCurrent= o.IsCurrent,
+                    Member = new MemberDto
+                    {
+                        Id = o.Member.Id,
+                        DisplayName = o.Member.DisplayName,
+                        Email = o.Member.Email,
+                        FirstName = o.Member.FirstName,
+                        LastName = o.Member.LastName,
+                        ClientId = o.Member.ClientId,
+                        ImageUrl = o.Member.ImageUrl,
+                        UserId = o.Member.UserId
+                    }, 
                 })],
             CurrentOwners = [.. property.Ownerships
                 .Where(o => o.IsCurrent)

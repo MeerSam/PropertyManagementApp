@@ -29,7 +29,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
         var user = await context.Users.SingleOrDefaultAsync(x => x.Email!.ToLower() == loginDto.Email.ToLower()) ?? throw new UnauthorizedAccessException("Invalid creadentials entered");
         using var hmac = new HMACSHA512(user.PasswordSalt);
 
-        
+
         // Step 2: Validate password
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
         try
@@ -169,7 +169,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
 
 
         // Step 10: Generate FULL JWT with ClientId and MemberId claims
-        var accessToken = tokenService.GenerateAccessToken(user, request.ClientId, clientAccess.Role, member?.Id?? "");
+        var accessToken = tokenService.GenerateAccessToken(user, request.ClientId, clientAccess.Role, member?.Id ?? "");
         var refreshToken = tokenService.GenerateRefreshToken();
 
         // Step 11: Save refresh token
@@ -207,7 +207,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
             FirstName = user.FirstName,
             LastName = user.LastName,
             ImageUrl = user.ImageUrl,
-            AppRole =activeClient.Role,
+            AppRole = activeClient.Role,
             ActiveClient = activeClient,
             AvailableClients = [.. allClientAccess]
         };
@@ -289,7 +289,8 @@ public class AuthService(AppDbContext context, ITokenService tokenService
                 DisplayName = registerDto.DisplayName,
                 Gender = registerDto.Gender,
                 ClientId = clientId,
-                UserId = newUser.Id
+                UserId = newUser.Id,
+                DateOfBirth = registerDto.DateOfBirth
             });
         }
         var finalresult = await context.SaveChangesAsync();

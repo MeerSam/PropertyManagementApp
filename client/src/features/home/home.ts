@@ -18,7 +18,7 @@ export class Home   {
   protected registerMode = signal(false); 
 
   showRegister(value: boolean){
-    console.log('show register value of event: ' + value);
+// //*meera console.log(.log('show register value of event: ' + value);
     this.registerMode.set(value); 
   }
   

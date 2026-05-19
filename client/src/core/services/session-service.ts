@@ -2,9 +2,9 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { AccountService } from './account-service';
 import { TenantService } from './tenant-service';
 import { Client } from '../../types/client';
-import { LoginCreds, LoginOutcome, SelectClientDto } from '../../types/auth';
+import { LoginCreds, LoginOutcome, RegisterDto, RegisterResponse, SelectClientDto } from '../../types/auth';
 import { map, catchError, of, Observable } from 'rxjs';
-import { AppRole, UserClientAccessInfo } from '../../types/user';
+import { AppRole, EditableUser, User, UserClientAccessInfo } from '../../types/user';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class SessionService {
   readonly activeClient = this.tenantService.activeClient;      // Signal<Client | null>
   readonly availableClients = this.tenantService.availableClients;// Signal<Client[]>
   readonly selectionToken = this.tenantService.selectionToken;    // Signal<string>
-
+  private adminRoles = ['admin', 'board_member', 'property_manager'];
 
   // Computed: is the session fully ready (user + client both present)?
   readonly isSessionReady = computed(() =>
@@ -30,6 +30,10 @@ export class SessionService {
   readonly currentRole = computed(() =>
     this.currentUser()?.appRole ?? null
   );
+
+  readonly isAdminRole = computed<boolean>(() =>
+      this.adminRoles.includes(this.currentRole() ?? '')
+  )
 
   // Computed: needs client selection (multi-client user at login)
   readonly needsClientSelection = computed(() =>
@@ -53,6 +57,9 @@ export class SessionService {
       this.logout();
     }
     return of(null);
+  }
+  register(creds: RegisterDto) {
+    return this.accountService.register(creds);
   }
 
   login(creds: LoginCreds): Observable<LoginOutcome> {
@@ -85,6 +92,14 @@ export class SessionService {
         message: err?.error?.message ?? 'Server error'
       } as LoginOutcome))
     );
+  }
+
+  setCurrentUser(user: User) {
+      this.accountService.setCurrentUser(user);
+    }
+
+  updateUser(data: EditableUser) {
+      return this.accountService.updateUser(data);
   }
 
   // ─── Step 2: Client Selection ─────────────────────────────────
@@ -132,8 +147,8 @@ export class SessionService {
   switchClient() {
     this.tenantService.clearActiveClient();
     // Keep user, clear client — router navigates to /select-client
-  } 
-  
+  }
+
   private mapToClient(accessInfo: UserClientAccessInfo[]): Client[] {
     const clients: Client[] = accessInfo.map(x => ({
       clientId: x.clientId,

@@ -40,6 +40,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             toast.error(error.error);
             break;
           default:
+            console.log(error);
             toast.error(`Something went wrong ${error.status}`);
             break;
         }

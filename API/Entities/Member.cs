@@ -33,6 +33,11 @@ public class Member
     [JsonIgnore] 
     public ICollection<PropertyOwnership> PropertyOwnerships { get; set; } = []; // member can have many property ownerships
 
+    public ICollection<Vehicle> Vehicles { get; set; } = []; // member can have many Vehicles
+
+    // [JsonIgnore]
+    // public ICollection<Photo> Photos { get; set; } = [];
+
    /*  ## Visual Relationship Summary
 ```
 AppUser (IdentityUser)

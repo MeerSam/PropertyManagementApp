@@ -19,4 +19,9 @@ public class DocumentDto
     public DateTime UploadedAt { get; set; }
     public string? Notes { get; set; }
 
+    public Property? Property { get; set; } 
+
+    public string? PropertyId { get; set; } 
+
+
 }

@@ -25,7 +25,7 @@ public class RegisterDto
     public bool IsBoardMember { get; set; } = false;
     public bool IsAdminMember { get; set; } = false;
     [Required] public DateOnly DateOfBirth { get; internal set; }
-    [Required] public string Gender { get; internal set; } = string.Empty;
+    [Required] public string Gender { get; set; } = string.Empty;
 
     [Required]
     public string Role { get; set; } = string.Empty;

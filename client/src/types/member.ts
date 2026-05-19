@@ -39,3 +39,11 @@ export type EditableMember = {
   email: string
 
 }
+  
+export type Photo ={
+    id: number;
+    url: string;
+    publicId?: string;
+    memberId: string;
+   
+}

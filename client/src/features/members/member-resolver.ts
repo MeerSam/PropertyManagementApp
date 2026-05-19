@@ -12,6 +12,6 @@ export const memberResolver: ResolveFn<Member> = (route, state) => {
     router.navigateByUrl('/not-found');
     return EMPTY;
   }
-  console.log('at resolver', memberId)
+// //*meera console.log(.log('at resolver', memberId)
   return memberService.getMember(memberId);
 };

@@ -42,6 +42,27 @@
                     <span class="font-semibold text-xl">Size (sq.ft.):</span>
                     <span class="font-semibold text-xl">{{property.squareFeet}}</span>
                 </div>
+                <div class="flex gap-3">
+                    <span class="font-semibold text-xl">Size (sq.ft.):</span>
+                    <span class="font-semibold text-xl">{{property.squareFeet}}</span>
+                </div>
+                <div class="divider"></div>
+                <div class="flex justify-between items-center">
+                    <div class="flex gap-3 w-full">
+                        <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4 font-semibold">
+                            <legend class="fieldset-legend ">Rented??</legend>
+                            <label class="label">
+                                <input type="checkbox" [checked]="property.isRented"
+                                    [disabled]="session.currentRole() !== 'admin'" class="checkbox checkbox-md" />
+                                @if (property.isRented) {
+                                    Rented
+                                }@else {
+                                    Owner Occupied
+                                }
+                            </label>
+                        </fieldset>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="card-actions justify-between gap-2 px-2 mb-3">
@@ -60,27 +81,10 @@
         </ul>
         <div class="divider"></div>
         <div class="flex flex-col gap-3 w-full">
-            <h3 class="card-title text-3xl text-primary w-full">Property {{title()}}</h3>
-        </div>
+            <h3 class="card-title text-2xl text-primary w-full">Property {{title()}}</h3>
+        </div> 
         <div class="divider"></div>
-        <div class="flex justify-between items-center">
-            <div class="flex gap-3 w-full">
-                <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4 font-semibold">
-                    <legend class="fieldset-legend ">Rented??</legend>
-                    <label class="label">
-                        <input type="checkbox" [checked]="property.isRented"
-                            [disabled]="session.currentRole() !== 'admin'" class="checkbox checkbox-md" />
-                        @if (property.isRented) {
-                        Rented
-                        }@else {
-                        Owner Occupied
-                        }
-                    </label>
-                </fieldset>
-            </div>
-        </div>
-        <div class="divider"></div>
-        <div class="h-full">
+        <div class="mt-1 h-full">
             <router-outlet />
         </div>
     </div>

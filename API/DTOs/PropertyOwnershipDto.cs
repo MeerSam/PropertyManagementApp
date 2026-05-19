@@ -16,4 +16,6 @@ public class PropertyOwnershipDto
     public decimal? OwnershipPercentage { get; set; } // optional — e.g. 50/50 split
     public bool IsCurrent { get; set; }
 
+    public MemberDto? Member{ get; set; } = null;
+
 }

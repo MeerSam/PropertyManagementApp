@@ -39,23 +39,23 @@ export class MemberProfile implements OnInit, OnDestroy {
     displayName: '',
   };
   ngOnInit(): void {
-    console.log('OnInit MemberProfile memServ before', this.memberService.member());
-    this.route.parent?.data.subscribe(data => { 
-        if (data) {
-          this.memberService.member.set(data['member'])
-          this.editabelMember = {
-            description: this.memberService.member()?.description || '',
-            firstName: this.memberService.member()?.firstName || '',
-            lastName: this.memberService.member()?.lastName || '',
-            email: this.memberService.member()?.email || '',
-            displayName: this.memberService.member()?.displayName || ''
-          }
-        } else {
-          this.toast.error('Error loading ember from parent')
+    // //*meera console.log(.log('OnInit MemberProfile memServ before', this.memberService.member());
+    this.route.parent?.data.subscribe(data => {
+      if (data) {
+        this.memberService.member.set(data['member'])
+        this.editabelMember = {
+          description: this.memberService.member()?.description || '',
+          firstName: this.memberService.member()?.firstName || '',
+          lastName: this.memberService.member()?.lastName || '',
+          email: this.memberService.member()?.email || '',
+          displayName: this.memberService.member()?.displayName || ''
         }
-      });
-    console.log('OnInit MemberProfile memServ after', this.memberService.member());
-    console.log('OnInit MemberProfile editableMember', this.editabelMember);
+      } else {
+        this.toast.error('Error loading ember from parent')
+      }
+    });
+    // //*meera console.log(.log('OnInit MemberProfile memServ after', this.memberService.member());
+    // //*meera console.log(.log('OnInit MemberProfile editableMember', this.editabelMember);
   }
 
   ngOnDestroy(): void {
@@ -67,20 +67,40 @@ export class MemberProfile implements OnInit, OnDestroy {
 
   updateProfile() {
     if (!this.memberService.member()) return;
-    const updatedMember = { ...this.memberService.member(), ...this.editabelMember }
+    const userId = this.memberService.member()?.userId;
 
-    this.memberService.updateMember(updatedMember).subscribe({
-      next: () => {
-        this.toast.success('Profile Updated for member succesfully');
-        this.memberService.editMode.set(false);
-        this.memberService.member.set(updatedMember as Member);
-        if (updatedMember.displayName !== this.session.currentUser()?.displayName) {
-          this.session.currentUser.update(u => ({ ...u!, displayName: updatedMember.displayName }));
-        }
-      },
-      error: error => this.toast.error('Error while saving.' + error)
-    });
+    const updatedMember = { ...this.memberService.member(), ...this.editabelMember };
 
+    if (this.session.isAdminRole()) {
+      if (!userId) {
+        this.toast.error('Cannot update profile: missing userId');
+        return;
+      }
+      const updatedUser = { ...this.memberService.member(), ...this.editabelMember, userId };
+      this.session.updateUser(updatedUser).subscribe({
+        next: () => {
+          this.toast.success('Profile Updated for member succesfully');
+          this.memberService.editMode.set(false);
+          this.memberService.member.set(updatedMember as Member);
+          if (updatedMember.displayName !== this.session.currentUser()?.displayName) {
+            this.session.currentUser.update(u => ({ ...u!, displayName: updatedMember.displayName }));
+          }
+        },
+        error: error => this.toast.error('Error while saving.' + error)
+      });
+    } else {
+      this.memberService.updateMember(updatedMember).subscribe({
+        next: () => {
+          this.toast.success('Profile Updated for member succesfully');
+          this.memberService.editMode.set(false);
+          this.memberService.member.set(updatedMember as Member);
+          if (updatedMember.displayName !== this.session.currentUser()?.displayName) {
+            this.session.currentUser.update(u => ({ ...u!, displayName: updatedMember.displayName }));
+          }
+        },
+        error: error => this.toast.error('Error while saving.' + error)
+      });
+    }
   }
 
 }

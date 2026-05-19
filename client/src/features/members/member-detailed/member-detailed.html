@@ -32,7 +32,7 @@
     <div class="card bg-base-300 p-6 flex flex-col  h-[85vh] w-3/4">
         <div class="flex justify-between items-center">
             <h3 class="card-title text-3xl text-primary">{{title()}}</h3>
-            @if(isCurrentUser()){
+            @if(isCurrentUser() || session.isAdminRole()){
             <button 
                 (click)="memberService.editMode.set(!memberService.editMode())"
                 class="btn btn-outline btn-primary">{{memberService.editMode()? 'Cancel': 'Edit'}}</button>

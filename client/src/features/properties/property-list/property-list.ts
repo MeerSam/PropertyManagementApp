@@ -23,7 +23,7 @@ export class PropertyList implements OnInit {
 
   ngOnInit(): void {
     const memberId = this.route.parent?.snapshot.paramMap.get('id');
-    console.log('ngOnInit PropertyList', memberId)
+// //*meera console.log(.log('ngOnInit PropertyList', memberId)
     this.memberId = memberId ?? undefined; 
     this.loadProperties();
   }
@@ -41,7 +41,7 @@ export class PropertyList implements OnInit {
     if (!!clientId) {
       // If a memberId was passed in, ALWAYS use owner mode
       if (this.memberId) {
-        console.log('ngOnInit loadProperties', resolvedMemberId)
+// //*meera console.log(.log('ngOnInit loadProperties', resolvedMemberId)
         observableProperties$ = this.propertyService.getPropertiesByOwner(resolvedMemberId!);
       } else {
         switch (this.session.currentRole()) {
@@ -55,7 +55,7 @@ export class PropertyList implements OnInit {
             break;
 
           default:
-            console.log('this.session.currentRole()=', this.session.currentRole())
+// //*meera console.log(.log('this.session.currentRole()=', this.session.currentRole())
             observableProperties$ = this.propertyService.getPropertiesByClient(clientId);
             break;
         }

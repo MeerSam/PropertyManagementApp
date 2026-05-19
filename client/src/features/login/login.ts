@@ -35,7 +35,7 @@ export class Login {
     if (this.loginForm.invalid) return;
 
     const creds = this.loginForm.value;
-    console.log('In login: ')
+// //*meera console.log(.log('In login: ')
     this.session.login(creds).subscribe({
       next: outcome => {
         switch (outcome?.status) {

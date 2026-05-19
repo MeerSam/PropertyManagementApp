@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using API.DTOs.Docs;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces;
 
@@ -13,6 +14,7 @@ public interface IDocumentRepository
     Task<IReadOnlyList<DocumentDto>> GetDocumentsByOwnership(string ownershipId, DocumentScope? scope);
 
     Task<IReadOnlyList<DocumentDto>> GetCommunityDocumentsByClient(string clientId );
+    Task<IReadOnlyList<DocumentDto>> GetAllDocumentsByMember(string clientId, string memberId, DocumentParams documentParams );
 
     Task<Boolean> HasAccessByScope(string clientId, string userId, string? propertyId, DocumentScope scope);
  

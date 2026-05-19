@@ -3,7 +3,7 @@ using System;
 namespace API.Entities;
 
 public class Document
-{ 
+{
     public string Id { get; set; } = Guid.NewGuid().ToString();
     public required string ClientId { get; set; }
     public Client Client { get; set; } = null!;
@@ -37,8 +37,14 @@ public class Document
     // Audit
     public required string UploadedByUserId { get; set; }
     public AppUser UploadedBy { get; set; } = null!;
-    public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
-    public string? Notes { get; set; } 
+    public DateTime UploadedAt { get; set; } = DateTime.UtcNow;  
+    public required string CreatedByUserId { get; set; }
+    public AppUser CreatedBy { get; set; } = null!;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow; 
+    public required string ModifiedByUserId { get; set; }
+    public AppUser ModifiedBy { get; set; } = null!;
+    public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
+    public string? Notes { get; set; }
 }
 
 public enum DocumentScope
@@ -59,6 +65,7 @@ public enum DocumentCategory
     Rules,
     MeetingNotice,
     Other,
+    
     // Property
     DeedOrOwnership,
     ViolationNotice,

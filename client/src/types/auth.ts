@@ -43,9 +43,18 @@ export interface RegisterDto {
   isAdminMember: boolean;
   dateOfBirth: string;
   gender: string;
-  appRole: string;
+  role: string; 
 }
 
+export interface RegisterResponse {
+   success: boolean;
+    message: string;
+    id: string | null;
+    displayName: string | null;
+    appRole: string | null;
+    clientName: string | null;
+    activeClient: Client | null;
+}
 export type AuthErrorResponse = {
      message: string;
      error: string[];

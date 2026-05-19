@@ -16,7 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     .AddJsonOptions(o =>
-        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+    {
+        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
 {
@@ -28,7 +30,8 @@ builder.Services.AddScoped<IMemberRepository, MemberRepository>(); // Scoped to 
 builder.Services.AddScoped<ITokenService, TokenService>(); // Scoped to the lifetime of request
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
-
+builder.Services.Configure<CloudinarySettings>(builder.Configuration
+    .GetSection("CloudinarySettings"));// Inject and use it anywhere
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -46,6 +49,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ITenantService, TenantService>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
+
 builder.Services.AddScoped<Supabase.Client>(_ =>
     new Supabase.Client(
         builder.Configuration["SupabaseSettings:Url"]!,
@@ -55,6 +60,7 @@ builder.Services.AddScoped<Supabase.Client>(_ =>
 );
 builder.Services.Configure<SupabaseSettings>(
     builder.Configuration.GetSection("SupabaseSettings")); // Inject and use it anywhere
+
 builder.Services.AddScoped<IUserClientRepository, UserClientRespository>();
 
 builder.Services.AddScoped<IDocumentStorageService, SupabaseStorageService>();
@@ -92,6 +98,7 @@ try
     context.IsSeeding = true;
     await context.Database.MigrateAsync();
     // Since we used static method we have access  to Seedusers method
+    //This is the programmatic equivalent of running dotnet ef database update.
 
 
     await Seed.SeedData(context); // userManger

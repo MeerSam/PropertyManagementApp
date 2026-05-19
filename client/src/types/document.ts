@@ -1,3 +1,4 @@
+import { Property, PropertyOwnership } from "./property"
 import { SelectOption } from "./select"
 
 export type  Document= {
@@ -82,6 +83,14 @@ export type DocumentMode =
   | 'downdload' 
 
 
+export class DocumentParams {
+  scope?: DocumentScope | null = "Community"  ; 
+  memberId?:string;
+  propertyId?: string ;
+  propertyOwnershipId?: string;
+  ownerships?: PropertyOwnership[];
+  property?: Property;
+}
   // --- option lists (define outside the class or in a constants file) ---
 export const communityOptions: SelectOption[] = [
   { value: 'HOAGuidelines',  label: 'HOA Guidelines' },

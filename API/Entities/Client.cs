@@ -19,5 +19,7 @@ public class Client
     public ICollection<Property> Properties { get; set; } = [];
     [JsonIgnore]
     public ICollection<Member> Members { get; set; } = [];
+
+    public ICollection<Vehicle> Vehicles { get; set; } = [];
 }
 
