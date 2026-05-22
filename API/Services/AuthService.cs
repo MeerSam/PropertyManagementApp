@@ -255,7 +255,8 @@ public class AuthService(AppDbContext context, ITokenService tokenService
                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
                 PasswordSalt = hmac.Key,
                 Gender = registerDto.Gender,
-                DateOfBirth = registerDto.DateOfBirth
+                DateOfBirth = registerDto.DateOfBirth,
+                Created = DateTime.UtcNow,                
 
             };
             context.Users.Add(newUser); // ef track changes 

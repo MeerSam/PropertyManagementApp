@@ -36,8 +36,11 @@ public static class StorageKeyBuilder
         DocumentCategory.MaintenanceRecord => "maintenance",
         DocumentCategory.MeetingMinutes => "minutes",
         DocumentCategory.MeetingNotice => "meeting-notice",
+        DocumentCategory.Miscellaneous => "miscellaneous",
         DocumentCategory.Newsletter => "newsletter",
-        DocumentCategory.Rules => "",
+        DocumentCategory.RentalAgreement => "rental",
+        DocumentCategory.Rules => "rules",
+        DocumentCategory.TenantDocument => "tenant",
         DocumentCategory.ViolationNotice => "violation",
         _ => "other"
     };

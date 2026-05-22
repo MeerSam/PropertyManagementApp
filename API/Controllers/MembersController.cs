@@ -12,7 +12,9 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
     [Authorize]
-    public class MembersController(IMemberRepository memberRepository, IPropertyRepository propertyRepository) : BaseApiController
+    public class MembersController(IMemberRepository memberRepository, 
+        IPropertyRepository propertyRepository,
+        IPhotoService photoService) : BaseApiController
     {
         [HttpGet]//https://localhost:5001/api/members
         public async Task<ActionResult<IReadOnlyList<Member>>> GetMembers([FromQuery] MemberParams memberParams)
@@ -28,6 +30,7 @@ namespace API.Controllers
             if (member == null) return NotFound();
             return member;
         }
+
         [HttpGet("{id}/properties")]
         public async Task<ActionResult<IReadOnlyList<PropertyDto>>> GetCurrentProperties(string id)
         {
@@ -57,16 +60,13 @@ namespace API.Controllers
             if (await memberRepository.SaveAllAsync()) return NoContent();
             return BadRequest("Update could not be completed");
         }
-/* 
-        [HttpGet("{id}/photos")]//localhost:5001/api/members/bob-id
-
+        
+        [HttpGet("{id}/photos")]//localhost:5001/api/members/bob-id 
         public async Task<ActionResult<IReadOnlyList<Photo>>> GetMemberPhotos(string id)
         {
             return Ok(await memberRepository.GetPhotosForMemberAsync(id));
 
-        }
-
-
+        } 
 
         [HttpPost("add-photo")]
         public async Task<ActionResult<Photo>> AddPhoto([FromForm] FormFile file)
@@ -159,6 +159,6 @@ namespace API.Controllers
             if (await memberRepository.SaveAllAsync()) return Ok();
 
             return BadRequest("Problem deleting the photo"); // in case if the save is unsuccesfull return bad req
-        }*/
+        } 
     } 
 }

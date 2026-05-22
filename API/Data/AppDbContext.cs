@@ -28,7 +28,7 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
 
     public DbSet<Document> Documents { get; set; }
     public DbSet<Vehicle> Vehicles { get; set; }
-    // public DbSet<Photo> Photos { get; set; }
+    public DbSet<Photo> Photos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -181,11 +181,11 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // builder.Entity<Photo>()
-        // .HasOne(p => p.Member)
-        // .WithMany(m => m.Photos)
-        // .HasForeignKey(p => p.MemberId)
-        // .OnDelete(DeleteBehavior.Cascade);
+        builder.Entity<Photo>()
+        .HasOne(p => p.Member)
+        .WithMany(m => m.Photos)
+        .HasForeignKey(p => p.MemberId)
+        .OnDelete(DeleteBehavior.Cascade);
 
         /* var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
             v => v.ToUniversalTime(),

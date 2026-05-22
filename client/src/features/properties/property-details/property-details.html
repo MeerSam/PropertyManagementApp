@@ -1,16 +1,83 @@
-@if(property() ; as property){
+@if(propertyService.property() ; as property){
 <div class="flex flex-col gap-3">
-    <h3 class="text-2xl font-semibold text-primary">Details for {{property.unit}}</h3>
-    <span class="font-semibold">Create on : {{property.createdAt| age}}</span> 
-    <div class="flex">
-        <span class="font-semibold">Mailing Address:</span>
-        <span>{{property.mailAddress}}</span>
-        <span>{{property.mailCity}}</span>
-        <span>{{property.mailState}}</span>
-        <span>{{property.mailZip}}</span>
-        <span >{{property.mailCountry}}</span>
+
+    @if(propertyService.editMode()){
+    <!-- EDIT MODE -->
+    @if (currentStep() === 1){
+        <form [formGroup]="addressForm" class="grid grid-cols-2 gap-4 w-full">
+            
+            <app-text-input class="m-2" label="Property Address" formControlName="address" />
+            <app-text-input class="m-2" label="Property Unit/Suite #" formControlName="unit" />
+            <app-text-input class="m-2" label="Property City" formControlName="city" />
+            <app-text-input class="m-2" label="Property State" formControlName="state" />
+            <app-text-input class="m-2" label="Property ZipCode" formControlName="zipCode" />
+            <app-text-input class="m-2" label="Property Country" formControlName="country" />
+            <label class="flex items-center gap-2 mt-6">
+                <input type="checkbox" class="checkbox" formControlName="isSameAddress" />
+                <span>Mailing Address Same as Property</span>
+            </label>
+        
+            @if (!addressForm.get('isSameAddress')?.value) {
+            <app-text-input class="m-2" label="Mailing Address" formControlName="mailAddress" />
+            <app-text-input class="m-2" label="Mailing Unit/Suite #" formControlName="mailUnit" />
+            <app-text-input class="m-2" label="Mailing City" formControlName="mailCity" />
+            <app-text-input class="m-2" label="Mailing State" formControlName="mailState" />
+            <app-text-input class="m-2" label="Mailing ZipCode" formControlName="mailZipCode" />
+            <app-text-input class="m-2" label="Mailing Country" formControlName="mailCountry" />
+            } 
+            <div class="flex self-end gap-4">
+                <button class="btn" type="button" (click)="cancelSave()">Cancel</button>
+                <button [disabled]="!addressForm.valid" 
+                    class="btn btn-primary" type="submit"
+                    (click)="nextStep()">Next</button> 
+            </div>
+        </form>
+    }@else if (currentStep() ==2){
+        <form [formGroup]="editablePropertyForm" class="grid grid-cols-2 gap-4 w-full" (ngSubmit)="Update()">
+            <app-text-input class="m-2" label="Lot Number" formControlName="lotNumber" />
+            <app-text-input class="m-2" label="Area (Sq.ft.)" formControlName="squareFeet" />
+            <app-text-input class="m-2" label="Bedrooms" formControlName="bedrooms" />
+            <app-text-input class="m-2" label="Bathrooms" formControlName="bathrooms" />
+            <label class="flex items-center gap-2 mt-6">
+                <input type="checkbox" class="checkbox" formControlName="isRented" />
+                <span>Is Rented</span>
+            </label>
+            <app-text-input class="m-2" label="Assigned Parking" formControlName="assignedParking" />
+        
+            <div class="flex self-end gap-4">
+                <button class="btn" type="button" (click)="prevStep()">Back</button>
+                <button [disabled]="!editablePropertyForm.dirty && !addressForm.dirty && !addressForm.valid && !editablePropertyForm.valid" 
+                    type="submit"
+                    class="btn btn-success">Submit</button>
+            </div>
+        </form>
+
+    }
+    
+    }@else {
+    <!-- VIEW MODE -->
+    <span class="font-semibold">Last Updated on : {{property.lastUpdated | timeAgo}}</span>
+    <div class="flex flex-col gap-3 w-full">
+                
+        @if(property.mailAddress && !property.isSameAddress){ 
+            <div class="flex gap-3">
+                <span class="font-semibold text-lg">Mailing Address:</span>
+                <span class="font-semibold">{{property.mailAddress}}</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="font-semibold">{{property.mailCity}}</span>
+                 <span class="font-semibold">{{property.mailState}}</span>
+            </div>
+            <div class="flex gap-3">
+               <span class="font-semibold">{{property.mailZipCode}} - </span>
+               <span class="font-semibold">{{property.mailCountry}}</span> 
+            </div> 
+        
+        }
     </div>
+    <span class="font-semibold">Assigned Parking Spot(s) : {{property.assignedParking}}</span>
+    }
 </div>
 } @else {
 <h1 class="font-semibold text-3xl">Property Not found</h1>
-}
+} 

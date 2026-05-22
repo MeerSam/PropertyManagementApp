@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Docs\" />
+    <Folder Include="DTOs\Property\" />
     <Folder Include="Entities\" />
     <Folder Include="Errors\" />
     <Folder Include="Extensions\" />

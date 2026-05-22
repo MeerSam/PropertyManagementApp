@@ -17,18 +17,17 @@ export class PropertyProfile implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router)
   private location = inject(Location);
-  protected title = signal<string | undefined>('Profile');
-  protected property = signal<Property | null>(null);
+  protected propertyService = inject(PropertyService);
+  protected title = signal<string | undefined>('Profile'); 
   protected owners = computed(() => {
-    const p = this.property();
+    const p = this.propertyService.property();
     return p ? [...(p.currentOwners ?? [])] : [];
   });
 
   ngOnInit(): void {
     // coming from the data resolver
     this.route.data.subscribe(data => {
-      this.property.set(data['property']) 
-// //*meera console.log(.log(data['property']);
+      this.propertyService.property.set(data['property'])  
     })
     this.title.set(this.route.firstChild?.snapshot?.title) // coming from app.route.path_title
 

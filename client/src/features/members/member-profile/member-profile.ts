@@ -82,7 +82,8 @@ export class MemberProfile implements OnInit, OnDestroy {
           this.toast.success('Profile Updated for member succesfully');
           this.memberService.editMode.set(false);
           this.memberService.member.set(updatedMember as Member);
-          if (updatedMember.displayName !== this.session.currentUser()?.displayName) {
+          if (updatedMember.id == this.session.currentUser()?.id &&
+           updatedMember.displayName !== this.session.currentUser()?.displayName  ) {
             this.session.currentUser.update(u => ({ ...u!, displayName: updatedMember.displayName }));
           }
         },

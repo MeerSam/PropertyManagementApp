@@ -1,4 +1,4 @@
-@if(property() ; as property){
+@if(propertyService.property() ; as property){
 <div class="flex gap-6">
     <!-- left side column -->
     <div class="card bg-base-100 flex flex-col  h-[85vh] w-1/4">
@@ -10,10 +10,25 @@
                 </div>
             </div>
             <div class="divider"></div>
-            <div class="flex flex-col gap-3 w-full">
-                <div class="flex gap-3">
-                    <span class="font-semibold text-xl">{{property.address}}</span>
-                </div>
+            <div class="flex flex-col gap-3 w-full items-center">
+                <span class="font-semibold text-2xl">Property Address:</span>
+                <span class="font-semibold text-xl">{{property.address}}</span>
+                <span class="font-semibold text-xl">{{property.unit}}</span>
+                <span class="font-semibold text-xl">{{property.city}}, {{property.state}}</span>
+                <span class="font-semibold text-xl">{{property.zipCode}} -{{property.country}}</span>
+                
+                <label class="label">
+                    <span class="font-semibold text-lg">Same Mailing Address?</span>
+                    <input type="checkbox" 
+                        [checked]="property.isSameAddress" 
+                        [disabled]="true" 
+                        class="checkbox checkbox-md" />
+                    @if(property.isSameAddress){
+                        <span class="font-semibold text-lg bg-red-400">Yes</span>
+                    } 
+                    
+                </label>
+                 
             </div>
             <div class="divider"></div>
             <div class="flex flex-col gap-3 w-full">
@@ -53,7 +68,7 @@
                             <legend class="fieldset-legend ">Rented??</legend>
                             <label class="label">
                                 <input type="checkbox" [checked]="property.isRented"
-                                    [disabled]="session.currentRole() !== 'admin'" class="checkbox checkbox-md" />
+                                    [disabled]="true" class="checkbox checkbox-md" />
                                 @if (property.isRented) {
                                     Rented
                                 }@else {
@@ -70,7 +85,7 @@
         </div>
     </div>
     <!-- right side column -->
-    <div class="card bg-base-300 w-3/4 p-6 flex flex-col  h-[85vh]">
+    <div class="card bg-base-100 w-3/4 p-6 flex flex-col  h-[85vh]">
         <ul class="menu menu-vertical lg:menu-horizontal bg-base-200  rouded-box w-full text-xl">
             <li><a routerLink="details" routerLinkActive="text-primary"
                     [routerLinkActiveOptions]="{exact:true}">Property Details</a></li>
@@ -80,8 +95,13 @@
                     [routerLinkActiveOptions]="{exact:true}">Messages</a></li>
         </ul>
         <div class="divider"></div>
-        <div class="flex flex-col gap-3 w-full">
+        <div class="flex justify-between items-center">
             <h3 class="card-title text-2xl text-primary w-full">Property {{title()}}</h3>
+            @if(session.isAdminRole() ){
+                <button class="btn btn-primary"
+                    (click)="propertyService.editMode.set(!propertyService.editMode())">{{propertyService.editMode() ? 'Cancel' : 'Edit'}}</button>
+    
+            }
         </div> 
         <div class="divider"></div>
         <div class="mt-1 h-full">

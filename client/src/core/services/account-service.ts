@@ -33,7 +33,8 @@ export class AccountService {
     return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
   }
   updateUser(data: EditableUser) {
-    return this.http.put(this.baseUrl + 'account', data);
+    console.log(data);
+    return this.http.put(this.baseUrl + 'account/update', data);
   }
 
   // ─── State Mutations (called only by SessionService) ──────────

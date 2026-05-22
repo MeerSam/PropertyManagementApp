@@ -17,6 +17,17 @@
     ],
     "Users": [
         {
+            "Id": "admin-id",
+            "Email": "admin@test.com",
+            "DisplayName": "admin",
+            "FirstName": "admin",
+            "LastName": "service",
+            "DateOfBirth": "1972-01-01",
+            "Gender": "female",
+            "ImageUrl": "https://randomuser.me/api/portraits/women/01.jpg",
+            "Created": "2023-06-24T00:00:00Z"
+        },
+        {
             "Id": "anna-id",
             "Email": "anna@test.com",
             "DisplayName": "Anna",
@@ -1808,6 +1819,20 @@
             "GrantedDate": "2023-02-24T00:00:00Z"
         },
         {
+            "UserId": "admin-id",
+            "ClientId": "sapphire-id",
+            "Role": "admin",
+            "IsActive": true,
+            "GrantedDate": "2026-02-20T00:00:00Z"
+        },
+        {
+            "UserId": "admin-id",
+            "ClientId": "bpi-id",
+            "Role": "admin",
+            "IsActive": true,
+            "GrantedDate": "2026-02-20T00:00:00Z"
+        },
+        {
             "UserId": "lisa-id",
             "ClientId": "bpi-id",
             "Role": "owner",
@@ -2290,7 +2315,11 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
-            "CreatedAt": "2023-06-01T00:00:00Z"
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
+            "CreatedAt": "2023-06-01T00:00:00Z",
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id"
         },
         {
             "Id": "prop-102",
@@ -2305,6 +2334,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2320,6 +2351,8 @@
             "Bedrooms": 4,
             "Bathrooms": 3,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2335,6 +2368,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         }, 
         {
@@ -2350,6 +2385,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2365,6 +2402,8 @@
             "Bedrooms": 4,
             "Bathrooms": 3,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         }, 
         {
@@ -2380,6 +2419,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2395,6 +2436,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2410,6 +2453,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2425,6 +2470,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         }, 
         {
@@ -2440,6 +2487,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2455,6 +2504,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2470,6 +2521,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2485,6 +2538,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2500,6 +2555,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2515,6 +2572,8 @@
             "Bedrooms": 4,
             "Bathrooms": 3,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2530,6 +2589,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2545,6 +2606,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2560,6 +2623,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2575,6 +2640,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2590,6 +2657,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2605,6 +2674,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2620,6 +2691,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         },
         {
@@ -2635,6 +2708,8 @@
             "Bedrooms": 3,
             "Bathrooms": 2,
             "IsRented": false,
+            "LastUpdated": "2023-06-01T00:00:00Z",
+            "LastUpdatedById":"admin-id",
             "CreatedAt": "2023-06-01T00:00:00Z"
         }
     ],

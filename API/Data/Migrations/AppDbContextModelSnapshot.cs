@@ -292,6 +292,33 @@ namespace API.Data.Migrations
                     b.ToTable("Members");
                 });
 
+            modelBuilder.Entity("API.Entities.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MemberId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("API.Entities.Property", b =>
                 {
                     b.Property<string>("Id")
@@ -299,6 +326,9 @@ namespace API.Data.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AssignedParking")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("Bathrooms")
@@ -314,13 +344,44 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsRented")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsSameAddress")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastUpdatedById")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("LotNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MailAddress")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MailCity")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MailCountry")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MailState")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MailUnit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MailZipCode")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("SquareFeet")
@@ -338,6 +399,8 @@ namespace API.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("LastUpdatedById");
 
                     b.ToTable("Properties");
                 });
@@ -572,6 +635,17 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API.Entities.Photo", b =>
+                {
+                    b.HasOne("API.Entities.Member", "Member")
+                        .WithMany("Photos")
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Member");
+                });
+
             modelBuilder.Entity("API.Entities.Property", b =>
                 {
                     b.HasOne("API.Entities.Client", "Client")
@@ -580,7 +654,15 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.AppUser", "LastUpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("LastUpdatedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Client");
+
+                    b.Navigation("LastUpdatedBy");
                 });
 
             modelBuilder.Entity("API.Entities.PropertyOwnership", b =>
@@ -673,6 +755,8 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Member", b =>
                 {
+                    b.Navigation("Photos");
+
                     b.Navigation("PropertyOwnerships");
 
                     b.Navigation("Vehicles");

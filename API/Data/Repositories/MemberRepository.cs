@@ -46,12 +46,12 @@ public class MemberRepository(AppDbContext context, ITenantService tenantService
 
     }
 
-    // public async Task<IReadOnlyList<Photo>> GetPhotosForMemberAsync(string memberId)
-    // {
-    // return await context.Members.Where(x => x.Id == memberId)
-    //   .SelectMany(x => x.Photos)
-    //   .ToListAsync();
-    // }
+    public async Task<IReadOnlyList<Photo>> GetPhotosForMemberAsync(string memberId)
+    {
+    return await context.Members.Where(x => x.Id == memberId)
+      .SelectMany(x => x.Photos)
+      .ToListAsync();
+    }
 
     public async Task<bool> SaveAllAsync()
     {

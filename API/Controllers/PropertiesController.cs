@@ -1,5 +1,7 @@
 using System;
 using API.DTOs;
+using API.DTOs.Prop;
+
 using API.Entities;
 using API.Extensions;
 using API.Interfaces;
@@ -19,56 +21,65 @@ public class PropertiesController(IPropertyRepository propertyRepository) : Base
     {
         var property = await propertyRepository.GetPropertyAsync(id);
         if (property == null) return NotFound(" The requested info was not found");
-        var dtoProperty = new PropertyDto
-        {
-            Id = property.Id,
-            Address = property.Address,
-            Unit = property.Unit,
-            Bedrooms = property.Bedrooms,
-            Bathrooms = property.Bathrooms,
-            IsRented = property.IsRented,
-            SquareFeet = property.SquareFeet,
-            City = property.City,
-            State = property.State,
-            Ownerships = [.. property.Ownerships
-                .Select(o => new PropertyOwnershipDto
-                {
-                    Id = o.Id,
-                    PropertyId = o.PropertyId,
-                    MemberId = o.MemberId,
-                    StartDate =o.StartDate,
-                    EndDate =o.EndDate,
-                    OwnershipType =o.OwnershipType.ToString(),
-                    OwnershipPercentage =o.OwnershipPercentage,
-                    IsCurrent= o.IsCurrent,
-                    Member = new MemberDto
-                    {
-                        Id = o.Member.Id,
-                        DisplayName = o.Member.DisplayName,
-                        Email = o.Member.Email,
-                        FirstName = o.Member.FirstName,
-                        LastName = o.Member.LastName,
-                        ClientId = o.Member.ClientId,
-                        ImageUrl = o.Member.ImageUrl,
-                        UserId = o.Member.UserId
-                    }, 
-                })],
-            CurrentOwners = [.. property.Ownerships
-                .Where(o => o.IsCurrent)
-                .Select(o => new MemberDto
-                {
-                    Id = o.Member.Id,
-                    DisplayName = o.Member.DisplayName,
-                    Email = o.Member.Email,
-                    FirstName = o.Member.FirstName,
-                    LastName = o.Member.LastName ,
-                    ClientId =o.Member.ClientId,
-                    ImageUrl = o.Member.ImageUrl,
-                    UserId = o.Member.UserId
-                })]
-        };
+        // var dtoProperty = new PropertyDto
+        // {
+        //     Id = property.Id,
+        //     Bedrooms = property.Bedrooms,
+        //     Bathrooms = property.Bathrooms,
+        //     IsRented = property.IsRented,
+        //     SquareFeet = property.SquareFeet,            
+        //     Address = property.Address,
+        //     Unit = property.Unit,
+        //     City = property.City,
+        //     State = property.State,
+        //     Country = property.Country,
+        //     ZipCode=  property.ZipCode,
+        //     MailAddress = property.MailAddress,
+        //     MailUnit = property.MailUnit,
+        //     MailCity = property.MailCity,
+        //     MailState = property.MailState,
+        //     MailCountry = property.MailCountry,
+        //     MailZipCode=  property.MailZipCode,
+        //     LastUpdatedBy = property.LastUpdatedBy?.DisplayName ?? string.Empty,
+        //     Ownerships = [.. property.Ownerships
+        //         .Select(o => new PropertyOwnershipDto
+        //         {
+        //             Id = o.Id,
+        //             PropertyId = o.PropertyId,
+        //             MemberId = o.MemberId,
+        //             StartDate =o.StartDate,
+        //             EndDate =o.EndDate,
+        //             OwnershipType =o.OwnershipType.ToString(),
+        //             OwnershipPercentage =o.OwnershipPercentage,
+        //             IsCurrent= o.IsCurrent,
+        //             Member = new MemberDto
+        //             {
+        //                 Id = o.Member.Id,
+        //                 DisplayName = o.Member.DisplayName,
+        //                 Email = o.Member.Email,
+        //                 FirstName = o.Member.FirstName,
+        //                 LastName = o.Member.LastName,
+        //                 ClientId = o.Member.ClientId,
+        //                 ImageUrl = o.Member.ImageUrl,
+        //                 UserId = o.Member.UserId
+        //             },
+        //         })],
+        //     CurrentOwners = [.. property.Ownerships
+        //         .Where(o => o.IsCurrent)
+        //         .Select(o => new MemberDto
+        //         {
+        //             Id = o.Member.Id,
+        //             DisplayName = o.Member.DisplayName,
+        //             Email = o.Member.Email,
+        //             FirstName = o.Member.FirstName,
+        //             LastName = o.Member.LastName ,
+        //             ClientId =o.Member.ClientId,
+        //             ImageUrl = o.Member.ImageUrl,
+        //             UserId = o.Member.UserId
+        //         })]
+        // };
 
-        return dtoProperty;
+        return property.ToDto();
     }
 
     [HttpGet("owner/{ownerId}")]
@@ -76,4 +87,62 @@ public class PropertiesController(IPropertyRepository propertyRepository) : Base
     {
         return Ok(await propertyRepository.GetMemberCurrentPropertiesAsync(ownerId));
     }
+
+    [HttpPut("{propertyId}")]
+    public async Task<ActionResult> UpdateProperty(string propertyId, PropertyUpdateDto propertyUpdateDto)
+    {
+        var property = await propertyRepository.GetPropertyAsync(propertyId);
+
+        var userId = User.GetUserId();
+
+        if (property == null) return BadRequest("Could not locate property to update");
+
+        if (propertyUpdateDto.Address == string.Empty) return  BadRequest(propertyUpdateDto) ;
+
+        property.Address = propertyUpdateDto.Address ?? property.Address;
+        property.Unit = propertyUpdateDto.Unit ?? property.Unit;
+        property.City = propertyUpdateDto.City ?? property.City;
+        property.State = propertyUpdateDto.State ?? property.State;
+        property.ZipCode = propertyUpdateDto.ZipCode ?? property.ZipCode;
+        property.Country = propertyUpdateDto.Country ?? property.Country;
+
+        if (propertyUpdateDto.IsSameAddress)
+        {
+            property.MailAddress = propertyUpdateDto.Address ?? property.MailAddress;
+            property.MailUnit = propertyUpdateDto.Unit ?? property.MailUnit;
+            property.MailCity = propertyUpdateDto.City ?? property.MailCity;
+            property.MailState = propertyUpdateDto.State ?? property.MailState;
+            property.MailZipCode = propertyUpdateDto.ZipCode ?? property.MailZipCode;
+            property.MailCountry = propertyUpdateDto.Country ?? property.MailCountry;
+
+        }
+        else
+        {
+            property.MailAddress = propertyUpdateDto.MailAddress ?? property.MailAddress;
+            property.MailUnit = propertyUpdateDto.MailUnit ?? property.MailUnit;
+            property.MailCity = propertyUpdateDto.MailCity ?? property.MailCity;
+            property.MailState = propertyUpdateDto.MailState ?? property.MailState;
+            property.MailZipCode = propertyUpdateDto.MailZipCode ?? property.MailZipCode;
+            property.MailCountry = propertyUpdateDto.MailCountry ?? property.MailCountry;
+        }
+
+        property.LotNumber = propertyUpdateDto.LotNumber ?? property.LotNumber;
+        property.AssignedParking = propertyUpdateDto.AssignedParking ?? property.AssignedParking;
+        property.SquareFeet = propertyUpdateDto.SquareFeet ?? property.SquareFeet;
+        property.Bedrooms = propertyUpdateDto.Bedrooms ?? property.Bedrooms;
+        property.Bathrooms = propertyUpdateDto.Bathrooms ?? property.Bathrooms;
+        property.IsRented = propertyUpdateDto.IsRented;
+
+        property.IsSameAddress = propertyUpdateDto.IsSameAddress;   
+ 
+        property.LastUpdatedById = userId;
+        property.LastUpdated = DateTime.UtcNow;
+
+
+
+        if (await propertyRepository.SaveAllAsync()) return Ok();
+
+        return BadRequest("Error while saving property");
+    }
 }
+

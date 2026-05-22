@@ -35,8 +35,8 @@ public class Member
 
     public ICollection<Vehicle> Vehicles { get; set; } = []; // member can have many Vehicles
 
-    // [JsonIgnore]
-    // public ICollection<Photo> Photos { get; set; } = [];
+    [JsonIgnore]
+    public ICollection<Photo> Photos { get; set; } = [];
 
    /*  ## Visual Relationship Summary
 ```

@@ -184,7 +184,7 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
         return user.ToDto(tokenService);
 
     }
-    [HttpPut("updateuser")]
+    [HttpPut("update")]
     public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
     {
         var currentUserId = User.GetUserId();
