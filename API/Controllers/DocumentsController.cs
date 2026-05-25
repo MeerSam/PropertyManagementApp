@@ -137,7 +137,7 @@ public class DocumentsController(AppDbContext context,
 
         // Managers, admins, board can always view list
         // Owners must be current primary owner of this property
-        bool canView = hasAccess.Role is "admin" or "property_manager" or "board_member";
+        bool canView = RolePermissions.CanViewAnyDocs(hasAccess.Role);  
 
         if (!canView) canView = (loggedIn_memberId == memberId);   
        
@@ -174,9 +174,9 @@ public class DocumentsController(AppDbContext context,
 
         // Managers, admins, board can always view list
         // Owners must be current primary owner of this property
-        bool canView = access.Role is "admin" or "property_manager" or "board_member";
+        bool canView = access.Role is HoaRoles.Admin or HoaRoles.PropertyManager or HoaRoles.BoardMember;
 
-        if (!canView && access.Role == "owner")
+        if (!canView && access.Role ==  HoaRoles.Owner)
         {
             canView = await propertyRepository.IsPrimaryOwner(clientId, userId, propertyId);
         }
@@ -201,9 +201,9 @@ public class DocumentsController(AppDbContext context,
 
         // Managers, admins, board can always list
         // Owners must be current primary owner of this property
-        bool canView = access.Role is "admin" or "property_manager";
+        bool canView = access.Role is HoaRoles.Admin or HoaRoles.PropertyManager ;
 
-        if (!canView && (access.Role is "owner" or "board_member"))
+        if (!canView && (access.Role is HoaRoles.Owner or HoaRoles.BoardMember))
         {
             var member = await context.Members
             .Where(m => m.UserId == userId && m.ClientId == clientId)

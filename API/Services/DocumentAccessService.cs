@@ -1,6 +1,7 @@
 using System;
 using API.Data;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +20,10 @@ public class DocumentAccessService(AppDbContext context,
 
 
         // Only these roles can upload anything
-        var uploaderRoles = new[] { "admin", "board_member", "property_manager" };
+        var uploaderRoles = HoaRoles.priviledgedRoles;
 
-        if (!uploaderRoles.Contains(access.Role) && (scope == DocumentScope.Community || scope == DocumentScope.Public)) return false;
+        if (!uploaderRoles.Contains(access.Role) && 
+            (scope is DocumentScope.Community or  DocumentScope.Public)) return false;
 
         // Property or tenure docs require a valid PropertyId
         if (scope != DocumentScope.Community && string.IsNullOrEmpty(propertyId))
@@ -59,14 +61,14 @@ public class DocumentAccessService(AppDbContext context,
     private async Task<bool> CanViewPropertyHistory(UserClientAccess access, string userId, Document document)
     {
         // Board, admin/ Managers see all docs
-        if (access.Role is "admin" or "property_manager") return true;
+        if (access.Role is HoaRoles.Admin or HoaRoles.PropertyManager) return true;
         // property docs like previous maintence records and arc forms 
 
         // Board members can view property history docs
-        if (access.Role == "board_member") return true;
+        if (access.Role == HoaRoles.BoardMember) return true;
 
         // Owner — must be current Primary owner of this property
-        if (access.Role == "owner")
+        if (access.Role == HoaRoles.Owner)
             return await IsPrimaryOwner(userId,
                 document.ClientId,
                 document.PropertyId!,
@@ -99,7 +101,7 @@ public class DocumentAccessService(AppDbContext context,
     private async Task<bool> CanViewOwnerTenure(UserClientAccess access, string userId, Document document)
     {
         // Board, admin/ Managers see all docs
-        if (access.Role is "admin" or "property_manager") return true;
+        if (access.Role is HoaRoles.Admin or HoaRoles.PropertyManager) return true;
 
         // Board members cannot see tenure docs (personal ownership records) for other residents.
         var member = await context.Members
@@ -111,7 +113,7 @@ public class DocumentAccessService(AppDbContext context,
         // Owner/board_member could be an owner — their Member must match the specific PropertyOwnership record
         // Note: we do NOT check IsCurrent here — tenure docs belong
         // to that ownership record permanently
-        if (access.Role == "owner" && access.Role == "board_member")
+        if (access.Role ==HoaRoles.Owner || access.Role ==HoaRoles.BoardMember)
         {
             return await context.PropertyOwnerships.AnyAsync(po =>
                 po.Id == document.PropertyOwnershipId &&

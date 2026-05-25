@@ -7,6 +7,7 @@ using API.DTOs;
 using API.DTOs.Auth;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using Humanizer;
 using Microsoft.AspNetCore.Authorization;
@@ -200,16 +201,9 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
                 && uca.UserId == currentUserId
                 && uca.IsActive)
             .FirstOrDefaultAsync() ?? throw new UnauthorizedAccessException("You don't have access to this HOA community"); ;
-
-
-        var allowedRoles = new HashSet<string>
-        {
-            "board_member",
-            "admin",
-            "property_manager"
-        };
-
-        if (allowedRoles.Contains(userClientAccess.Role))
+ 
+          
+        if (HoaRoles.priviledgedRoles.Contains(userClientAccess.Role))
         {
             // authorized
             userToUpdate.DisplayName = userUpdateDto.DisplayName ?? userToUpdate.DisplayName;
