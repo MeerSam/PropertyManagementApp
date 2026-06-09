@@ -39,12 +39,19 @@ export class Register {
   // Track whether user manually edited displayName
   private userEditedDisplayName = signal(false);
   protected roleOptions = computed<SelectOption[]>(() => {
-    const currentUserRole = this.session.currentUser()?.appRole;
+    const currentUserRole = this.session.currentUser()?.role;
     if (currentUserRole == 'admin') {
       return APP_ROLE
         .map(r => ({ label: APP_ROLE_LABELS[r], value: r }))
+    } else if (currentUserRole == 'property_manager') {
+     return [
+        { label: 'owner', value: 'owner' }, 
+        { label: 'Board Member', value: 'board_member' }, 
+        { label: 'resident', value: 'resident' }];
     }
-    return [{ label: 'owner', value: 'owner' }, { label: 'resident', value: 'resident' }];
+    return [
+        { label: 'Owner', value: 'owner' }, 
+        { label: 'Resident', value: 'resident' }];
   })
 
 
@@ -118,17 +125,17 @@ export class Register {
   register() {
     if (this.registerForm.valid && this.profileForm.valid) {
       const formData = { ...this.registerForm.value, ...this.profileForm.value };
-      console.log(formData)
+      // console.log(formData)
       this.session.register(formData).subscribe({
         next: result => {
-          console.log(result)
+          // console.log(result)
           if (result.id) {
             this.router.navigateByUrl('/members/' + result.id);
           }
           this.router.navigateByUrl('/members');
         },
         error: err => {
-          console.log('New Registration for user was not completed', err);
+          // console.log('New Registration for user was not completed', err);
           this.toast.error(`Error while creating new user ${this.registerForm.controls['displayName'].value}. ${err}`)
         }
       });

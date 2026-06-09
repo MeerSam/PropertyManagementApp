@@ -1,3 +1,5 @@
+import { PropertyOwnership } from "./property";
+
 export type Member = {
   id: string;
   email: string
@@ -11,8 +13,10 @@ export type Member = {
   lastActive: string;
   description?: string;
   clientId: string;
+  clientName: string;
   userId: string;
   role?: string;
+  propertyOwnerships: PropertyOwnership[];
 }
 
 

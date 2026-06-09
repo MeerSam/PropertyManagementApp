@@ -61,7 +61,7 @@ export type DocumentCategory=
     | 'Rules' 
     | 'MeetingNotice'
     | 'Other' 
-    // Property
+    // Property/Owners 
     | 'DeedOrOwnership'
     | 'ViolationNotice'
     | 'MaintenanceRecord'

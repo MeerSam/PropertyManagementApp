@@ -1,6 +1,7 @@
 using System;
 using System.Linq.Expressions;
 using API.DTOs;
+using API.DTOs.Auth;
 using API.Entities;
 using API.Interfaces;
 
@@ -29,6 +30,30 @@ public static class UserClientExtensions
             HasMemberProfile = uca.User.Members.FirstOrDefault(x => x.ClientId == uca.ClientId)?.Id !=null
         };
     }
+    public static UserForEditDto ToUserDto(this UserClientAccess uca)
+    { 
+        var member = uca.User.Members
+        .FirstOrDefault(m => m.ClientId == uca.ClientId);
+
+        return new  UserForEditDto
+        {
+            Id = uca.UserId,
+            Email = uca.User.Email!,
+            DisplayName = uca.User.DisplayName,
+            ImageUrl = uca.User.ImageUrl,
+            ClientId = uca.ClientId,
+            ClientName = uca.Client.Name,
+            MemberId = member?.Id,
+            IsMemberLinked = member != null,
+            FirstName = uca.User.FirstName,
+            LastName = uca.User.LastName, 
+            DateOfBirth = uca.User.DateOfBirth,
+            Gender = uca.User.Gender,
+            Role = uca.Role,
+            IsActive = uca.User.IsActive && uca.IsActive,
+            LastUpdated = uca.User.LastUpdated       
+        };
+    }
 
     public static Expression<Func<UserClientAccess, UserClientAccessInfoDto>> ToDtoProjection()
     {
@@ -49,4 +74,33 @@ public static class UserClientExtensions
                 .Any(m =>  m.UserId== uca.UserId) 
         };
     }
+
+    public static Expression<Func<UserClientAccess, UserForEditDto>> ToUserDtoProjection()
+    {
+         
+        return uca => new  UserForEditDto
+        {
+            Id = uca.UserId,
+            Email = uca.User.Email!,
+            DisplayName = uca.User.DisplayName,
+            ImageUrl = uca.User.ImageUrl,
+            ClientId = uca.ClientId,
+            ClientName = uca.Client.Name,
+            MemberId = uca.Client.Members
+                .Where(m => m.UserId== uca.UserId)
+                .Select(m => m.Id)
+                .FirstOrDefault(),                
+            IsMemberLinked = uca.User.Members
+                .Any(m =>  m.UserId== uca.UserId) ,  
+            FirstName = uca.User.FirstName,
+            LastName = uca.User.LastName, 
+            DateOfBirth = uca.User.DateOfBirth,
+            Gender = uca.User.Gender,
+            Role = uca.Role,
+            IsActive = uca.User.IsActive,
+            IsClientAccessActive = uca.IsActive,
+            LastUpdated = uca.User.LastUpdated  
+        };
+    }
 }
+

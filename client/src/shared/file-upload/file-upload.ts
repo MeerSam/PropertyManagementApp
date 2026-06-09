@@ -74,7 +74,7 @@ export class FileUpload implements AfterViewInit {
     if (this.fileInputRef?.nativeElement) {
       this.fileInputRef.nativeElement.value = '';
     }
-    console.log('file upload reset')
+    // console.log('file upload reset')
   }
 
   private previewSelectedFile(file: File) {

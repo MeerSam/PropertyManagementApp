@@ -2,9 +2,9 @@
   <div class="flex justify-between items-center">
     <div class="tabs tabs-lift tabs-lg text-primary w-fit mx-3" role="tablist">
       @for (tab of tabs; track $index) {
-      <button role="tab" class="tab" (click)="setScope(tab.value )"
-        [class.tab-active]="scope() === tab.value">{{tab.label}}</button>
-      }
+        <button role="tab" class="tab" (click)="setScope(tab.value )"
+          [class.tab-active]="scope() === tab.value">{{tab.label}}</button>
+        }
     </div>
   </div>
 </div>
@@ -14,4 +14,7 @@
   memberId: memberService.member()?.id, 
   }" />" -->
 
-<app-document-records [scope]="scope()" [memberId]="memberService.member()?.id ?? null" />"
+<app-document-records 
+  [scope]="scope()" 
+  [memberId]="memberService.member()?.id ?? null" 
+  [ownerships]="ownerships()" />"

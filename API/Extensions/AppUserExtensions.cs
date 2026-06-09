@@ -1,5 +1,5 @@
 using System;
-using API.DTOs;
+using API.DTOs.Auth;
 using API.Entities;
 using API.Interfaces;
 
@@ -13,16 +13,16 @@ public static class AppUserExtensions
 order to use its functionality. So I will not need to say where I'm going to use this in the account controller var app user extensions
 
 equals new user equals new app user extensions. */
- public static UserDto ToDto(this AppUser user,  ITokenService tokenService)
+ public static UserDto ToDto(this AppUser user)
     {
         return new UserDto
         {
             Id = user.Id,
-            Email = user.Email,
+            Email = user.Email!,
             DisplayName = user.DisplayName ,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            ImageUrl = user.ImageUrl, 
+            ImageUrl = user.ImageUrl
         };
     }
 }

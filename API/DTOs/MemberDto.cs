@@ -21,6 +21,9 @@ public class MemberDto
     // Multi-tenant
     public required string ClientId { get; set; } 
 
+    public string? ClientName { get; set; } 
+
+
     // Relationship to AppUser (1:N)
     // Nav prop we dont make it required and we assign intial value = null!
     // nullable — member may not have a portal login

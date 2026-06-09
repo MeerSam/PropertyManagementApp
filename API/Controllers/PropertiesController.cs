@@ -21,64 +21,7 @@ public class PropertiesController(IPropertyRepository propertyRepository) : Base
     {
         var property = await propertyRepository.GetPropertyAsync(id);
         if (property == null) return NotFound(" The requested info was not found");
-        // var dtoProperty = new PropertyDto
-        // {
-        //     Id = property.Id,
-        //     Bedrooms = property.Bedrooms,
-        //     Bathrooms = property.Bathrooms,
-        //     IsRented = property.IsRented,
-        //     SquareFeet = property.SquareFeet,            
-        //     Address = property.Address,
-        //     Unit = property.Unit,
-        //     City = property.City,
-        //     State = property.State,
-        //     Country = property.Country,
-        //     ZipCode=  property.ZipCode,
-        //     MailAddress = property.MailAddress,
-        //     MailUnit = property.MailUnit,
-        //     MailCity = property.MailCity,
-        //     MailState = property.MailState,
-        //     MailCountry = property.MailCountry,
-        //     MailZipCode=  property.MailZipCode,
-        //     LastUpdatedBy = property.LastUpdatedBy?.DisplayName ?? string.Empty,
-        //     Ownerships = [.. property.Ownerships
-        //         .Select(o => new PropertyOwnershipDto
-        //         {
-        //             Id = o.Id,
-        //             PropertyId = o.PropertyId,
-        //             MemberId = o.MemberId,
-        //             StartDate =o.StartDate,
-        //             EndDate =o.EndDate,
-        //             OwnershipType =o.OwnershipType.ToString(),
-        //             OwnershipPercentage =o.OwnershipPercentage,
-        //             IsCurrent= o.IsCurrent,
-        //             Member = new MemberDto
-        //             {
-        //                 Id = o.Member.Id,
-        //                 DisplayName = o.Member.DisplayName,
-        //                 Email = o.Member.Email,
-        //                 FirstName = o.Member.FirstName,
-        //                 LastName = o.Member.LastName,
-        //                 ClientId = o.Member.ClientId,
-        //                 ImageUrl = o.Member.ImageUrl,
-        //                 UserId = o.Member.UserId
-        //             },
-        //         })],
-        //     CurrentOwners = [.. property.Ownerships
-        //         .Where(o => o.IsCurrent)
-        //         .Select(o => new MemberDto
-        //         {
-        //             Id = o.Member.Id,
-        //             DisplayName = o.Member.DisplayName,
-        //             Email = o.Member.Email,
-        //             FirstName = o.Member.FirstName,
-        //             LastName = o.Member.LastName ,
-        //             ClientId =o.Member.ClientId,
-        //             ImageUrl = o.Member.ImageUrl,
-        //             UserId = o.Member.UserId
-        //         })]
-        // };
-
+     
         return property.ToDto();
     }
 

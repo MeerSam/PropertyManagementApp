@@ -33,7 +33,7 @@ export class NavSidebar {
         this.toastService.error(error.error)
       },
       complete: () => {
-        console.log("completed Login Request from nav")
+        // console.log("completed Login Request from nav")
       }
     });
   }

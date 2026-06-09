@@ -16,10 +16,17 @@ import { PropertyDocuments } from '../features/properties/property-documents/pro
 import { propertyResolver } from '../features/properties/property-resolver';
 import { memberResolver } from '../features/members/member-resolver';
 import { MemberProfile } from '../features/members/member-profile/member-profile';
-import { preventUnsavedChangesGuard } from '../core/guards/prevent-unsaved-changes-guard'; 
+import { preventUnsavedChangesGuard } from '../core/guards/prevent-unsaved-changes-guard';
 import { MemberDocument } from '../features/members/member-document/member-document';
 import { DocumentRecords } from '../features/documents/document-records/document-records';
 import { DocumentScope } from '../types/document';
+import { userResolver } from '../features/account/users/user-resolver';
+import { UserDetails } from '../features/account/users/user-details/user-details';
+import { UserProfile } from '../features/account/users/user-profile/user-profile';
+import { UserPasswordChange } from '../features/account/users/user-password-change/user-password-change';
+import { UserList } from '../features/account/users/user-list/user-list';
+import { ForgotPassword } from '../features/account/forgot-password/forgot-password';
+import { ResetPassword } from '../features/account/reset-password/reset-password';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -28,41 +35,55 @@ export const routes: Routes = [
         canActivate: [authGuard],
         runGuardsAndResolvers: 'always',
         children: [
-            { path: 'members', 
+            {
+                path: 'members',
                 canActivate: [authGuard],
-                runGuardsAndResolvers: 'always', 
+                runGuardsAndResolvers: 'always',
                 children: [
                     { path: '', component: MemberList, pathMatch: 'full' },
-                    { path: ':id', 
-                        component: MemberDetailed, 
+                    {
+                        path: ':id',
+                        component: MemberDetailed,
                         runGuardsAndResolvers: 'always',
-                        resolve: {member: memberResolver},
-                        title: 'Details', 
+                        resolve: { member: memberResolver },
+                        title: 'Details',
                         children: [
-                            { path: '', redirectTo:'profile',  pathMatch:'full'},                           
-                            { path: 'profile', 
-                                component: MemberProfile,  
-                                title:'Profile', 
-                                canDeactivate:[preventUnsavedChangesGuard], 
+                            { path: '', redirectTo: 'profile', pathMatch: 'full' },
+                            {
+                                path: 'profile',
+                                component: MemberProfile,
+                                title: 'Profile',
+                                canDeactivate: [preventUnsavedChangesGuard],
                                 runGuardsAndResolvers: 'always',
                             },
-                            { path: 'properties', 
-                                component: PropertyList,  
-                                title:'Properties',
-                                canDeactivate:[preventUnsavedChangesGuard], 
-                                runGuardsAndResolvers: 'always'},
-                            { path: 'documents',
-                                component: MemberDocument,  
+                            {
+                                path: 'properties',
+                                component: PropertyList,
+                                title: 'Properties',
+                                canDeactivate: [preventUnsavedChangesGuard],
+                                runGuardsAndResolvers: 'always'
+                            },
+                            {
+                                path: 'documents',
+                                component: MemberDocument,
                                 data: {
-                                    scope: 'OwnerTenure' 
+                                    scope: 'OwnerTenure'
                                 },
-                                title:'Properties',
-                                canDeactivate:[preventUnsavedChangesGuard], 
-                                runGuardsAndResolvers: 'always'}
+                                title: 'Documents',
+                                canDeactivate: [preventUnsavedChangesGuard],
+                                runGuardsAndResolvers: 'always'
+                            },
+                            {
+                                path: 'messages',
+                                component: MemberProfile, 
+                                title: 'Messages',
+                                canDeactivate: [preventUnsavedChangesGuard],
+                                runGuardsAndResolvers: 'always'
+                            }
                         ]
                     },
                 ]
-            },            
+            },
             { path: 'messages', component: Messages },
             {
                 path: 'dashboard',
@@ -83,30 +104,63 @@ export const routes: Routes = [
                 children: [
                     { path: '', component: PropertyList, pathMatch: 'full' },
                     {
-                        path: ':id', 
-                        component: PropertyProfile,  
-                        resolve:  {property: propertyResolver},
+                        path: ':id',
+                        component: PropertyProfile,
+                        resolve: { property: propertyResolver },
                         runGuardsAndResolvers: 'always',
-                        title:'Profile',
+                        title: 'Profile',
                         children: [
-                            { path: '', redirectTo:'details', pathMatch:'full'},
-                            { path: 'details', component: PropertyDetails,  title:'Details'},
-                            { path: 'documents', 
-                                component: PropertyDocuments, 
-                                title:'Documents'},
+                            { path: '', redirectTo: 'details', pathMatch: 'full' },
+                            { path: 'details', component: PropertyDetails, title: 'Details' },
+                            {
+                                path: 'documents',
+                                component: PropertyDocuments,
+                                title: 'Documents'
+                            },
                         ]
                     },
                 ]
             },
             {
                 path: 'documents',
-                canActivate:[authGuard],
-                runGuardsAndResolvers:'always',
-                data: {scope: 'Community' as DocumentScope},
+                canActivate: [authGuard],
+                runGuardsAndResolvers: 'always',
+                data: { scope: 'Community' as DocumentScope },
                 component: DocumentRecords
-            }
+            },
+            {
+                path: 'users',
+                component: UserList,
+                canActivate: [authGuard],
+                runGuardsAndResolvers: 'always',
+            },
+            {
+                path: 'users/:id',
+                runGuardsAndResolvers: 'always',
+                canActivate: [authGuard],
+                resolve: { user: userResolver },
+                component: UserDetails,
+                children: [
+                    { path: '', redirectTo: 'profile', pathMatch: 'full' },
+                    {
+                        path: 'profile',
+                        component: UserProfile,
+                        title: 'User Profile',
+                        canDeactivate: [preventUnsavedChangesGuard]
+                    },
+                    {
+                        path: 'passwordchange',
+                        component: UserPasswordChange,
+                        title: 'Password Change',
+                        canDeactivate: [preventUnsavedChangesGuard]
+                    },
+
+                ]
+            },
         ]
     },
+    { path: 'forgot-password', component: ForgotPassword },
+    { path: 'reset-password', component: ResetPassword },
     { path: 'errors', component: TestErrors },
     { path: 'server-error', component: ServerError },
     { path: '**', component: NotFound }

@@ -1,0 +1,70 @@
+@if (user(); as user){
+    @if(session.editMode()){
+        <div>
+            <form [formGroup]="userEditForm"  (ngSubmit)="updateProfile()" class="flex flex-col w-full gap-4">
+                <app-text-input class="m-2" label="Display Name" formControlName="displayName" />
+
+                <app-text-input class="m-2" label="First Name" formControlName="firstName" />
+                <app-text-input class="m-2" label="Last Name" formControlName="lastName" />
+                <app-text-input class="m-2" label="Email" formControlName="email" />
+
+ 
+                <div class="flex items-center gap-4">
+                    <div class="font-semibold">Gender</div>
+                    <label class="flex gap-3 items-center">
+                        <span>Male</span>
+                        <input type="radio" formControlName="gender" value="male" class="radio radio-primary" />
+                    </label>
+                    <label class="flex gap-3 items-center">
+                        <span>Female</span>
+                        <input type="radio" formControlName="gender" value="female" class="radio radio-primary" />
+                    </label>
+                </div>
+                <app-text-input [maxDate]="getMaxDate()" class="m-2" label="Date of Birth" formControlName="dateOfBirth"
+                    type="date" />
+                <app-select-input class="m-2" label="Assign Role" formControlName="role" placeholder="Select Role"
+                    [options]="session.roleOptions()" />
+
+                <div class="flex self-end">
+                    <button [disabled]="!userEditForm.dirty" type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    } @else {
+        <div class="flex flex-col gap-3">
+            <div class="flex gap-3">
+                <span class="font-semibold">Display Name:</span>
+                <span>{{user.displayName}}</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="font-semibold">First Name:</span>
+                <span>{{user.firstName}}</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="font-semibold">Last Name:</span>
+                <span>{{user.lastName}}</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="font-semibold">Role (per Client):</span>
+                <span>{{getRole(user.role)}}</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="font-semibold">Date of Birth:</span>
+                <span>{{user.dateOfBirth}}</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="font-semibold">Gender:</span>
+                <span>{{user.gender}}</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="font-semibold">User Active Status:</span>
+               <span>{{ user.IsActive ? 'Yes' : 'No' }}</span>
+            </div>
+            <div class="flex gap-3">
+                <span class="font-semibold">User's Client Active Status:</span>
+               <span>{{ user.isClientAccessActive ? 'Yes' : 'No' }}</span>
+            </div>
+        </div>
+    }
+    
+}

@@ -1,67 +1,64 @@
 <div class="card bg-base-100 w-1/2 mx-auto flex flex-col p-6 rounded-lg shadow-lg">
-    <div class="card-title justify-center text-3xl text-primary">New document</div>
-    
-    
+    <div class="card-title justify-center text-3xl text-primary">New Document</div>
+
+
     <div class="card-body w-full">
         @if(property()){
-            <div class="flex flex-col gap-4 w-full mt-3">
-                <span class="font-semibold">This document is uploaded for property: {{property()?.unit }}</span>
-            </div>
+        <div class="flex flex-col gap-4 w-full mt-3">
+            <span class="font-semibold">This document is uploaded for property: {{property()?.unit }}</span>
+        </div>
         }
-        <form [formGroup]="documentForm" class="flex flex-col gap-4 w-full steps mt-3"> 
-            <app-text-input class="m-2" label="Title" formControlName="title" />   
-            <app-select-input label="Scope" 
-                formControlName="scope"
-                placeholder="Select scope" 
+        <form [formGroup]="documentForm" class="flex flex-col gap-4 w-full steps mt-3">
+            <app-text-input class="m-2" label="Title" formControlName="title" />
+            <app-select-input label="Scope" formControlName="scope" placeholder="Select scope"
                 [options]="scopeOptions()" />
 
-            <app-select-input label="Category" 
-                formControlName="category"  
-                placeholder="Select category"
+            <app-select-input label="Category" formControlName="category" placeholder="Select category"
                 [options]="categoryOptions()" />
 
-            
+
             @if(scopeValue() === 'OwnerTenure'){
-                <app-select-input label="Owner" 
-                    formControlName="ownershipId" 
-                    placeholder="Select Owner"
-                    [options]="ownershipOptions()" />
+            <app-select-input label="Owner" formControlName="propertyOwnershipId" placeholder="Select Owner"
+                [options]="ownershipOptions()" />
             }
-            
+
             @if(scopeValue() === 'OwnerTenure' || scopeValue() === 'PropertyHistory'){
-                <app-select-input label="Property" 
-                    formControlName="propertyId" 
-                    placeholder="Selected Property"
-                    [options]="propertyOption()" />
+            <app-select-input label="Property" formControlName="propertyId" placeholder="Selected Property"
+                [options]="propertyOption()" />
             }
-             
+
             <app-text-input class="m-2" label="Description" formControlName="description" />
 
             <app-text-input class="m-2" label="Notes" formControlName="notes" />
 
-            @if(uploadedFile()){ 
-                    <div class="flex justify-items-stretch gap-3 mt-2 text-gray-500 dark:text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-base-content/40 mb-2" fill="none" 
-                        viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
-                    <span class="font-semibold text-blue-600 h-9">
-                        {{uploadedFile()?.name}}
-                    </span>
-                </div>  
+            @if(uploadedFile()){
+            <div class="flex justify-items-stretch gap-3 mt-2 text-gray-500 dark:text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-base-content/40 mb-2" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <span class="font-semibold text-blue-600 h-9">
+                    {{uploadedFile()?.name}}
+                </span>
+            </div>
             }
 
-            <app-file-upload (uploadFile)="onUploadFile($event)" [loading]="loading()" /> 
+            <app-file-upload (uploadFile)="onUploadFile($event)" [loading]="loading()" />
             <div class="flex items-center justify-end gap-3">
                 <button class="btn" type="button" (click)="cancel()">Cancel</button>
-                
-                <button [disabled]="!documentForm.valid || !uploadedFile() " 
-                    class="btn btn-primary" 
-                    type="button"
+
+                <button [disabled]="!documentForm.valid || !uploadedFile() " class="btn btn-primary" type="button"
                     (click)="createDocument()">Create</button>
             </div>
-        </form> 
+
+        </form>
+        @if(!documentForm.valid ){
+        <div>
+            <div>Form value: {{documentForm.value | json}}</div>
+            <div>Form status: {{documentForm.status | json}}</div>
+        </div>
+        }
+
     </div>
 </div>

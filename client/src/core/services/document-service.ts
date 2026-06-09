@@ -43,8 +43,8 @@ export class DocumentService {
       // if (documentParams.scope) {
       //   params = params.append('scope', documentParams.scope);
       // }
-      console.log(this.baseUrl + 'documents/member/' + documentParams.memberId)
-      console.log(params)
+      // console.log(this.baseUrl + 'documents/member/' + documentParams.memberId)
+      // console.log(params)
 
       return this.http.get<Document[]>(this.baseUrl + 'documents/member/' + documentParams.memberId, { params })
     }

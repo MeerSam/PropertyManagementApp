@@ -1,12 +1,13 @@
 import { Component, HostListener, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { EditableMember, Member } from '../../../types/member';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MemberService } from '../../../core/services/member-service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastService } from '../../../core/services/toast-service';
 import { SessionService } from '../../../core/services/session-service';
 import { AgePipe } from '../../../core/pipes/age-pipe';
+import { EditableUser, User, UserDto } from '../../../types/user';
 
 @Component({
   selector: 'app-member-profile',
@@ -29,6 +30,7 @@ export class MemberProfile implements OnInit, OnDestroy {
   protected memberService = inject(MemberService)
   private session = inject(SessionService)
   protected toast = inject(ToastService);
+  private router = inject(Router);
   // // moving member signal this to member-service to allow updates to flow all areas of the app when a profile gets updated
   // protected member = signal<Member | undefined>(undefined); 
   protected editabelMember: EditableMember = {
@@ -53,9 +55,7 @@ export class MemberProfile implements OnInit, OnDestroy {
       } else {
         this.toast.error('Error loading ember from parent')
       }
-    });
-    // //*meera console.log(.log('OnInit MemberProfile memServ after', this.memberService.member());
-    // //*meera console.log(.log('OnInit MemberProfile editableMember', this.editabelMember);
+    }); 
   }
 
   ngOnDestroy(): void {
@@ -75,20 +75,23 @@ export class MemberProfile implements OnInit, OnDestroy {
       if (!userId) {
         this.toast.error('Cannot update profile: missing userId');
         return;
-      }
-      const updatedUser = { ...this.memberService.member(), ...this.editabelMember, userId };
-      this.session.updateUser(updatedUser).subscribe({
-        next: () => {
-          this.toast.success('Profile Updated for member succesfully');
-          this.memberService.editMode.set(false);
-          this.memberService.member.set(updatedMember as Member);
-          if (updatedMember.id == this.session.currentUser()?.id &&
-           updatedMember.displayName !== this.session.currentUser()?.displayName  ) {
-            this.session.currentUser.update(u => ({ ...u!, displayName: updatedMember.displayName }));
-          }
-        },
-        error: error => this.toast.error('Error while saving.' + error)
-      });
+      } 
+      this.router.navigateByUrl('/users/' + {userId} )
+       
+      // const updatedMember = { ...this.memberService.member(), ...this.editabelMember, userId };
+      
+      // this.session.updateUser(updatedMember).subscribe({
+      //   next: () => {
+      //     this.toast.success('Profile Updated for user succesfully');
+      //     this.memberService.editMode.set(false);
+      //     this.memberService.member.set(updatedMember as Member);
+      //     if (updatedMember.id == this.session.currentUser()?.id &&
+      //      updatedMember.displayName !== this.session.currentUser()?.displayName  ) {
+      //       this.session.currentUser.update(u => ({ ...u!, displayName: updatedMember.displayName }));
+      //     }
+      //   },
+      //   error: error => this.toast.error('Error while saving.' + error)
+      // });
     } else {
       this.memberService.updateMember(updatedMember).subscribe({
         next: () => {

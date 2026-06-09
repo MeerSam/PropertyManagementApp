@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, model, output, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, input, model, OnInit, output, signal, ViewChild } from '@angular/core';
 import { FileUpload } from "../file-upload/file-upload";
 import { UploadService } from '../../core/services/upload-service';
 import { SessionService } from '../../core/services/session-service';
@@ -11,15 +11,16 @@ import { communityOptions, } from '../../types/document';
 import { SelectInput } from "../select-input/select-input";
 import { Property, PropertyOwnership } from '../../types/property';
 import { ValidationError } from '@angular/forms/signals';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-document-upload',
-  imports: [FileUpload, ReactiveFormsModule, TextInput, SelectInput],
+  imports: [FileUpload, ReactiveFormsModule, TextInput, SelectInput, JsonPipe],
   templateUrl: './document-upload.html',
   styleUrl: './document-upload.css',
 })
-export class DocumentUpload {
+export class DocumentUpload implements OnInit {
   @ViewChild('fileUpload') fileUploadRef!: FileUpload;
   private uploadService = inject(UploadService);
   protected session = inject(SessionService);
@@ -43,7 +44,7 @@ export class DocumentUpload {
 
   // Scope options are filtered by role
   protected scopeOptions = computed<SelectOption[]>(() => {
-    const role = this.session.currentUser()?.appRole;
+    const role = this.session.currentUser()?.role;
     const adminRoles = ['admin', 'board_member', 'property_manager'];
     const limitedRoles = ['owner', 'resident'];
 
@@ -64,7 +65,7 @@ export class DocumentUpload {
   // Category options react to the scope value
   protected categoryOptions = computed<SelectOption[]>(() => {
     const scope = this.documentForm.get('scope')?.value;
-    //console.log('scope=', scope, " | this.scopeValue=", this.scopeValue());
+    // console.log('scope=', scope, " | this.scopeValue=", this.scopeValue());
     //console.log(this.documentForm);
 
     const map: Record<string, SelectOption[]> = {
@@ -83,8 +84,8 @@ export class DocumentUpload {
       const ownersList: SelectOption[] = this.ownerships().map(o => ({
         value: o.id,
         label: `${o.member?.displayName ?? o.memberId} (${o.ownershipType})`
-      }));
-      // console.log(this.ownerships());
+      })); 
+
       return ownersList
     }
     return [];
@@ -92,25 +93,39 @@ export class DocumentUpload {
 
   protected propertyOption = computed<SelectOption[]>(() => {
     const scope = this.documentForm.get('scope')?.value;
-
     if (scope === 'OwnerTenure' || scope === 'PropertyHistory') {
-      const prop = this.property();
-      if (prop) {
-        return [{
-          value: prop.id,
-          label: prop.unit
-        }]
+      if (this.property() || this.propertyId()) {
+        const prop = this.property();
+        if (prop) {
+          return [{
+            value: prop.id,
+            label: `${prop.address ? prop.address : prop.id}${prop.unit ? ' #' + prop.unit : ''}`
 
-      } else if (this.propertyId()) {
-        return [{
-          value: this.propertyId(),
-          label: this.propertyId()
-        }]
+          }]
+
+        } else if (this.propertyId()) {
+          return [{
+            value: this.propertyId(),
+            label: this.propertyId()
+          }]
+        }
+
+      } else {
+        if (this.ownerships().length > 0) {
+          const propertyList: SelectOption[] = this.ownerships()
+            .filter(o => o.endDate === null && o.property !== null)
+            .map(o => ({
+              value: o.property?.id ?? "",
+              label: `${o.property?.address ?? o.property?.address} # ${o.property?.unit ?? o.property?.unit} (${o.ownershipType})`
+            }));
+          // console.log(propertyList);
+          return propertyList;
+        } 
       }
     }
+
     return [];
   });
-
 
   constructor() {
     this.documentForm = this.fb.group({
@@ -120,26 +135,59 @@ export class DocumentUpload {
       category: ['', [Validators.required]],
       notes: [],
       propertyId: ['', [this.optionSelected('scope')]],
-      ownershipId: ['', [this.optionSelected('scope')]]
+      propertyOwnershipId: ['', [this.optionSelected('scope')]]
     }
     );
 
     // Adding a listener in the constructor
     this.documentForm.get('scope')?.valueChanges.subscribe(val => {
-      // console.log(`Changed scope: ${val}`)
+      console.log(`Changed scope: ${val}`)
       this.scopeValue.set(val ?? '');
-      this.documentForm.get('category')?.reset('');
-      this.documentForm.get('propertyId')?.reset('');
-      this.documentForm.get('ownershipId')?.reset('');
+
+      this.documentForm.get('propertyOwnershipId')?.clearValidators();
+      this.documentForm.get('propertyId')?.clearValidators();
+
+      if (this.scopeValue() === 'PropertyHistory') {
+        this.documentForm.get('propertyId')?.setValidators([Validators.required]);
+        this.documentForm.get('propertyOwnershipId')?.clearValidators(); 
+      }
+
+      if (this.scopeValue() === 'OwnerTenure') {
+        this.documentForm.get('propertyId')?.setValidators([Validators.required]);
+        this.documentForm.get('propertyOwnershipId')?.setValidators([Validators.required]); 
+      } 
       this.documentForm.controls['propertyId'].updateValueAndValidity();
-      this.documentForm.controls['ownershipId'].updateValueAndValidity();
+      this.documentForm.controls['propertyOwnershipId'].updateValueAndValidity();
     });
 
+  }
+
+  ngOnInit() {
+
+    console.log('propertyId=',this.propertyId());
+    console.log('ownershipId=',this.ownershipId());
+    console.log('property=',this.property());
+    console.log('ownerships=',this.ownerships()); 
+
+    if (this.scopeValue() === 'PropertyHistory') {
+      this.documentForm.get('propertyId')?.setValidators([Validators.required]);
+      this.documentForm.get('propertyOwnershipId')?.clearValidators();
+      this.documentForm.get('propertyOwnershipId')?.updateValueAndValidity();
+    }
+
+    if (this.scopeValue() === 'OwnerTenure') {
+      this.documentForm.get('propertyId')?.setValidators([Validators.required]);
+      this.documentForm.get('propertyOwnershipId')?.setValidators([Validators.required]);
+    }
   }
 
   onUploadFile(file: File) {
     this.loading.set(true);
     this.uploadedFile.set(file);
+    this.documentForm.controls['propertyId'].updateValueAndValidity();
+    this.documentForm.controls['propertyOwnershipId'].updateValueAndValidity();
+
+    console.log("onUploadFile=", this.documentForm.valid);
     if (this.uploadedFile() && this.documentForm.valid) {
       this.createDocument();
     } else {
@@ -155,7 +203,7 @@ export class DocumentUpload {
       this.docInfo = {
         ...this.documentForm.value,
         propertyId: this.resolvedPropertyId(),
-        ownershipId: this.resolvedOwnershipId()
+        propertyOwnershipId: this.resolvedOwnershipId()
       }
       this.uploadService.uploadDocument(uploadedFile, this.docInfo).subscribe({
         next: result => {
@@ -163,8 +211,9 @@ export class DocumentUpload {
           this.resetForm();
           this.newDocument.emit(result);
         },
-        error: err => {
-          console.error(err);
+        error: error => {
+          console.error(`Could not create Document (${this.uploadedFile()?.size}) or form is invalid (${this.documentForm.valid})`);
+          console.error(error.error);
           this.loading.set(false);
         }
       });
@@ -180,18 +229,16 @@ export class DocumentUpload {
 
     if (scope === 'OwnerTenure') {
 
-      if (!this.documentForm.get('ownershipId')?.value && !this.ownershipId()) {
+      if (!this.documentForm.get('propertyOwnershipId')?.value && !this.ownershipId()) {
         this.toastService.error("Ownership selection is required and cannot be null")
       }
-      return this.documentForm.get('ownershipId')?.value ?? this.ownershipId()
+      return this.documentForm.get('propertyOwnershipId')?.value ?? this.ownershipId()
     }
     return "";
   }
 
-  cancel() {
-    // console.log('reseting form : docUpload.cancel()')
-    this.resetForm();
-
+  cancel() { 
+    this.resetForm(); 
     this.cancelCreate.emit(false);
   }
 
@@ -200,7 +247,10 @@ export class DocumentUpload {
     const scope = this.documentForm.get('scope')?.value;
 
     if (scope === 'OwnerTenure' || scope === 'PropertyHistory') {
-      if (this.documentForm.get('propertyId')?.value !== this.propertyId) {
+      if (this.propertyId() !='' && this.documentForm.get('propertyId')?.value !== this.propertyId()) {
+        // console.log(this.documentForm.get('propertyId')?.value, this.propertyId)
+        // console.log("Property selected in the form is different from input", this.property()?.id)
+
         this.toastService.error("Property selected in the form is different from input")
       }
       if (!this.documentForm.get('propertyId')?.value && !this.propertyId()) {
@@ -227,9 +277,12 @@ export class DocumentUpload {
 
       if (!parent) return null;
       const choiceValue = parent.get(choice)?.value;
+      console.log(choice, choiceValue);
       if (choice === 'scope' && choiceValue === 'OwnerTenure') {
+        console.log("If choiceValue === 'OwnerTenure'", choiceValue, control.value);
         return control.value ? null : { ownershipNotSelected: true };
       } else if (choice === 'scope' && choiceValue === 'PropertyHistory') {
+        console.log("If choiceValue === 'PropertyHistory'", choiceValue, control.value);
         return control.value ? null : { propertyNotSelected: true };
       }
       return null;

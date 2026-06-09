@@ -65,3 +65,19 @@ export type LoginOutcome =
   | { status: 'success' }
   | { status: 'needs_client_selection'; clients: UserClientAccessInfo[] }
   | { status: 'error'; message: string };
+
+
+  export type UserCredsChange = {
+  userId: string;  
+  email?: string; 
+  currentPassword: string;
+  newPassword: string;
+}
+
+
+ export type ForgotPasswordDto = {
+  email: string;  
+  resetUrlBase: string; 
+ }
+
+ 

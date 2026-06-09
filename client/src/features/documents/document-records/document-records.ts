@@ -33,8 +33,8 @@ export class DocumentRecords implements OnInit {
   propertyId = input<string | null>(null);
   ownershipId = input<string | null>(null);
   ownerships = input<PropertyOwnership[]>([]);
-  property = input<Property | null>(null);
-
+  property= input<Property | null>(null);
+ 
 
   private validScopes: DocumentScope[] = [
     'Public',
@@ -125,20 +125,20 @@ export class DocumentRecords implements OnInit {
         return true;
 
       case 'PropertyHistory':
-        console.log('I am here, PropertyHistory valid param',
-          {
-            scope: this.resolvedScope(),
-            paramScope: params?.scope,
-            propertyId: !!params?.propertyId || !!params.memberId,
-            memberId: !!params.memberId,
-            retruned: !!params?.propertyId,
-            params: params
-          })
-        console.log(this.resolvedParams());
+        // console.log('I am here, PropertyHistory valid param',
+        //   {
+        //     scope: this.resolvedScope(),
+        //     paramScope: params?.scope,
+        //     propertyId: !!params?.propertyId || !!params.memberId,
+        //     memberId: !!params.memberId,
+        //     retruned: !!params?.propertyId,
+        //     params: params
+        //   })
+        // console.log(this.resolvedParams());
         return !!params?.propertyId || !!params.memberId;
 
       case 'OwnerTenure':
-        console.log('I am here, OwnerTenure valid param', { scope: this.resolvedScope(), paramScope: params?.scope, retruned: !!params?.propertyId && !!params.memberId })
+        // console.log('I am here, OwnerTenure valid param', { scope: this.resolvedScope(), paramScope: params?.scope, retruned: !!params?.propertyId && !!params.memberId })
 
         return !!params?.propertyOwnershipId || !!params.memberId;
 
@@ -198,27 +198,27 @@ export class DocumentRecords implements OnInit {
 
 
   loadDocuments() {
-    console.log('Loading document... ', this.resolvedParams())
+    // console.log('Loading document... ', this.resolvedParams())
     const params = this.resolvedParams() ?? { scope: 'Community' } as DocumentParams;
-    console.log('(params)', params)
+    // console.log('(params)', params)
     if (!this.isParamsValid()) {
       this.toast.error(this.getMissingParamsError());
       return
     }
-    console.log('(params)', params)
+    // console.log('(params)', params)
     this.documentService.getDocuments(params).subscribe({
       next: docs => {
-        console.log('this.resolvedParams().scope', this.resolvedParams().scope)
+        // console.log('this.resolvedParams().scope', this.resolvedParams().scope)
         const  filtered = docs.filter(d =>
           !this.resolvedParams().scope ||
           d.scope === this.resolvedParams().scope
         )
-        console.log('returned docs', filtered)
+        // console.log('returned docs', filtered)
         this.documents.set(filtered);
         this.loading.set(false)
       },
       error: err => {
-        console.log(console.error(err));
+        // console.log(console.error(err));
         this.toast.error('Failed to load documents.');
         this.loading.set(false);
       }

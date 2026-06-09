@@ -2,11 +2,14 @@ using System.Text;
 using System.Text.Json.Serialization;
 using API.Data;
 using API.Data.Repositories;
+using API.Entities;
 using API.Helpers;
 using API.Interfaces;
 using API.Middleware;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,8 +33,17 @@ builder.Services.AddScoped<IMemberRepository, MemberRepository>(); // Scoped to 
 builder.Services.AddScoped<ITokenService, TokenService>(); // Scoped to the lifetime of request
 builder.Services.AddScoped<IPropertyRepository, PropertyRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 builder.Services.Configure<CloudinarySettings>(builder.Configuration
     .GetSection("CloudinarySettings"));// Inject and use it anywhere
+    builder.Services.AddIdentityCore<AppUser>(opt =>
+    {
+        opt.Password.RequireNonAlphanumeric = false;
+        opt.User.RequireUniqueEmail =true;
+
+    }).AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -92,6 +104,7 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<AppDbContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
     // var userManager = services.GetRequiredService<UserManager<AppUser>>();
     // // migrating the database in code 
     // //creates database if it does not already exists
@@ -101,7 +114,7 @@ try
     //This is the programmatic equivalent of running dotnet ef database update.
 
 
-    await Seed.SeedData(context); // userManger
+    await Seed.SeedData(context, userManager); // userManger
     context.IsSeeding = false;
 
 

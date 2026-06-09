@@ -7,34 +7,33 @@ using API.Interfaces;
 namespace API.Services;
 
 
-public sealed class AuthorizationService(IPropertyRepository propertyRepository,
-    IDocumentRepository documentRepository) : IAuthorizationService
+public sealed class AuthorizationService(IPropertyRepository propertyRepository) : IAuthorizationService
 {
-    public async Task<bool> CanCreatePropertyAsync(UserAccess access)
+    public   Task<bool> CanCreatePropertyAsync(UserAccess access)
     {
-        if (access == null) return false;
+        if (access == null) return  Task.FromResult(false);
 
-        if (HoaRoles.priviledgedRoles.Contains(access.Role)) return true;
+        if (HoaRoles.priviledgedRoles.Contains(access.Role)) return  Task.FromResult(true);
 
-        return false;
+        return  Task.FromResult(false);
     }
 
-    public async Task<bool> CanDeletePropertyAsync(UserAccess access, string propertyId)
+    public   Task<bool> CanDeletePropertyAsync(UserAccess access, string propertyId)
     {
-        if (access == null) return false;
+        if (access == null) return  Task.FromResult(false);
 
-        if (HoaRoles.priviledgedRoles.Contains(access.Role)) return true;
+        if (HoaRoles.priviledgedRoles.Contains(access.Role)) return  Task.FromResult(true);
 
-        return false;
+        return  Task.FromResult(false);
     }
 
-    public async Task<bool> CanUpdatePropertyAsync(UserAccess access, string propertyId)
+    public Task<bool> CanUpdatePropertyAsync(UserAccess access, string propertyId)
     {
-        if (access == null) return false;
+        if (access == null) return  Task.FromResult(false);
 
-        if (HoaRoles.priviledgedRoles.Contains(access.Role)) return true;
+        if (HoaRoles.priviledgedRoles.Contains(access.Role)) return  Task.FromResult(true);
 
-        return false;
+        return  Task.FromResult(false);
     }
 
     public Task<bool> CanUploadDocumentAsync(string userId, string clientId, DocumentScope scope, string? propertyId, string? propertyOwnershipId)
@@ -47,13 +46,13 @@ public sealed class AuthorizationService(IPropertyRepository propertyRepository,
         throw new NotImplementedException();
     }
 
-    public async Task<bool> CanViewLimitedPropertyAsync(UserAccess access, string propertyId)
+    public Task<bool> CanViewLimitedPropertyAsync(UserAccess access, string propertyId)
     {
-        if (access == null) return false;
+        if (access == null) return Task.FromResult(false);
 
-        if (HoaRoles.priviledgedRoles.Contains(access.Role)) return true;
+        if (HoaRoles.priviledgedRoles.Contains(access.Role)) return  Task.FromResult(true);
 
-        return false;
+        return  Task.FromResult(false);
     }
 
     public async Task<bool> CanViewPropertyAsync(UserAccess access, string propertyId)

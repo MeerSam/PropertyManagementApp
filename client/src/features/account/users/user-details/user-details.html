@@ -1,0 +1,47 @@
+@if(user(); as user){
+<div class="flex gap-6">
+    <!-- left side column -->
+    <div class="card bg-base-100 flex flex-col  h-[85vh] w-1/4">
+        <img src="{{user.imageUrl || '/user.png'}}" alt="image of member {{user.firstName}} {{user.lastName}}"
+            class="rounded-full mx-10 mt-3 object-cover" />
+        <div class="card-body">
+            <div class="flex flex-col items-center">
+                <div class="flex text-2xl text-primary items-center">
+                    <span class="text-2xl">{{user.displayName}}</span>
+                </div>
+                <div class="text-sm">{{user.email}}</div>
+            </div>
+            <ul class="menu rouded-box w-full text-xl">
+                <li>
+                    <a routerLink="profile" routerLinkActive="text-primary" >Profile</a>
+                </li>
+                <li>
+                    <a routerLink="passwordchange" routerLinkActive="text-primary" [routerLinkActiveOptions]="{exact:true}">Change Password</a>
+                </li>
+            </ul>
+        </div>
+         <div class="card-actions justify-between gap-2 px-2 mb-3">
+            <button class="btn btn-info flex-1">Go back</button>  
+        </div>
+
+    </div>
+    <!-- right side column -->
+    <div class="card bg-base-300 p-6 flex flex-col  h-[85vh] w-3/4">
+        <div class="flex justify-between items-center">
+            <h3 class="card-title text-3xl text-primary">{{title()}}</h3>
+            @if(isCurrentUser() || session.isAdminRole()){
+            <button 
+                (click)="session.editMode.set(!session.editMode())"
+                class="btn btn-outline btn-primary">{{session.editMode()? 'Cancel': 'Edit'}}</button>
+            }
+        </div>
+        <div class="divider"></div>
+        <div class="h-full">
+            <router-outlet />
+        </div>
+    </div>
+</div>
+} @else {
+<h1 class="font-semibold text-3xl">User Not found</h1>
+}
+

@@ -17,7 +17,7 @@ export class PropertyService {
     this.editMode.set(false);
     return this.http.get<Property>(this.baseUrl + 'properties/' + id).pipe(
       tap(property => {
-        console.log('at get property', property.isSameAddress)
+        // console.log('at get property', property.isSameAddress)
 
         this.property.set(property)
       })
@@ -33,7 +33,7 @@ export class PropertyService {
   }
 
   updateProperty(property: EditableProperty) {
-    console.log("property=property", property)
+    // console.log("property=property", property)
     return this.http.put(this.baseUrl + 'properties/' + this.property()?.id, property);
   }
 }

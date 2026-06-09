@@ -3,7 +3,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between">
         <h1 class="text-3xl font-bold">Welcome, {{ session.currentUser()?.displayName }}</h1>
-        <span class="badge badge-primary badge-lg">{{session.currentUser()?.appRole}}</span>
+        <span class="badge badge-primary badge-lg">{{session.currentUser()?.role}}</span>
     </div>
 
     <!-- Property Overview -->

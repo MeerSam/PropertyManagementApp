@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { AppRole, EditableUser, User, UserDto } from '../../types/user';
-import { AuthErrorResponse, AuthSuccessResponse, ClientSelectLoginResponse, RegisterDto, RegisterResponse } from '../../types/auth';
+import { Role, EditableUser, User, UserDto } from '../../types/user';
+import { AuthErrorResponse, AuthSuccessResponse, ClientSelectLoginResponse, ForgotPasswordDto, RegisterDto, RegisterResponse, UserCredsChange } from '../../types/auth';
 import { EditableMember } from '../../types/member';
 
 
@@ -10,6 +10,7 @@ import { EditableMember } from '../../types/member';
   providedIn: 'root',
 })
 export class AccountService {
+
   //services are singletons they are instantiated when the angular app starts :only one instance exists for the entire lifetime of the application.
   //- It lives forever: stateless services
 
@@ -25,18 +26,36 @@ export class AccountService {
   }
   // fetching WebAPI data
   register(creds: RegisterDto) {
-    console.log('creds', creds)
+    // console.log('creds', creds)
     return this.http.post<RegisterResponse>(this.baseUrl + 'account/register', creds);
   }
 
   login(creds: any) {
     return this.http.post<AuthSuccessResponse | ClientSelectLoginResponse | AuthErrorResponse>(this.baseUrl + 'account/login', creds);
   }
+
   updateUser(data: EditableUser) {
-    console.log(data);
+    // console.log(data);
     return this.http.put(this.baseUrl + 'account/update', data);
   }
 
+  updateUserCreds(data: UserCredsChange) {
+    // console.log(data);
+    return this.http.put(this.baseUrl + 'account/updatecreds', data);
+  }
+
+  forgotPassword(data: ForgotPasswordDto) {
+    return this.http.put(this.baseUrl + 'account/updatecreds', data);
+  }
+
+
+  loadUserById(userId: string) {
+    return this.http.get<User>(this.baseUrl + 'account/users/' + userId);
+  }
+
+  getUsers() {
+    return this.http.get<User[]>(this.baseUrl + 'account/users');
+  }
   // ─── State Mutations (called only by SessionService) ──────────
 
   /**
@@ -89,10 +108,11 @@ export class AccountService {
 
 
   // ─── Role Helpers ─────────────────────────────────────────────
-  hasRole(...roles: AppRole[]): boolean {
-    const role = this.currentUser()?.appRole;
+  hasRole(...roles: Role[]): boolean {
+    const role = this.currentUser()?.role;
     return role ? roles.includes(role) : false;
   }
+
 
   private mapUserDtoToUser(dto: UserDto, accessToken: string): User {
     return {

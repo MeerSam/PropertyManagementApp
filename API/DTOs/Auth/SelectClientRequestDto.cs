@@ -1,6 +1,6 @@
 using System;
 
-namespace API.DTOs;
+namespace API.DTOs.Auth;
 
 public class SelectClientRequestDto
 {

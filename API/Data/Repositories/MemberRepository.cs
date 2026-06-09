@@ -1,5 +1,7 @@
 using System;
+using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +11,15 @@ public class MemberRepository(AppDbContext context, ITenantService tenantService
 {
     public async Task<Member?> GetMemberAsync(string memberId)
     {
-        var member = await context.Members.FindAsync(memberId);
+        var member = await context.Members
+            .Include(m => m.User)
+            .Include(m => m.Client)
+            .Include(m => m.PropertyOwnerships)
+            .ThenInclude(po => po.Property)
+            
+            .Include(m => m.Vehicles)
+            .Include(m => m.Photos)
+            .SingleOrDefaultAsync(m => m.Id == memberId);
 
         if (member == null) return member;
 
@@ -24,6 +34,11 @@ public class MemberRepository(AppDbContext context, ITenantService tenantService
     {
         var member = await context.Members
             .Include(m => m.User)
+            .Include(m => m.Client)
+            .Include(m => m.PropertyOwnerships)
+                .ThenInclude(po => po.Property)
+            .Include(m => m.Vehicles)
+            .Include(m => m.Photos) 
             .SingleOrDefaultAsync(m => m.Id == memberId);
 
         if (member == null) return member;
@@ -38,19 +53,23 @@ public class MemberRepository(AppDbContext context, ITenantService tenantService
     public async Task<IReadOnlyList<Member>> GetMembersAsync()
     {
         var members = await context.Members
+            .Include(m => m.User)
+            .Include(m => m.Client)
             .Include(m => m.PropertyOwnerships)
+                .ThenInclude(po => po.Property)
+            .Include(m => m.Vehicles)
+            .Include(m => m.Photos)
             .Where(m => m.ClientId == tenantService.GetCurrentClientId())
             .ToListAsync();
-
         return members;
 
     }
 
     public async Task<IReadOnlyList<Photo>> GetPhotosForMemberAsync(string memberId)
     {
-    return await context.Members.Where(x => x.Id == memberId)
-      .SelectMany(x => x.Photos)
-      .ToListAsync();
+        return await context.Members.Where(x => x.Id == memberId)
+          .SelectMany(x => x.Photos)
+          .ToListAsync();
     }
 
     public async Task<bool> SaveAllAsync()

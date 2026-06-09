@@ -45,7 +45,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
 
 
   if (req.method === 'GET') {
-    console.log(cacheKey);
+    // console.log(cacheKey);
     const cachedResponse = cache.get(cacheKey);
     if (cachedResponse) {
       return of(cachedResponse);

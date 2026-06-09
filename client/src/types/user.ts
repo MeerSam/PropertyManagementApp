@@ -9,9 +9,16 @@ export type User = {
   firstName: string;
   lastName: string;
   imageUrl?: string;
-  appRole: AppRole;
+  appRole: string; //super admin = system role
+  role: Role; // admin, owner , pm 
   activeClient: Client;
   accessToken: string;
+  gender: string;
+  dateOfBirth: string;
+  isMemberLinked?: boolean;
+  memberId?: string;
+  IsActive: boolean;
+  isClientAccessActive: boolean;
 }
 
 export type UserDto = {
@@ -21,9 +28,16 @@ export type UserDto = {
   firstName: string;
   lastName: string;
   imageUrl?: string;
-  appRole: AppRole;
+  appRole: string;
+  role: Role;
+  gender: string;
+  dateOfBirth: string;
   activeClient: Client;
   availableClients: UserClientAccessInfo[];
+  isMemberLinked?: boolean;
+  memberId?: string;
+  IsActive: boolean;
+  isClientAccessActive: boolean;
 }
 
 export type UserClientAccessInfo = {
@@ -39,7 +53,9 @@ export type UserClientAccessInfo = {
 }
 
 
-export type AppRole =
+
+
+export type Role =
   | 'admin'
   | 'board_member'
   | 'property_manager'
@@ -54,7 +70,7 @@ export type DocumentScope =
   | 'OwnerTenure'       // Only that specific tenure's Primary owner + managers
 
 
-export const APP_ROLE: AppRole[] = [
+export const APP_ROLE: Role[] = [
   'admin',
   'board_member',
   'property_manager',
@@ -62,7 +78,7 @@ export const APP_ROLE: AppRole[] = [
   'resident'
 ] as const;
 
-export const APP_ROLE_LABELS: Record<AppRole, string> = {
+export const APP_ROLE_LABELS: Record<Role, string> = {
   admin: 'Administrator',
   board_member: 'Board Member',
   property_manager: 'Property Manager',
@@ -79,6 +95,9 @@ export type EditableUser = {
   lastName?: string;
   displayName?: string;
   description?: string;
-  email?: string
-  imageUrl?: string
+  email?: string;
+  role: Role | string | null | undefined;
+  dateOfBirth: string;
+  gender: string;
 }
+

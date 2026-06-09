@@ -2,19 +2,23 @@ using System;
 using API.Entities;
 using API.Interfaces;
 using API.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data;
 
-public class AppDbContext(DbContextOptions options, ITenantService tenantService) : DbContext(options)
+// public class AppDbContext(DbContextOptions options, ITenantService tenantService) : DbContext(options)
+public class AppDbContext(DbContextOptions options, ITenantService tenantService) : IdentityDbContext<AppUser>(options)
+
 {
     // primary constructor // ctor snippet 
     public bool IsSeeding { get; set; }
 
 
     public DbSet<Client> Clients { get; set; }
-    public DbSet<AppUser> Users { get; set; }
+    // public DbSet<AppUser> Users { get; set; } // User Table will be created by Identity
 
     public DbSet<Member> Members { get; set; }
 
@@ -33,6 +37,16 @@ public class AppDbContext(DbContextOptions options, ITenantService tenantService
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        // Seed SuperAdmin role
+        builder.Entity<IdentityRole>()
+            .HasData(
+            new IdentityRole { Id = "superadmin-id", Name = "SuperAdmin", NormalizedName = "SUPERADMIN" },
+            new IdentityRole { Id = "support-id", Name = "Support", NormalizedName = "SUPPORT" },
+            new IdentityRole { Id = "sysadmin-id", Name = "SysAdmin", NormalizedName = "SYSADMIN" },
+            new IdentityRole { Id = "appuser-id", Name = "AppUser", NormalizedName = "APPUSER" }
+
+        );
+ 
 
         builder.Entity<UserClientAccess>()
             .HasKey(uca => new { uca.UserId, uca.ClientId }); // Composite PK — no duplicate User+Client combinations possible

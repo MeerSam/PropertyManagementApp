@@ -1,25 +1,72 @@
-using System;
-using System.Security.Cryptography;
-using System.Text;
 using API.Data;
-using API.Data.Repositories;
-using API.DTOs;
 using API.DTOs.Auth;
 using API.Entities;
 using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
-using Humanizer;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Supabase.Gotrue;
 
 namespace API.Controllers;
 
-public class AccountController(AppDbContext context, ITokenService tokenService, IAuthService authService) : BaseApiController
+// AppDbContext context,
+public class AccountController(UserManager<AppUser> userManager,
+ ITokenService tokenService,
+ IAuthService authService,
+ AppDbContext context,
+ IUserClientRepository userClientRepo,
+ IEmailSender emailSender) : BaseApiController
 {
+    [Authorize]
+    [HttpGet("users/{id}")]
+    public async Task<ActionResult<UserForEditDto>> GetUser(string id)
+    {
+        //  file will not come through body but [FromForm] to tell our API controller where to go looking for
+        var requestedUserId = User.GetUserId();
+        var requestedUser = await context.UserClientAccess
+        .Include(uca => uca.User)
+        .Include(uca => uca.Client)
 
+        .Where(uca => uca.ClientId == User.GetClientId() && uca.UserId == requestedUserId)
+        .FirstOrDefaultAsync();
+        var clientId = User.GetClientId();
+
+        // Can View/Update
+        if (requestedUser is null) return Unauthorized("Not authorized to view");
+        if (requestedUserId != id && !HoaRoles.priviledgedRoles.Contains(requestedUser.Role)) return Unauthorized("Not authorized to view");
+
+        // this method is for updating the users who are not member profiles
+        var user = await userManager.FindByIdAsync(id);
+
+
+        if (user == null) return BadRequest("Invalid User");
+
+        return await userClientRepo.GetUserForUpdate(clientId, id);
+    }
+    [Authorize]
+    [HttpGet("users")]
+    public async Task<ActionResult<IReadOnlyList<UserForEditDto>>> GetUsers()
+    {
+        //  file will not come through body but [FromForm] to tell our API controller where to go looking for
+        var userId = User.GetUserId();
+        var clientId = User.GetClientId();
+
+        // Can View/Update
+        var user = await userManager.FindByIdAsync(userId);
+
+        if (user is null) return Unauthorized("Not authorized to view");
+
+        // this method is for updating the users who are not member profiles
+
+        var result = await userClientRepo.GetUsers(clientId);
+        return Ok(result);
+    }
+
+    [Authorize]
     [HttpPost("register")] // /api/acount/register    
     [ProducesResponseType(typeof(RegisterResponseDto), 200)]
     [ProducesResponseType(typeof(Exception), 400)]
@@ -30,24 +77,40 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
         ///  must be created by Admin/Property Managers/Hoa Board after verifying the residency
         try
         {
-            if (string.IsNullOrEmpty(registerDto.Email) || string.IsNullOrEmpty(registerDto.Password) || string.IsNullOrEmpty(registerDto.DisplayName)) return BadRequest("Email is required");
+            if (string.IsNullOrEmpty(registerDto.Email) ||
+                string.IsNullOrEmpty(registerDto.Password) ||
+                string.IsNullOrEmpty(registerDto.DisplayName)) return BadRequest("Email is required");
 
-            if (await EmailExists(registerDto.Email)) return BadRequest("Email Taken"); //removed: aspnet-identity
-            using var hmac = new HMACSHA512();//removed: aspnet-identity  
+            // if (await EmailExists(registerDto.Email)) return BadRequest("Email Taken"); //removed: aspnet-identity
+            // using var hmac = new HMACSHA512();//removed: aspnet-identity  
 
             var requestUserId = User.GetUserId();
             var clientId = User.GetClientId();
-            var result = await authService.RegisterAsync(registerDto, clientId);
-
+            var registerResult = await authService.RegisterAsync(registerDto, clientId);
+            if (!registerResult.Succeeded)
+            {
+                foreach (var error in registerResult.Errors)
+                {
+                    ModelState.AddModelError("identity", error);
+                }
+                return ValidationProblem();
+            }
+            if (registerResult.User is null)
+            {
+                return BadRequest($"Something went wrong during registration. The User is not registered");
+            }
             return new RegisterResponseDto
             {
-                Success = !string.IsNullOrEmpty(result.Id),
-                Id = result.Id,
-                DisplayName = result.DisplayName,
-                ClientName = result.ActiveClient?.ClientName ?? string.Empty,
-                ActiveClient = result.ActiveClient,
-                AppRole = result.AppRole
+                Success = !string.IsNullOrEmpty(registerResult.User?.Id),
+                Id = registerResult.User?.Id,
+                DisplayName = registerResult.User?.DisplayName,
+                ClientName = registerResult.User?.ActiveClient?.ClientName ?? string.Empty,
+                ActiveClient = registerResult.User?.ActiveClient,
+                AppRole = "AppUser",
+                Role = registerResult.User?.Role
+
             };
+
         }
         catch (System.Exception ex)
         {
@@ -62,6 +125,19 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
     {
         try
         {
+            // Step 1: Find user by email
+            var user = await userManager.FindByEmailAsync(loginDto.Email);
+
+            if (user == null) return Unauthorized("Invalid creadentials entered (email)");
+
+            var result = await userManager.CheckPasswordAsync(user, loginDto.Password);
+
+            if (!result)
+            {
+                return Unauthorized("Invalid Username or Password");
+            }
+
+
             var response = await authService.AuthenticateAsync(loginDto);
 
             if (response.AvailableClients == null) return Unauthorized(new AuthErrorResponseDto
@@ -150,21 +226,114 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
 
     }
 
+
+    // ---------------------------------------------------------
+    // UPDATE CURRENT PASSWORD (PUT)
+    // ---------------------------------------------------------
+    [Authorize]
     [HttpPut("updatecreds")]
-    public async Task<IActionResult> UpdateUserCredentials(LoginDto loginDto)
+    public async Task<IActionResult> UpdateUserCredentials(CredentialsChangeDto creds)
     {
-        var user = await context.Users.SingleOrDefaultAsync(x => x.Email!.ToLower() == loginDto.Email.ToLower());
+        var user = await userManager.FindByEmailAsync(creds.Email);
 
-        if (user == null) return NotFound("Invalid user");
-        using var hmac = new HMACSHA512();
+        var reqUser = await userManager.FindByIdAsync(User.GetUserId());
 
-        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-        user.PasswordSalt = hmac.Key;
+        if (user == null || reqUser == null)
+            return NotFound("Invalid user and not Authorized to make change");
 
-        await context.SaveChangesAsync();
+        // Get roles of the requester
+        var reqRoles = await userManager.GetRolesAsync(reqUser);
+        bool isSuperAdmin = reqRoles?.Contains("Super Admin") == true;
 
-        return Ok("UserUpdated");
+        // CASE 1: User changing their own password
+        if (user.Id == creds.UserId && user.Id == reqUser.Id)
+        {
+            var valid = await userManager.CheckPasswordAsync(user, creds.CurrentPassword);
+            if (!valid)
+                return Unauthorized("Invalid password change request and not Authorized to make change.");
+            var result = await userManager.ChangePasswordAsync(user, creds.CurrentPassword, creds.NewPassword);
+            if (!result.Succeeded)
+                return BadRequest(result.Errors);
 
+            return Ok("Password updated.");
+        }
+        // CASE 2: Super Admin changing someone else's password
+        if (isSuperAdmin)
+        {
+            // Remove old password
+            var remove = await userManager.RemovePasswordAsync(user);
+            if (!remove.Succeeded)
+                return BadRequest(remove.Errors);
+
+            // Add new password
+            var add = await userManager.AddPasswordAsync(user, creds.NewPassword);
+            if (!add.Succeeded)
+                return BadRequest(add.Errors);
+
+            return Ok("Password updated by Admin.");
+        }
+ 
+        // CASE 3: Not allowed 
+        return Unauthorized("You do not have permission to change this user's password.");
+ 
+    }
+    // ---------------------------------------------------------
+    // FORGOT PASSWORD (POST)
+    // ---------------------------------------------------------
+
+    [HttpPost("forgot-password")]
+    public async Task<ActionResult> ForgotPassword(ForgotPasswordDto forgotPasswordDto)
+    {
+        var user = await userManager.FindByEmailAsync(forgotPasswordDto.Email);
+
+        // Always return OK to avoid email enumeration
+        if (user == null) return Ok(new { message = "If the email exists, a reset link has been sent." });
+
+        var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+        // Encode token for URL
+        var encodedToken = System.Web.HttpUtility.UrlEncode(token);
+
+        var resetUrl = $"{forgotPasswordDto.ResetUrlBase}?email={user.Email}&token={encodedToken}";
+
+        if (user.Email == null) return Ok(new { message = "If the email exists, a reset link has been sent." });
+
+
+        await emailSender.SendEmailAsync(
+            user.Email,
+            "Reset Your Password",
+            $"Click the link to reset your password: {resetUrl}");
+
+        return Ok(new { message = "If the email exists, a reset link has been sent." });
+    }
+
+    // ---------------------------------------------------------
+    //  RESET PASSWORD (POST)
+    // ---------------------------------------------------------
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var user = await userManager.FindByEmailAsync(resetPasswordDto.Email);
+        if (user == null)
+            return BadRequest(new { message = "Invalid request." });
+
+        var decodedToken = System.Web.HttpUtility.UrlDecode(resetPasswordDto.Token);
+
+        var result = await userManager.ResetPasswordAsync(user, decodedToken, resetPasswordDto.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            return BadRequest(new
+            {
+                message = "Password reset failed.",
+                errors = result.Errors.Select(e => e.Description)
+            });
+        }
+
+        return Ok(new { message = "Password has been reset successfully." });
     }
 
     [HttpPost("refresh-token")]
@@ -182,17 +351,17 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
         await SetRefreshTokenCookie(uca);
 
         var user = uca.User;
-        return user.ToDto(tokenService);
-
+        return user.ToDto();
+        // return user.ToDto(tokenService); 
     }
+    [Authorize]
     [HttpPut("update")]
     public async Task<ActionResult> UpdateUser(UserUpdateDto userUpdateDto)
     {
         var currentUserId = User.GetUserId();
         var clientId = User.GetClientId();
 
-        var userToUpdate = await context.Users
-        .SingleOrDefaultAsync(x => x.Id == userUpdateDto.UserId);
+        var userToUpdate = await userManager.FindByIdAsync(userUpdateDto.UserId);
         if (userToUpdate == null) return NotFound("Invalid user");
 
         // Verify user has access to the selected client
@@ -201,8 +370,8 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
                 && uca.UserId == currentUserId
                 && uca.IsActive)
             .FirstOrDefaultAsync() ?? throw new UnauthorizedAccessException("You don't have access to this HOA community"); ;
- 
-          
+
+
         if (HoaRoles.priviledgedRoles.Contains(userClientAccess.Role))
         {
             // authorized
@@ -210,16 +379,17 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
             userToUpdate.FirstName = userUpdateDto.FirstName ?? userToUpdate.FirstName;
             userToUpdate.LastName = userUpdateDto.LastName ?? userToUpdate.LastName;
             userToUpdate.Email = userUpdateDto.Email ?? userToUpdate.Email;
-             userToUpdate.ImageUrl = userUpdateDto.ImageUrl ?? userToUpdate.ImageUrl;
+            userToUpdate.ImageUrl = userUpdateDto.ImageUrl ?? userToUpdate.ImageUrl;
             if (userUpdateDto.DateOfBirth != default)
             {
                 userToUpdate.DateOfBirth = DateOnly.FromDateTime(userUpdateDto.DateOfBirth);
             }
 
-        } 
+        }
         var user = await context.Users
             .Include(u => u.Members)
-            .FirstAsync(u => u.Id == userUpdateDto.UserId);
+            .Include(u => u.ClientAccess)
+            .FirstAsync(u => u.Id == userToUpdate.Id);
 
         foreach (var member in user.Members)
         {
@@ -228,16 +398,15 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
             member.LastName = userUpdateDto.LastName ?? member.LastName;
             member.Email = userUpdateDto.Email ?? member.Email;
             member.Description = userUpdateDto.Description ?? member.Description;
-            member.ImageUrl =userUpdateDto.ImageUrl ?? member.ImageUrl;
+            member.ImageUrl = userUpdateDto.ImageUrl ?? member.ImageUrl;
             if (userUpdateDto.DateOfBirth != default)
             {
                 member.DateOfBirth = DateOnly.FromDateTime(userUpdateDto.DateOfBirth);
             }
         }
-        if (await context.SaveChangesAsync() > 0) return NoContent(); 
+        if (await context.SaveChangesAsync() > 0) return NoContent();
         return BadRequest("Update could not be completed");
     }
-
 
     private async Task SetRefreshTokenCookie(UserClientAccess uca)
     {
@@ -258,14 +427,6 @@ public class AccountController(AppDbContext context, ITokenService tokenService,
         Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
 
     }
-
-
-
-    private async Task<bool> EmailExists(string email)
-    {
-        return await context.Users.AnyAsync(x => x.Email!.ToLower() == email.ToLower());
-    }
-
 
 
 

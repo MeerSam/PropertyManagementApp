@@ -2,9 +2,10 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { AccountService } from './account-service';
 import { TenantService } from './tenant-service';
 import { Client } from '../../types/client';
-import { LoginCreds, LoginOutcome, RegisterDto, RegisterResponse, SelectClientDto } from '../../types/auth';
+import { ForgotPasswordDto, LoginCreds, LoginOutcome, RegisterDto, RegisterResponse, SelectClientDto, UserCredsChange } from '../../types/auth';
 import { map, catchError, of, Observable } from 'rxjs';
-import { AppRole, EditableUser, User, UserClientAccessInfo } from '../../types/user';
+import { Role, EditableUser, User, UserClientAccessInfo, APP_ROLE_LABELS, APP_ROLE } from '../../types/user';
+import { SelectOption } from '../../types/select';
 
 @Injectable({
   providedIn: 'root',
@@ -28,17 +29,38 @@ export class SessionService {
 
   // Computed: current role — single source of truth
   readonly currentRole = computed(() =>
-    this.currentUser()?.appRole ?? null
+    this.currentUser()?.role ?? null
   );
 
   readonly isAdminRole = computed<boolean>(() =>
-      this.adminRoles.includes(this.currentRole() ?? '')
+    this.adminRoles.includes(this.currentRole() ?? '')
   )
 
   // Computed: needs client selection (multi-client user at login)
   readonly needsClientSelection = computed(() =>
     !this.activeClient() && !!this.selectionToken() && this.availableClients().length > 1
   );
+
+  readonly roleOptions = computed<SelectOption[]>(() => {
+    const currentUserRole = this.currentUser()?.role;
+    if (currentUserRole == 'admin') {
+      return APP_ROLE
+        .map(r => ({ label: APP_ROLE_LABELS[r], value: r }))
+    } else if (currentUserRole == 'property_manager') {
+      return [
+        { label: 'Owner', value: 'owner' },
+        { label: 'Resident', value: 'resident' },
+        { label: 'Board Member', value: 'board_member' },
+        { label: 'Property Manager', value: 'property_manager' }];
+    }
+    return [
+      { label: 'Owner', value: 'owner' },
+      { label: 'Resident', value: 'resident' }];
+  })
+
+
+  editMode = signal(false);
+
   // ─── Called once in app.config.ts via APP_INITIALIZER ────────
   initSession(): Observable<null> {
     // Step 1: restore user
@@ -63,7 +85,7 @@ export class SessionService {
   }
 
   login(creds: LoginCreds): Observable<LoginOutcome> {
-    console.log('In session: login');
+    // console.log('In session: login');
     return this.accountService.login(creds).pipe(
       map(response => {
         if (this.accountService.isAuthSuccess(response)) {
@@ -73,8 +95,7 @@ export class SessionService {
           return { status: 'success' } as LoginOutcome;
         }
         if (this.accountService.isClientSelect(response)) {
-          // Needs User Confirmation on which client they want to choose for this session.
-          console.log()
+          // Needs User Confirmation on which client they want to choose for this session. 
           this.tenantService.setSelectionToken(JSON.stringify(response.selectionToken));
           const _availableClients = this.mapToClient(response.availableClients)
           this.tenantService.setAvailableClients(_availableClients);
@@ -95,12 +116,21 @@ export class SessionService {
   }
 
   setCurrentUser(user: User) {
-      this.accountService.setCurrentUser(user);
-    }
+    this.accountService.setCurrentUser(user);
+  }
 
   updateUser(data: EditableUser) {
-      return this.accountService.updateUser(data);
+    return this.accountService.updateUser(data);
   }
+
+  loadUserForEdit(userId: string) {
+    return this.accountService.loadUserById(userId);
+  }
+
+  loadUsers() {
+    return this.accountService.getUsers();
+  }
+
 
   // ─── Step 2: Client Selection ─────────────────────────────────
   selectClient(selectedClient: Client): Observable<LoginOutcome> {
@@ -133,7 +163,7 @@ export class SessionService {
   }
 
   // ─── Role Helpers ─────────────────────────────────────────────
-  hasRole(...roles: AppRole[]): boolean {
+  hasRole(...roles: Role[]): boolean {
     return this.accountService.hasRole(...roles);
   }
 
@@ -147,6 +177,14 @@ export class SessionService {
   switchClient() {
     this.tenantService.clearActiveClient();
     // Keep user, clear client — router navigates to /select-client
+  }
+
+  updateCredentials(credentials: UserCredsChange) {
+    return this.accountService.updateUserCreds(credentials);
+  }
+
+  forgotPassword(data: ForgotPasswordDto) {
+    return this.accountService.forgotPassword(data);
   }
 
   private mapToClient(accessInfo: UserClientAccessInfo[]): Client[] {

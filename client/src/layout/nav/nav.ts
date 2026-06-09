@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SessionService } from '../../core/services/session-service';
 import { TenantService } from '../../core/services/tenant-service';
 import { Router, RouterLink, RouterLinkActive } from "@angular/router";
-import { AppRole } from '../../types/user';
+import { Role } from '../../types/user';
 
 @Component({
   selector: 'app-nav',
@@ -15,7 +15,7 @@ export class Nav {
   protected session = inject(SessionService)
   protected tenantService = inject(TenantService)
   protected router = inject(Router)
-  allowedOwnerRoles: AppRole[] = [
+  allowedOwnerRoles: Role[] = [
     'owner',
     'resident' 
   ];
@@ -32,7 +32,7 @@ export class Nav {
       },
       error: error => alert(error.message),
       complete: () => {
-        console.log("completed Login Request from nav")
+        // console.log("completed Login Request from nav")
       }
     });
   }

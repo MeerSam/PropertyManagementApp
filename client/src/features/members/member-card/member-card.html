@@ -8,7 +8,7 @@
         <div class="card-body">
             <h2 class="card-title">
                 {{member.firstName + ' ' + member.lastName}}
-                <div class="badge badge-secondary">{{member.role}}</div>
+                <div class="badge badge-secondary">{{member.role ?? 'dummy role'}}</div>
             </h2>
             <p>{{member.description}}</p>
         </div>

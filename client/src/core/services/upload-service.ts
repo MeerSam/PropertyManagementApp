@@ -25,7 +25,7 @@ export class UploadService {
 
 
     formData.append('file', file);
-
+    console.log(documentInfo) 
     return this.http.post<Document>(this.baseUrl+ 'documents/upload', formData)
   }
   

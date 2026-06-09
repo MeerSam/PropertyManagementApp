@@ -17,14 +17,14 @@ export class PropertyList implements OnInit {
 
   protected propertyService = inject(PropertyService);
   private session = inject(SessionService)
-  private route =inject(ActivatedRoute);
+  private route = inject(ActivatedRoute);
   protected properties = signal<Property[] | null>([]);
   @Input() memberId?: string;
 
   ngOnInit(): void {
     const memberId = this.route.parent?.snapshot.paramMap.get('id');
-// //*meera console.log(.log('ngOnInit PropertyList', memberId)
-    this.memberId = memberId ?? undefined; 
+    // console.log('PropertyList ngOnInit: ', memberId)
+    this.memberId = memberId ?? undefined;
     this.loadProperties();
   }
 
@@ -36,12 +36,12 @@ export class PropertyList implements OnInit {
 
     const clientId = activeClient?.clientId;
     const resolvedMemberId = this.memberId ?? activeClient?.memberId;
-     
+
     var observableProperties$: Observable<Property[]> | undefined;
     if (!!clientId) {
       // If a memberId was passed in, ALWAYS use owner mode
       if (this.memberId) {
-// //*meera console.log(.log('ngOnInit loadProperties', resolvedMemberId)
+        // //*meera console.log(.log('ngOnInit loadProperties', resolvedMemberId)
         observableProperties$ = this.propertyService.getPropertiesByOwner(resolvedMemberId!);
       } else {
         switch (this.session.currentRole()) {
@@ -55,7 +55,7 @@ export class PropertyList implements OnInit {
             break;
 
           default:
-// //*meera console.log(.log('this.session.currentRole()=', this.session.currentRole())
+            // //*meera console.log(.log('this.session.currentRole()=', this.session.currentRole())
             observableProperties$ = this.propertyService.getPropertiesByClient(clientId);
             break;
         }

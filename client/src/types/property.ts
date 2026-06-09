@@ -3,30 +3,30 @@ import { Member } from "./member"
 export type Property = {
     id: string
     address: string
-    unit: any
+    unit: string
     city: string
     state: string
     zipCode: string
     country: string
     lotNumber: string
     createdAt: string
-    squareFeet: number
+    assignedParking: string   
+    lastUpdated: string
+    lastUpdatedBy: string
+    squareFeet: number; 
     bedrooms: number
     bathrooms: number
     isRented: boolean
-    clientId: string
-    ownerships: PropertyOwnership[]
-    currentOwners?: Member[]
+    isSameAddress: boolean
     mailAddress: string
     mailUnit: string
     mailCity: string
     mailState: string
     mailZipCode: string
     mailCountry: string
-    assignedParking: string
-    lastUpdated: string,
-    lastUpdatedBy: string
-    isSameAddress: boolean
+    clientId: string
+    ownerships: PropertyOwnership[]  
+    currentOwners?: Member[]
 }
 
 export type PropertyOwnership = {
@@ -39,6 +39,7 @@ export type PropertyOwnership = {
     ownershipType: OwnershipType
     ownershipPercentage: string
     member: Member
+    property: Property;
 }
 
 export enum OwnershipType {

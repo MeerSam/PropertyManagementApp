@@ -18,4 +18,6 @@ public class PropertyOwnershipDto
 
     public MemberDto? Member{ get; set; } = null;
 
+    public PropertyDto Property { get; set; } = null!;
+
 }

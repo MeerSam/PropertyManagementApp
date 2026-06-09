@@ -123,7 +123,7 @@ export class PropertyDetails implements OnInit {
     this.propertyService.editMode.set(!this.propertyService.editMode())
   }
   Update() {
-    console.log('UPDATE CALLED', this.editablePropertyForm.value, this.addressForm.value);
+    // console.log('UPDATE CALLED', this.editablePropertyForm.value, this.addressForm.value);
     if (!this.editablePropertyForm.valid || !this.addressForm.valid) return;
     if (this.editablePropertyForm.valid && this.addressForm.valid) {
       const updatedProperty = { ...this.propertyService.property(), ...this.editablePropertyForm.value, ...this.addressForm.value };

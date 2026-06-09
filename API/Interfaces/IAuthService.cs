@@ -2,6 +2,7 @@ using System;
 using API.DTOs;
 using API.DTOs.Auth;
 using API.Entities;
+using API.Helpers;
 using Microsoft.AspNetCore.Authentication;
 
 namespace API.Interfaces;
@@ -22,7 +23,7 @@ public interface IAuthService
     Task<AuthSuccessResponseDto> RefreshTokenAsync(string refreshToken);
     ///Purpose: Get new access token without re-login
     ///Note: Refresh maintains same ClientId context
-    Task<UserDto> RegisterAsync(RegisterDto registerDto, string clientId);
+    Task<RegisterResult> RegisterAsync(RegisterDto registerDto, string clientId);
 
 
 }

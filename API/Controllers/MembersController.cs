@@ -20,15 +20,16 @@ namespace API.Controllers
         public async Task<ActionResult<IReadOnlyList<Member>>> GetMembers([FromQuery] MemberParams memberParams)
         {
             memberParams.CurrentClientId = User.GetClientId();
-            return Ok(await memberRepository.GetMembersAsync());
+            var members =await memberRepository.GetMembersAsync();
+            return Ok(members);
         }
 
         [HttpGet("{id}")] //https://localhost:5001/api/members/bob-id
-        public async Task<ActionResult<Member>> GetMember(string id)
+        public async Task<ActionResult<MemberDto>> GetMember(string id)
         {
             var member = await memberRepository.GetMemberAsync(id);
-            if (member == null) return NotFound();
-            return member;
+            if (member == null) return NotFound("Member Not found");
+            return member.ToDto();
         }
 
         [HttpGet("{id}/properties")]

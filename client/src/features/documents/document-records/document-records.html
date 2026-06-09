@@ -1,5 +1,5 @@
 @if(canAddDocument(scope())){
-    <div class="flex w-full">
+    <div class="flex w-full mt-3">
         <button class="btn btn-primary " (click)="openUploadModal()">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="size-10">
@@ -10,7 +10,7 @@
         </button>
     </div>
     <div>
-        <span class="text-2xl">Current Scope: {{ resolvedScope() }}</span>
+        <span class="text-2xl mt-3">Current Scope: {{ resolvedScope() }}</span>
     </div>
 }
 

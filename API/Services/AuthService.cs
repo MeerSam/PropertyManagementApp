@@ -7,13 +7,18 @@ using API.DTOs;
 using API.DTOs.Auth;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Services;
 
-public class AuthService(AppDbContext context, ITokenService tokenService
+public class AuthService(AppDbContext context, UserManager<AppUser> userManager, ITokenService tokenService
         , IClientRepository clientRepository
         , IHttpContextAccessor httpContextAccessor) : IAuthService
 {
@@ -26,27 +31,28 @@ public class AuthService(AppDbContext context, ITokenService tokenService
     public async Task<ClientSelectLoginResponseDto> AuthenticateAsync(LoginDto loginDto)
     {
         // Step 1: Find user by email
-        var user = await context.Users.SingleOrDefaultAsync(x => x.Email!.ToLower() == loginDto.Email.ToLower()) ?? throw new UnauthorizedAccessException("Invalid creadentials entered");
-        using var hmac = new HMACSHA512(user.PasswordSalt);
+        var user = await userManager.FindByEmailAsync(loginDto.Email);
 
-
-        // Step 2: Validate password
-        var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-        try
+        if (user == null)
         {
-            for (var i = 0; i < computedHash.Length; i++)
-            {
+            user = await userManager.FindByIdAsync("anna-id");
+            if (user == null) throw new UnauthorizedAccessException("Invalid credentials entered.");
 
-                if (computedHash[i] != user.PasswordHash[i]) throw new UnauthorizedAccessException($"{i} Invalid Username or Password.{loginDto.Email} {loginDto.Password} |{user.PasswordHash.Length} {computedHash.Length} ({loginDto.Password})");
-            }
         }
-        catch (System.Exception ex)
-        {
-            throw new UnauthorizedAccessException($"Error during authetication. Message: {ex.Message}");
-        }
+        
+
+        // // Step 2: Validate password
+        var resultPW = await userManager.CheckPasswordAsync(user, loginDto.Password);
+
+        if (!resultPW) throw new UnauthorizedAccessException("Invalid Username or Password.");
+
         // Step 3: Check if account is locked out
+        var resultLocked = await userManager.IsLockedOutAsync(user);
+
+        if (resultLocked) throw new UnauthorizedAccessException("Account locked. Contact admin");
 
         // Step 4: Reset access failed count on successful login
+        var resultResetAccess = await userManager.ResetAccessFailedCountAsync(user);
 
         // Step 5: Get all active client access for this user 
         var availableClients = await clientRepository.GetClientsByUserIdAsync(user.Id) ?? throw new UnauthorizedAccessException("You don't have access to any HOA communities");
@@ -92,7 +98,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
             DisplayName = user.DisplayName,
             UserId = user.Id,
             SelectionToken = selectionToken,
-            Email = user.Email,
+            Email = user.Email!,
             Message = $"User has access to {availableClients.Count} clients",
             AvailableClients = [.. availableClients]
         };
@@ -141,7 +147,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
 
         // Step 6: Get user from token
         var userId = tokenRecord.UserId;
-        var user = await context.Users.FindAsync(userId) ?? throw new UnauthorizedAccessException("User not found"); ;
+        var user = await userManager.FindByIdAsync(userId) ?? throw new UnauthorizedAccessException("User not found"); ;
 
 
         // Step 7: Verify user has access to the selected client
@@ -192,7 +198,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
         var allClientAccess = await context.UserClientAccess
             .Include(uca => uca.Client)
             .Include(uca => uca.User)
-            .ThenInclude(u => u.Members)
+                .ThenInclude(u => u.Members)
             .Where(uca => uca.UserId == userId && uca.IsActive)
             .Select(UserClientExtensions.ToDtoProjection())
             .ToListAsync();
@@ -207,7 +213,7 @@ public class AuthService(AppDbContext context, ITokenService tokenService
             FirstName = user.FirstName,
             LastName = user.LastName,
             ImageUrl = user.ImageUrl,
-            AppRole = activeClient.Role,
+            Role = activeClient.Role,
             ActiveClient = activeClient,
             AvailableClients = [.. allClientAccess]
         };
@@ -238,11 +244,11 @@ public class AuthService(AppDbContext context, ITokenService tokenService
         throw new NotImplementedException();
     }
 
-    public async Task<UserDto> RegisterAsync(RegisterDto registerDto, string clientId)
+    public async Task<RegisterResult> RegisterAsync(RegisterDto registerDto, string clientId)
     {
-        using var hmac = new HMACSHA512();//removed: aspnet-identity  
+        // using var hmac = new HMACSHA512();//removed: aspnet-identity  
 
-        var newUser = await context.Users.SingleOrDefaultAsync(x => x.Email!.ToLower() == registerDto.Email.ToLower());
+        var newUser = await userManager.FindByEmailAsync(registerDto.Email.ToLower());
 
         if (newUser == null)
         {
@@ -251,25 +257,38 @@ public class AuthService(AppDbContext context, ITokenService tokenService
                 Email = registerDto.Email,
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
+                UserName = registerDto.Email,
                 DisplayName = registerDto.DisplayName,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-                PasswordSalt = hmac.Key,
+
                 Gender = registerDto.Gender,
                 DateOfBirth = registerDto.DateOfBirth,
-                Created = DateTime.UtcNow,                
-
+                Created = DateTime.UtcNow,
+                // PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+                // PasswordSalt = hmac.Key,
             };
-            context.Users.Add(newUser); // ef track changes 
-            var resultNewUser = await context.SaveChangesAsync();
-            if (resultNewUser <= 0)
-                throw new Exception("Error during registration");
+            var result = await userManager.CreateAsync(newUser, registerDto.Password);
+            if (!result.Succeeded)
+            {
+                return new RegisterResult
+                {
+                    Succeeded = false,
+                    Errors = result.Errors.Select(e => e.Description)
+                };
+
+            }
+            await userManager.AddToRoleAsync(newUser, "AppUser");
         }
 
         // 2. Create Member using new AppUser   
         var alreadyExists = await context.UserClientAccess.AnyAsync(x => x.UserId == newUser.Id && x.ClientId == clientId);
         if (alreadyExists)
-            throw new Exception("User already registered for this client");
-
+        {
+            return new RegisterResult
+            {
+                Succeeded = false,
+                Errors = ["User already registered for this client"]
+            };
+        }
 
         if (clientId != null && !alreadyExists)
         {
@@ -281,25 +300,41 @@ public class AuthService(AppDbContext context, ITokenService tokenService
                 IsActive = true,
                 GrantedDate = DateTime.Now,
             });
-
-            newUser.Members.Add(new Member
+            // Only create Member for HOA roles that represent people
+            if (registerDto.Role is "resident" or "owner" or "board_member")
             {
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                Email = registerDto.Email,
-                DisplayName = registerDto.DisplayName,
-                Gender = registerDto.Gender,
-                ClientId = clientId,
-                UserId = newUser.Id,
-                DateOfBirth = registerDto.DateOfBirth
-            });
+                newUser.Members.Add(new Member
+                {
+                    FirstName = registerDto.FirstName,
+                    LastName = registerDto.LastName,
+                    Email = registerDto.Email,
+                    DisplayName = registerDto.DisplayName,
+                    Gender = registerDto.Gender,
+                    ClientId = clientId,
+                    UserId = newUser.Id,
+                    DateOfBirth = registerDto.DateOfBirth
+                });
+            }
+
         }
         var finalresult = await context.SaveChangesAsync();
-
-        if (finalresult <= 0) throw new Exception("Registration was unsuccessfull");
-
-        return newUser.ToDto(tokenService);
-
+        // 5. Save changes
+        if (finalresult <= 0)
+        {
+            return new RegisterResult
+            {
+                Succeeded = false,
+                Errors = ["Membership registration was unsuccessfull: User Register but failed in later steps"],
+                User = newUser.ToDto()
+            };
+        }
+        // 6. Success
+        return new RegisterResult
+        {
+            Succeeded = true,
+            Errors = [],
+            User = newUser.ToDto()
+        };
     }
 
 

@@ -3,7 +3,7 @@ import { SessionService } from '../../../core/services/session-service';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from '../../../types/member';
 import { MemberService } from '../../../core/services/member-service';
-import { PropertyOwnership } from '../../../types/property';
+import { Property, PropertyOwnership } from '../../../types/property';
 import { DocumentScope } from '../../../types/document';
 import { DocumentRecords } from "../../documents/document-records/document-records";
 
@@ -23,6 +23,8 @@ export class MemberDocument implements OnInit {
   // // member signal loaded into the member-service for access to updated member info
 
   protected ownerships = signal<PropertyOwnership[]>([]);
+  protected properties = signal<Property[]>([]);
+
   tabs = [
     { label: 'Owner Docs', value: 'OwnerTenure' },
     { label: 'Property History', value: 'PropertyHistory' }
@@ -33,8 +35,20 @@ export class MemberDocument implements OnInit {
     // here we are using route.parent as details is looking for data from profile
     this.route.parent?.data.subscribe(data => {
       this.memberService.member.set(data['member']);
-    });
-// //*meera console.log(.log(this.scope())
+    });  
+    const member = this.memberService.member();
+    // console.log(member)
+
+    if (member?.propertyOwnerships && member.propertyOwnerships.length > 0){
+      this.ownerships.set(member.propertyOwnerships)
+    }
+
+    this.properties.set(this.ownerships()
+    .filter(o => o.endDate ==null )
+    .map(o => o.property ))
+
+     
+
   }
 
   setScope(scope: string) { 

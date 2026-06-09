@@ -43,7 +43,7 @@ export class MemberPhoto implements OnInit {
         }
       },
       error: error => {
-        console.log('Error uploading image: ', error);
+        // console.log('Error uploading image: ', error);
         this.loading.set(false);
       }
     })

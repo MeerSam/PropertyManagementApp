@@ -2,21 +2,22 @@
   <div class="card-title justify-center text-3xl text-primary">Login</div>
   <div class="card-body w-full">
     @if (session.currentUser() && !session.selectionToken() &&  session.selectionToken() ) {
-    <form [formGroup]="selectClientForm" (ngSubmit)="selectClient()" class="flex items-center gap-3">
-      <select >
-        <option disabled selected>Pick a client</option> 
-         @for (client of session.availableClients(); track $index) {}
-      </select>
-      <input formControlName="email" type="text" class="input" placeholder="Email">
-      <input formControlName="password" type="password" class="input" placeholder="Password">
-      <button type="submit" class="btn">Login</button>
-    </form>
+      <form [formGroup]="selectClientForm" (ngSubmit)="selectClient()" class="flex items-center gap-3">
+        <select >
+          <option disabled selected>Pick a client</option> 
+          @for (client of session.availableClients(); track $index) {}
+        </select>
+        <input formControlName="email" type="text" class="input" placeholder="Email">
+        <input formControlName="password" type="password" class="input" placeholder="Password">
+        <button type="submit" class="btn">Login</button>
+      </form>
     }
     <form [formGroup]="loginForm" (ngSubmit)="login()" class="flex items-center gap-3">
       <input formControlName="email" type="text" class="input" placeholder="Email">
       <input formControlName="password" type="password" class="input" placeholder="Password">
       <button type="submit" class="btn">Login</button>
     </form>
+    <a routerLink="/forgot-password">Forgot Password?</a> 
   </div>
 
 </div>
